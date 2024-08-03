@@ -40,6 +40,7 @@ local post_plug_configs = {
   -- "telescope-fzf-native.lua",
   -- "telekasten.lua",
   -- "obsidian-nvim.lua",
+  "cck-notes.vim",
 }
 
 -- Load plugins and their configurations in proper order using the vim-plug plugin manager
@@ -53,3 +54,4 @@ source("cck/config/vim_plug_load.vim")
 for _, file_name in ipairs(post_plug_configs) do
   source(string.format("%s/%s", plug_config_dir, file_name))
 end
+

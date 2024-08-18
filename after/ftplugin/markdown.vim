@@ -3,6 +3,8 @@ if (exists('b:did_ftplugin_my_markdown') && b:did_ftplugin_my_markdown)
 endif
 let b:did_ftplugin_my_markdown = 1
 
+set textwidth=0
+
 map <buffer><LEADER>gf :CCKGoToFile<CR>
 map <buffer><LEADER>gx :CCKGoToEx<CR>
 map <buffer>gf :CCKGoToFile<CR>

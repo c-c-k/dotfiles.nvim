@@ -148,10 +148,10 @@ map("n", "<LEADER>xl", "<CMD>lclose<cr>", { desc = "Close location list" })
 map("n", "<LEADER>xq", "<CMD>cclose<cr>", { desc = "Close quickfix list" })
 
 -- NERDTree file system browser
-map( "n", "<LEADER>odb", ":NERDTreeFromBookmark ", { desc = "" } )
-map( "n", "<LEADER>oD", ":NERDTree ", { desc = "" } )
-map( "n", "<LEADER>odd", "<CMD>NERDTreeToggle<CR>", { desc = "" } )
-map( "n", "<LEADER>ods", "<CMD>NERDTreeFind<CR>", { desc = "" } )
+-- map( "n", "<LEADER>odb", ":NERDTreeFromBookmark ", { desc = "" } )
+-- map( "n", "<LEADER>oD", ":NERDTree ", { desc = "" } )
+-- map( "n", "<LEADER>odd", "<CMD>NERDTreeToggle<CR>", { desc = "" } )
+-- map( "n", "<LEADER>ods", "<CMD>NERDTreeFind<CR>", { desc = "" } )
 
 -- Help and Man pages
 map("n", "<LEADER>ohh", function()

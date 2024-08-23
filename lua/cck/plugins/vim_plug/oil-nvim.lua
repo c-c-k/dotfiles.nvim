@@ -4,7 +4,9 @@
 -- see: <https://github.com/stevearc/oil.nvim>
 -- see: `:help `
 
-require("oil").setup({
+local oil = require("oil")
+
+oil.setup({
   -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
   -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
   default_file_explorer = true,
@@ -12,9 +14,9 @@ require("oil").setup({
   -- See :help oil-columns
   columns = {
     "icon",
-    -- "permissions",
-    -- "size",
-    -- "mtime",
+    "permissions",
+    "size",
+    "mtime",
   },
   -- Buffer-local options to use for oil buffers
   buf_options = {
@@ -64,20 +66,25 @@ require("oil").setup({
   keymaps = {
     ["g?"] = "actions.show_help",
     ["<CR>"] = "actions.select",
-    ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-    ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
-    ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
-    ["<C-p>"] = "actions.preview",
-    ["<C-c>"] = "actions.close",
-    ["<C-l>"] = "actions.refresh",
-    ["-"] = "actions.parent",
-    ["_"] = "actions.open_cwd",
-    ["`"] = "actions.cd",
-    ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+    -- ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+    -- ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+    -- ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
+    -- ["<C-p>"] = "actions.preview",
+    ["<LEADER>ov"] = "actions.preview",
+    -- ["<C-c>"] = "actions.close",
+    ["<LEADER>xd"] = "actions.close",
+    -- ["<C-l>"] = "actions.refresh",
+    -- ["-"] = "actions.parent",
+    ["<BS>"] = "actions.parent",
+    -- ["_"] = "actions.open_cwd",
+    -- ["`"] = "actions.cd",
+    ["<LEADER>upg"] = "actions.cd",
+    -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+    ["<LEADER>upt"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
     ["gs"] = "actions.change_sort",
     ["gx"] = "actions.open_external",
     ["g."] = "actions.toggle_hidden",
-    ["g\\"] = "actions.toggle_trash",
+    -- ["g\\"] = "actions.toggle_trash",
   },
   -- Set to false to disable all of the above keymaps
   use_default_keymaps = true,
@@ -185,3 +192,14 @@ require("oil").setup({
     border = "rounded",
   },
 })
+
+vim.keymap.set( "n", "<LEADER>odo", function()
+  local current_buf_name = vim.api.nvim_buf_get_name(0)
+  local success, current_dir = pcall(vim.fs.dirname, current_buf_name)
+  if success then
+    oil.open(current_dir)
+  else
+    oil.open()
+  end
+end, { desc = "Open oil.nvim (current file dir)" } )
+vim.keymap.set( "n", "<LEADER>odO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" } )

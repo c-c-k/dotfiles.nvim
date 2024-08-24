@@ -26,6 +26,7 @@ local post_plug_configs = {
   "nerdtree.vim",
   -- "oil-nvim.lua",
   -- "mini-files.lua",
+  -- "nvim-tree.lua",
   -- "notational-fzf-vim.vim",
   "riv-vim.vim",
   "tabular.vim",

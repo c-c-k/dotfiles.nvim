@@ -85,6 +85,39 @@ oil.setup({
     ["gx"] = "actions.open_external",
     ["g."] = "actions.toggle_hidden",
     -- ["g\\"] = "actions.toggle_trash",
+
+    -- fugitive integration
+    ["<LEADER>ogg"] = { callback = function() 
+      local current_dir = oil.get_current_dir()
+      local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
+      vim.cmd.edit(temp_path) 
+      vim.cmd("Git")
+      vim.cmd.bwipeout(temp_path)
+    end, desc = "Open fugitive git manager", mode = "n" },
+    ["<LEADER>ogl"] = { callback = function() 
+      local current_dir = oil.get_current_dir()
+      local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
+      vim.cmd.edit(temp_path) 
+      vim.cmd("Git log --oneline")
+      vim.cmd.bwipeout(temp_path)
+    end, desc = "Open fugitive git `log --oneline`", mode = "n" },
+
+    -- mini.files integration
+    ["<LEADER>ods"] = { callback = function() 
+      local current_dir = oil.get_current_dir()
+      success, error = pcall(MiniFiles.open, current_dir, false)
+      if not success then
+        vim.print(error)
+      end
+    end, desc = "Open current dir in mini.files", mode = "n" },
+
+    -- terminal integration
+    ["<LEADER>otl"] = { callback = function() 
+      local current_dir = oil.get_current_dir()
+      vim.cmd.lcd(current_dir)
+      vim.cmd.terminal()
+      vim.cmd.startinsert()
+    end, desc = "Open terminal (buffer dir)", mode = "n" },
   },
   -- Set to false to disable all of the above keymaps
   use_default_keymaps = true,

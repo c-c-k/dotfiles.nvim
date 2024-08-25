@@ -4,6 +4,8 @@
 " see: <https://github.com/vim-airline/vim-airline>
 " see: `:help vim-airline`
 
+" MEMO: Enable plugin extra config in `after/`
+
 let g:airline_experimental = 0
 " let g:airline_left_sep='>'
 " let g:airline_right_sep='<'

@@ -10,6 +10,7 @@ local source = require("cck.utils.config").source
 local sub_conf_files = {
   "cck/config/globals.lua", -- user defined Global variables
   "cck/config/options.lua", -- user defined Options
+  "cck/config/lazy.lua", -- load plugins and their configurations using the lazy.nvim plugin manager
   -- "cck/config/vim_plug.lua", -- load plugins and their configurations using the vim-plug plugin manager
   "cck/config/autocommands.vim", -- user defined autocommands
   "cck/config/autocommands.lua", -- user defined autocommands

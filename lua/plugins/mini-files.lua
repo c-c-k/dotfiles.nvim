@@ -68,6 +68,26 @@ return {
     opts = function(_, opts)
       local astrocore = require "astrocore"
       opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
+        setminifileslspfileactions = {
+          {
+            event = { "User" },
+            pattern = "MiniFilesActionCreate",
+            desc = "trigger `workspace/didCreateFiles` after creating files",
+            callback = function(args) require("astrolsp.file_operations").didCreateFiles(args.data.to) end,
+          },
+          {
+            event = { "User" },
+            pattern = "MiniFilesActionDelete",
+            desc = "trigger `workspace/didDeleteFiles` after deleting files",
+            callback = function(args) require("astrolsp.file_operations").didDeleteFiles(args.data.from) end,
+          },
+          {
+            event = { "User" },
+            pattern = { "MiniFilesActionRename", "MiniFilesActionMove" },
+            desc = "trigger `workspace/didRenameFiles` after renaming or moving files",
+            callback = function(args) require("astrolsp.file_operations").didRenameFiles(args.data) end,
+          },
+        },
         setminifilesmappings = {
           {
             event = { "User" },

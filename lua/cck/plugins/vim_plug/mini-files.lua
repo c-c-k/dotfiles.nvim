@@ -95,6 +95,54 @@ vim.api.nvim_create_autocmd('User', {
     vim.keymap.set("n", "<LEADER>upp", function()
       files_set_cwd()
     end, { buffer = args.data.buf_id, desc = "Set PWD (auto) to current dir" })
+
+    -- fugitive integration
+    vim.keymap.set("n", "<LEADER>ogg", function()
+      local current_entry_path = MiniFiles.get_fs_entry().path
+      local current_dir = vim.fs.dirname(current_entry_path)
+      MiniFiles.close()
+      local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
+      vim.cmd.edit(temp_path) 
+      vim.cmd("Git")
+      vim.cmd.bwipeout(temp_path)
+    end, { buffer = args.data.buf_id, desc = "Open fugitive git manager" })
+    vim.keymap.set("n", "<LEADER>ogl", function()
+      local current_entry_path = MiniFiles.get_fs_entry().path
+      local current_dir = vim.fs.dirname(current_entry_path)
+      MiniFiles.close()
+      local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
+      vim.cmd.edit(temp_path) 
+      vim.cmd("Git log --oneline")
+      vim.cmd.bwipeout(temp_path)
+    end, { buffer = args.data.buf_id, desc = "Open fugitive git `log --oneline`" })
+
+    -- oil.nvim integration
+    vim.keymap.set("n", "<LEADER>odo", function()
+      local has_oil, oil = pcall(require, "oil")
+      if has_oil then
+          local current_entry_path = MiniFiles.get_fs_entry().path
+          local current_dir = vim.fs.dirname(current_entry_path)
+          MiniFiles.close()
+          oil.open(current_dir)
+      else
+          vim.print("oil.nvim plugin not present")
+      end
+    end, { buffer = args.data.buf_id, desc = "Open dir in oil.nvim" })
+
+    -- terminal integration
+    vim.keymap.set("n", "<LEADER>otl", function()
+      local cur_entry_path = MiniFiles.get_fs_entry().path
+      local cur_directory = vim.fs.dirname(cur_entry_path)
+      MiniFiles.close()
+      vim.cmd.lcd(cur_directory)
+      vim.cmd.terminal()
+      vim.cmd.startinsert()
+    end, { buffer = args.data.buf_id, desc = "Open terminal (buffer dir)" })
+    vim.keymap.set("n", "<LEADER>ott", function()
+      MiniFiles.close()
+      vim.cmd.terminal()
+      vim.cmd.startinsert()
+    end, { buffer = args.data.buf_id, desc = "Open terminal (PWD)" })
   end,
 })
 

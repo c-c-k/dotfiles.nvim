@@ -8,8 +8,8 @@
 return {
   'hrsh7th/nvim-cmp',
   -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
+  -- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
+  -- TODO: Switch YCM for cmp
   enabled = false,
   opts = {
     -- alignment placeholder

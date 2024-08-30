@@ -8,8 +8,8 @@
 return {
   'nvim-tree/nvim-tree.lua',
   -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
+  -- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
+  -- Nvim-tree is a potential alternative for mini.files, for the moment mini.files seems sufficient so nvim-tree is disabled.
   enabled = false,
   opts = {
     -- alignment placeholder

@@ -3,17 +3,13 @@
 -- ========
 
 -- repo url: <https://github.com/stevearc/oil.nvim>
--- nvim help: ``
+-- nvim help: `:help oil.nvim`
 
 return {
   'stevearc/oil.nvim',
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
-  opts = {
-    -- alignment placeholder
-  },
+  -- Optional dependencies
+  -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
+  dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   config = function(_, opts)      
     local oil = require("oil")
     

@@ -6,10 +6,6 @@
 -- nvim help: `:help UltiSnips`
 
 return {
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
   'sirver/ultisnips',
   init = function()      
     -- vim.g['UltiSnipsRemoveSelectModeMappings'] = 1

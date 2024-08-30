@@ -7,8 +7,7 @@
 
 return {
   -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
+  -- Switched for Treesitter and mkdnflow
   enabled = false,
   'preservim/vim-markdown',
   init = function()      

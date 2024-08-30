@@ -6,14 +6,9 @@
 -- nvim help: `:help vim-airline`
 
 return {
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
   'vim-airline/vim-airline',
+  dependencies = { 'vim-airline/vim-airline-themes' },
   init = function()      
-    -- MEMO: Enable plugin extra config in `after/`
-    
     vim.g['airline_experimental'] = 0
     -- vim.g['airline_left_sep'] = '>'
     -- vim.g['airline_right_sep'] = '<'

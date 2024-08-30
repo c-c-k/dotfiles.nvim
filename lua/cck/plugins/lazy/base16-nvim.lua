@@ -7,13 +7,8 @@
 
 return {
   'RRethy/base16-nvim',
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
-  opts = {
-    -- alignment placeholder
-  },
+  lazy = false,
+  priority = 1000,
   config = function(_, opts)      
     -- You can provide a table specifying your colors to the setup function.
     require('base16-colorscheme').setup()

@@ -6,10 +6,6 @@
 -- nvim help: ``
 
 return {
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
   'ycm-core/lsp-examples',
   init = function()      
     local ycm_lsp_dir = vim.fn.stdpath('data') .. '/lazy/lsp-examples'

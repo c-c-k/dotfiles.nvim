@@ -2,23 +2,19 @@
 -- CCK-Notes
 -- =========
 
--- repo url: <https://github.com/ttt/ttt>
--- nvim help: `:help ttt`
+-- repo url: <>
+-- nvim help: ``
 
 return {
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
-  'ttt/ttt',
-  init = function()      -- This pseudo-plugin configuration file is meant for extra notebooks related
-    -- configuration need for the customization in `lua/cck` and
-    -- `rplugin/.../cck/`.
+  -- This pseudo-plugin configuration file is meant for extra notebooks
+  -- related configuration needed for the customization in `lua/cck` and
+  -- `rplugin/.../cck/`.
+  dir = '/dev/null',
+  init = function()
     
-    -- map <LEADER>ne :CCKEditNote 
-    -- map <LEADER>nl :CCKAddNoteRefLink 
-    -- map <LEADER>nll :CCKAddNoteRefLink 
-    -- map <LEADER>nlc :CCKAddClipboardRefLink 
+    vim.keymap.set( "n", "<LEADER>ne", ":CCKEditNote ", { desc = "" } )
+    vim.keymap.set( "n", "<LEADER>nll", ":CCKAddNoteRefLink ", { desc = "" } )
+    vim.keymap.set( "n", "<LEADER>nlc", "<CMD>CCKAddClipboardRefLink<CR>", { desc = "" } )
     
     vim.g['cck_uri_resolvers'] = {
     'cck.pkbm.resolve_uri_as_path',

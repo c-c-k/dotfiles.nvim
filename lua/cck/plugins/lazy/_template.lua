@@ -1,11 +1,17 @@
 -- ===========================================================================
 -- 
 -- ===========================================================================
--- see: <>
--- see: `:help `
+-- repo url: <>
+-- nvim help: `:help `
 
--- NOTE: Plugin disabled. Reason:
---  - Plugin has been added to check out it's functionality and has not yet
---    been configured and integrated for general use.
-
-return {}
+return {
+  '_plugin_template_placeholder_',
+  -- == PLUGIN DISABLED ==
+  -- MEMO: This is a new plugin config file that needs to be double-checked before enabling.
+  enabled = false,
+  opts = {
+    -- alignment placeholder
+  },
+  config = function(_, opts)      
+  end,
+}

@@ -6,17 +6,13 @@
 -- nvim help: `:help youcompleteme`
 
 return {
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
   'ycm-core/youcompleteme',
-  init = function()      
+  config = function()      
     -- -- key maps
     vim.g['ycm_key_list_select_completion'] = {'<C-n>', '<Down>'}
     vim.g['ycm_key_list_previous_completion'] = {'<C-p>', '<Up>'}
     vim.g['ycm_key_list_stop_completion'] = {'<C-y>'}
-    -- vim.g['ycm_key_invoke_completion'] = '<C-Space>'
+    vim.g['ycm_key_invoke_completion'] = '<C-Space>'
     vim.g['ycm_key_detailed_diagnostics'] = '<LEADER>jd'
     
     -- -- disable ycm syntax checking

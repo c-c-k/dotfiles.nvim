@@ -8,8 +8,8 @@
 return {
   'epwalsh/obsidian.nvim',
   -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
+  -- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
+  -- Obsidian.nvim is disabled because it does not currently feel convenient for my note taking workflow.
   enabled = false,
   opts = {
     -- alignment placeholder

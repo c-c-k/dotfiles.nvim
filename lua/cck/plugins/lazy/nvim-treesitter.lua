@@ -7,15 +7,9 @@
 
 return {
   'nvim-treesitter/nvim-treesitter',
-  -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
-  enabled = false,
-  opts = {
-    -- alignment placeholder
-  },
+  build = ":TSUpdate",
   config = function(_, opts)      
-    -- vim.opt.runtimepath:append("~/.local/share/nvim/nvim-treesitter")
+    -- vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/nvim-treesitter")
     
     require("nvim-treesitter.configs").setup({
       -- A directory to install the parsers into.

@@ -6,16 +6,15 @@
 -- nvim help: ``
 
 return {
-  'ishan9299/nvim-solarized-lua',
+  'c-c-k/forks-nvim-solarized-lua',
   -- == PLUGIN DISABLED ==
-  -- This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one.
-  -- It is temporarily disabled until it passed manual inspection to check that it has been converted correctly.
+  -- Switched to base16-nvim
   enabled = false,
-  opts = {
-    -- alignment placeholder
-  },
+  name = 'nvim-solarized-lua',
+  branch = 'personal_customization',
+  lazy = false,
+  priority = 1000,
   config = function(_, opts)      
-    
     vim.g.solarized_italics = 1
     
     -- visibility SpecialChars (like trailing whitespace and tabs) visibility

@@ -16,6 +16,7 @@ droplets of my own.
 
 - [Awesome: nvim](https://github.com/rockerBOO/awesome-neovim#readme)
 - [Gemini](https://gemini.google.com/app)
+- [kickstart](https://github.com/nvim-lua/kickstart.nvim)
 - [nvim docs](https://neovim.io/doc/)
 - [vim-awesome](https://vimawesome.com/)
 

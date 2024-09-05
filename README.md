@@ -10,6 +10,7 @@ droplets of my own.
 ### Gurus
 
 - [craftzdog](local:~/doc/clones/dotfiles/craftzdog/README.md)
+- [ecosse3](https://github.com/ecosse3/nvim)
 - [jdhao](https://github.com/jdhao/nvim-config)
 
 ### Oracles
@@ -22,5 +23,6 @@ droplets of my own.
 
 ### Temples
 
+- [AstroNvim](https://github.com/AstroNvim/AstroNvim)
 - [LazyVim](https://github.com/LazyVim/LazyVim)
 

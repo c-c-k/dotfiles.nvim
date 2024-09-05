@@ -7,6 +7,9 @@
 
 return {
   'ycm-core/youcompleteme',
+  -- == PLUGIN DISABLED ==
+  -- Replaced by nvim-cmp via AstroNvim
+  enabled = false,
   config = function()      
     -- -- key maps
     vim.g['ycm_key_list_select_completion'] = {'<C-n>', '<Down>'}

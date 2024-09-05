@@ -7,6 +7,10 @@
 
 return {
   'vim-airline/vim-airline',
+  -- == PLUGIN DISABLED ==
+  -- Replaced by AstroNvim statusline
+  -- MEMO: When enabling/disabling also enable/disable after/plugin/vim-airline-after.vim
+  enabled = false,
   dependencies = { 'vim-airline/vim-airline-themes' },
   init = function()      
     vim.g['airline_experimental'] = 0

@@ -1,9 +1,13 @@
--- 
--- 
--- 
+-- =================
+-- NVIM-WEB-DEVICONS
+-- =================
 
--- repo url: <https://github.com/nvim-tree/nvim-web-devicons>
+    -- repo url: <https://github.com/nvim-tree/nvim-web-devicons>
 -- nvim help: ``
+
+-- == PLUGIN DISABLED ==
+-- MEMO: This plugin is part of the AstroNvim core defaults and needs to be adjusted accordingly.
+if true then return {} end
 
 return {
   'nvim-tree/nvim-web-devicons',

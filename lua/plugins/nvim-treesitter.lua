@@ -5,6 +5,10 @@
 -- repo url: <https://github.com/nvim-treesitter/nvim-treesitter>
 -- nvim help: `:help nvim-treesitter`
 
+-- == PLUGIN DISABLED ==
+-- MEMO: This plugin is part of the AstroNvim core defaults and needs to be adjusted accordingly.
+if true then return {} end
+
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ":TSUpdate",

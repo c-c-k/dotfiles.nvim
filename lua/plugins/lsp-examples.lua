@@ -7,6 +7,9 @@
 
 return {
   'ycm-core/lsp-examples',
+  -- == PLUGIN DISABLED ==
+  -- Replaced by mason via AstroNvim
+  enabled = false,
   init = function()      
     local ycm_lsp_dir = vim.fn.stdpath('data') .. '/lazy/lsp-examples'
     vim.g['ycm_lsp_dir'] = ycm_lsp_dir

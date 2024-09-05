@@ -5,12 +5,13 @@
 -- repo url: <https://github.com/nvim-telescope/telescope.nvim>
 -- nvim help: ``
 
+-- == PLUGIN DISABLED ==
+-- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
+-- MEMO: This plugin is part of the AstroNvim core defaults and needs to be adjusted accordingly.
+if true then return {} end
+
 return {
   'nvim-telescope/telescope.nvim',
-  -- == PLUGIN DISABLED ==
-  -- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
-  -- TODO: Switch fzf for telescope
-  enabled = false,
   opts = {
     -- alignment placeholder
   },

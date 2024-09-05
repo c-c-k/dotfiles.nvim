@@ -7,6 +7,9 @@
 
 return {
   'dense-analysis/ale',
+  -- == PLUGIN DISABLED ==
+  -- Replaced by none-ls via AstroNvim
+  enabled = false,
   init = function()      
     -- vim.g['ale_disable_lsp'] = 1
     vim.g['ale_set_quickfix'] = 0

@@ -7,6 +7,9 @@
 
 return {
   'sirver/ultisnips',
+  -- == PLUGIN DISABLED ==
+  -- Replaced by lua-snips via AstroNvim
+  enabled = false,
   init = function()      
     -- vim.g['UltiSnipsRemoveSelectModeMappings'] = 1
     -- vim.g['UltiSnipsMappingsToIgnore'] = { 'somePlugin', 'otherPlugin' }

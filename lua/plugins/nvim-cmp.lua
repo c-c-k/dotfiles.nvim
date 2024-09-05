@@ -5,12 +5,13 @@
 -- repo url: <https://github.com/hrsh7th/nvim-cmp>
 -- nvim help: `:help nvim-cmp`
 
+-- == PLUGIN DISABLED ==
+-- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
+-- MEMO: This plugin is part of the AstroNvim core defaults and needs to be adjusted accordingly.
+if true then return {} end
+
 return {
   'hrsh7th/nvim-cmp',
-  -- == PLUGIN DISABLED ==
-  -- MEMO: This plugin has been automatically converted from vim-plug style configuration to lazy.nvim style one and requires a manual inspection to check that it has been converted correctly.
-  -- TODO: Switch YCM for cmp
-  enabled = false,
   opts = {
     -- alignment placeholder
   },

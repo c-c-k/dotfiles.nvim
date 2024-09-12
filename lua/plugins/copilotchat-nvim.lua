@@ -8,10 +8,8 @@
 return {
   'CopilotC-Nvim/CopilotChat.nvim',
   branch = 'canary',
-  config = function(_, opts)      
-    require("CopilotChat").setup {
-      debug = true, -- Enable debugging
-      -- See Configuration section for rest
-    }
-  end,
+  opts = {
+    debug = true, -- Enable debugging
+    -- See Configuration section for rest
+  }
 }

@@ -7,7 +7,9 @@ require("lazy").setup({
     -- AstroNvim options must be set here with the `import` key
     opts = {
       -- This ensures the leader key is configured before Lazy is set up
-      mapleader = " ",
+      --  * `vim.g.mapleader` is set to two spaces while a single space
+      --    is used for `vim.g.usermapleader` (see init.lua for rationale).
+      mapleader = "  ",
       -- This ensures the localleader key is configured before Lazy is set up
       maplocalleader = ",",
       -- Set to false to disable icons (if no Nerd Font is available)

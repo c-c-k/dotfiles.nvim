@@ -15,5 +15,12 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
+-- Set an extra `vim.g.usermapleader` variable that will be used instead of
+-- `vim.g.mapleader` for my own (user) mappings.
+-- * This is an ad-hoc solution to not getting paralyzed by trying to adjust
+--   all of the default mappings provided by AstroNvim and other plugins to my
+--   own workflow.
+vim.g.usermapleader = " "
+
 require "lazy_setup"
 require "polish"

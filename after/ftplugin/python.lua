@@ -2,8 +2,7 @@ if vim.b["did_ftplugin_cck_python"] then return end
 vim.b["did_ftplugin_cck_python"] = true
 
 local astrocore = require "astrocore"
-local maps = astrocore.empty_map_table()
-local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
 map("n", "<LEADER>flc", [=[<CMD>FzfBLines ^\s*class<CR>]=], { desc = "Find(FZF) python classes (buffer)" })
 map("n", "<LEADER>fld", [=[<CMD>FzfBLines ^\s*def<CR>]=], { desc = "Find(FZF) python defs (buffer)" })

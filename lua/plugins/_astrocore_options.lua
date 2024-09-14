@@ -47,6 +47,7 @@ return {
     opt.conceallevel = 0
     opt.cursorline = true
     opt.winwidth = 80
+    opt.wrap = true
 
     -- Buffer write/close
     --  * Avoid accidental writes.
@@ -59,18 +60,18 @@ return {
     --  * Backup files to a central temp/junk dir out of paranoia.
     opt.backup = true
     opt.writebackup = true
-    opt.backupdir = { vim.fn.expand("$HOME/tmp/nvim/backup/"), ".", vim.fn.stdpath("state") .. "/backup/" }
-    opt.dir = { vim.fn.stdpath("state") .. "/swap/", vim.fn.expand("$HOME/tmp/nvim/swap/"), "." }
+    opt.backupdir = { vim.fn.expand "$HOME/tmp/nvim/backup/", ".", vim.fn.stdpath "state" .. "/backup/" }
+    opt.dir = { vim.fn.stdpath "state" .. "/swap/", vim.fn.expand "$HOME/tmp/nvim/swap/", "." }
     opt.undofile = true
-    opt.undodir = { vim.fn.stdpath("state") .. "/undo/", vim.fn.expand("$HOME/tmp/nvim/undo/"), "." }
+    opt.undodir = { vim.fn.stdpath "state" .. "/undo/", vim.fn.expand "$HOME/tmp/nvim/undo/", "." }
 
-    -- Disable using clipboard/selection (+/*) instead of the unnamed register (") 
+    -- Disable using clipboard/selection (+/*) instead of the unnamed register (")
     --  * Done to avoid cluttering the clipboard/selection history.
     --  * Handled via dedicated mappings instead.
     opt.clipboard = ""
 
     -- Set ripgrep as nvim's grep tool
-    if vim.fn.executable("rg") then
+    if vim.fn.executable "rg" then
       opt.grepprg = [[rg --vimgrep]]
       opt.grepformat = "%f:%l:%c:%m"
     end
@@ -83,7 +84,7 @@ return {
     --    between vim, nvim and different distributions of them.
     opt.spell = true
     opt.spelllang = "en_us"
-    opt.spellfile = vim.fn.expand("$HOME/.vim/spell/general.en.utf-8.add")
+    opt.spellfile = vim.fn.expand "$HOME/.vim/spell/general.en.utf-8.add"
 
     opts.options = require("astrocore").extend_tbl(opts.options, options)
   end,

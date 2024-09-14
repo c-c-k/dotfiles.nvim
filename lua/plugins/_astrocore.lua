@@ -8,8 +8,6 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
-  lazy = false,
-  priority = 10000,
   opts = function(_, opts)
     return require("astrocore").extend_tbl(opts, {
       -- Configure core features of AstroNvim

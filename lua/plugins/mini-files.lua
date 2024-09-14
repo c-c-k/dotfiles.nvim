@@ -46,7 +46,7 @@ return {
         -- Whether to use for editing directories
         use_as_default_explorer = false,
       },
-      
+
       -- Customization of explorer windows
       windows = {
         -- Maximum number of windows to show side by side
@@ -74,8 +74,7 @@ return {
             pattern = "MiniFilesBufferCreate",
             desc = "Set mappings for a mini.files popup window",
             callback = function(args)
-              local maps = astrocore.empty_map_table()
-              local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+              local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
               local files_set_cwd = function(scope)
                 -- Works only if cursor is on the valid file system entry
@@ -158,8 +157,7 @@ return {
         },
       })
 
-      local maps = astrocore.empty_map_table()
-      local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+      local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
       local minifiles_toggle = function(...)
         if not MiniFiles.close() then MiniFiles.open(...) end

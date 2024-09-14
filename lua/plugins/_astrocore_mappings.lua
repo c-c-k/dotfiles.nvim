@@ -11,11 +11,9 @@ return {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    -- Get initialized AstroCore mappings table
-    local maps = astrocore.empty_map_table()
     -- Get utility function for translating vanilla nvim `map(...)` style
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
-    local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
     -- Get other utilities required by mappings
     local util_win = require "cck.utils.win"
 

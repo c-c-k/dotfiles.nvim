@@ -11,8 +11,7 @@ return {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local g = {}
-    local maps = astrocore.empty_map_table()
-    local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
     map("n", "<LEADER>n", { desc = "Notes" })
     map("n", "<LEADER>ne", ":CCKEditNote ", { desc = "Edit note" })

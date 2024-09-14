@@ -247,8 +247,7 @@ return {
       local astrocore = require "astrocore"
       local oil = require "oil"
 
-      local maps = astrocore.empty_map_table()
-      local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+      local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
       map("n", "<LEADER>ofo", function()
         local current_buf_name = vim.api.nvim_buf_get_name(0)

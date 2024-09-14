@@ -4,8 +4,7 @@ vim.b["did_ftplugin_cck_markdown"] = true
 vim.opt_local.textwidth = 0
 
 local astrocore = require "astrocore"
-local maps = astrocore.empty_map_table()
-local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
+local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
 map({ "n", "x" }, "<LEADER>gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" })
 map({ "n", "x" }, "<LEADER>gx", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto external" })

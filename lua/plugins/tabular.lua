@@ -6,5 +6,5 @@
 -- nvim help: `:help tabular`
 
 return {
-  'godlygeek/tabular',
+  "godlygeek/tabular",
 }

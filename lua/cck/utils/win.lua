@@ -45,9 +45,7 @@ end
 --
 -- @param command string The Neovim command to execute (e.g., ":split filename").
 function M.open_cmd_in_current_win(command)
-  M.open_in_current_win(function()
-    vim.cmd(command)
-  end, "No new window opened by command: " .. command)
+  M.open_in_current_win(function() vim.cmd(command) end, "No new window opened by command: " .. command)
 end
 
 --- Opens a utility buffer in the current window based on provided options.
@@ -65,26 +63,24 @@ function M.open_util_in_current_win(opts)
     local do_open = true
     if opts.ft then
       local buf = vim.api.nvim_get_current_buf()
-      local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
       do_open = filetype ~= opts.ft
     end
-    if do_open and opts.cond then
-      do_open = opts.cond()
-    end
+    if do_open and opts.cond then do_open = opts.cond() end
     if do_open then
       if type(opts.init) == "string" then
         M.open_cmd_in_current_win(opts.init)
       elseif type(opts.init) == "function" then
         M.open_in_current_win(opts.init)
       else
-        error("`init` parameter must be string or function")
+        error "`init` parameter must be string or function"
       end
     end
   end
 
   -- Execute post-initialization actions
   if opts.prompt_cmd and opts.post then
-    error("Only one of the `prompt_cmd` and `post` parameters can be supplied")
+    error "Only one of the `prompt_cmd` and `post` parameters can be supplied"
   elseif opts.prompt_cmd then
     vim.api.nvim_feedkeys(opts.prompt_cmd, "n", false)
   elseif opts.post then
@@ -93,7 +89,7 @@ function M.open_util_in_current_win(opts)
     elseif type(opts.post) == "function" then
       opts.post()
     else
-      error("`post` parameter must be string or function")
+      error "`post` parameter must be string or function"
     end
   end
 end

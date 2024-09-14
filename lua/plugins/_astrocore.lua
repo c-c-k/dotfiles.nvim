@@ -22,7 +22,7 @@ return {
       --   diagnostics_mode = 3,
       --   -- enable or disable highlighting of urls on start
       --   highlighturl = true,
-      --   -- set global limits for large files for disabling features like treesitter      
+      --   -- set global limits for large files for disabling features like treesitter
       --   large_buf = { size = 1024 * 256, lines = 10000 },
       --   -- enable or disable notifications on start
       --   notifications = true,

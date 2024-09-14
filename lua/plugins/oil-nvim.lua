@@ -7,12 +7,12 @@
 
 return {
   {
-    'stevearc/oil.nvim',
+    "stevearc/oil.nvim",
     -- Optional dependencies
     -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    -- config = function(_, opts)      
-    opts = function(_, opts)      
+    -- config = function(_, opts)
+    opts = function(_, opts)
       local astrocore = require "astrocore"
       local oil = require "oil"
       local uleader = vim.g.usermapleader
@@ -96,39 +96,53 @@ return {
           ["gx"] = "actions.open_external",
           ["g."] = "actions.toggle_hidden",
           -- ["g\\"] = "actions.toggle_trash",
-      
+
           -- fugitive integration
-          [uleader .. "ogg"] = { callback = function() 
-            local current_dir = oil.get_current_dir()
-            local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
-            vim.cmd.edit(temp_path) 
-            vim.cmd("Git")
-            vim.cmd.bwipeout(temp_path)
-          end, desc = "Open fugitive git manager", mode = "n" },
-          [uleader .. "ogl"] = { callback = function() 
-            local current_dir = oil.get_current_dir()
-            local temp_path = current_dir .. "/~temp" .. vim.fn.rand() 
-            vim.cmd.edit(temp_path) 
-            vim.cmd("Git log --oneline")
-            vim.cmd.bwipeout(temp_path)
-          end, desc = "Open fugitive git `log --oneline`", mode = "n" },
-      
+          [uleader .. "ogg"] = {
+            callback = function()
+              local current_dir = oil.get_current_dir()
+              local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
+              vim.cmd.edit(temp_path)
+              vim.cmd "Git"
+              vim.cmd.bwipeout(temp_path)
+            end,
+            desc = "Open fugitive git manager",
+            mode = "n",
+          },
+          [uleader .. "ogl"] = {
+            callback = function()
+              local current_dir = oil.get_current_dir()
+              local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
+              vim.cmd.edit(temp_path)
+              vim.cmd "Git log --oneline"
+              vim.cmd.bwipeout(temp_path)
+            end,
+            desc = "Open fugitive git `log --oneline`",
+            mode = "n",
+          },
+
           -- mini.files integration
-          [uleader .. "ofs"] = { callback = function() 
-            local current_dir = oil.get_current_dir()
-            success, error = pcall(MiniFiles.open, current_dir, false)
-            if not success then
-              vim.print(error)
-            end
-          end, desc = "Open mini.files (current dir)", mode = "n" },
-      
+          [uleader .. "ofs"] = {
+            callback = function()
+              local current_dir = oil.get_current_dir()
+              local success, error = pcall(MiniFiles.open, current_dir, false)
+              if not success then vim.print(error) end
+            end,
+            desc = "Open mini.files (current dir)",
+            mode = "n",
+          },
+
           -- terminal integration
-          [uleader .. "otl"] = { callback = function() 
-            local current_dir = oil.get_current_dir()
-            vim.cmd.lcd(current_dir)
-            vim.cmd.terminal()
-            vim.cmd.startinsert()
-          end, desc = "Open terminal (buffer dir)", mode = "n" },
+          [uleader .. "otl"] = {
+            callback = function()
+              local current_dir = oil.get_current_dir()
+              vim.cmd.lcd(current_dir)
+              vim.cmd.terminal()
+              vim.cmd.startinsert()
+            end,
+            desc = "Open terminal (buffer dir)",
+            mode = "n",
+          },
         },
         -- Set to false to disable all of the above keymaps
         use_default_keymaps = true,
@@ -136,13 +150,9 @@ return {
           -- Show files and directories that start with "."
           show_hidden = false,
           -- This function defines what is considered a "hidden" file
-          is_hidden_file = function(name, bufnr)
-            return vim.startswith(name, ".")
-          end,
+          is_hidden_file = function(name, bufnr) return vim.startswith(name, ".") end,
           -- This function defines what will never be shown, even when `show_hidden` is set
-          is_always_hidden = function(name, bufnr)
-            return false
-          end,
+          is_always_hidden = function(name, bufnr) return false end,
           -- Sort file names in a more intuitive order for humans. Is less performant,
           -- so you may want to set to false if you work with large directories.
           natural_order = true,
@@ -160,15 +170,9 @@ return {
         -- EXPERIMENTAL support for performing file operations with git
         git = {
           -- Return true to automatically git add/mv/rm files
-          add = function(path)
-            return false
-          end,
-          mv = function(src_path, dest_path)
-            return false
-          end,
-          rm = function(path)
-            return false
-          end,
+          add = function(path) return false end,
+          mv = function(src_path, dest_path) return false end,
+          rm = function(path) return false end,
         },
         -- Configuration for the floating window in oil.open_float
         float = {
@@ -184,9 +188,7 @@ return {
           preview_split = "auto",
           -- This is the config that will be passed to nvim_open_win.
           -- Change values here to customize the layout
-          override = function(conf)
-            return conf
-          end,
+          override = function(conf) return conf end,
         },
         -- Configuration for the actions floating preview window
         preview = {
@@ -248,7 +250,7 @@ return {
       local maps = astrocore.empty_map_table()
       local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
 
-      map( "n", "<LEADER>ofo", function()
+      map("n", "<LEADER>ofo", function()
         local current_buf_name = vim.api.nvim_buf_get_name(0)
         local success, current_dir = pcall(vim.fs.dirname, current_buf_name)
         if success then
@@ -256,8 +258,8 @@ return {
         else
           oil.open()
         end
-      end, { desc = "Open oil.nvim (current file dir)" } )
-      map( "n", "<LEADER>ofO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" } )
+      end, { desc = "Open oil.nvim (current file dir)" })
+      map("n", "<LEADER>ofO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" })
 
       opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
     end,

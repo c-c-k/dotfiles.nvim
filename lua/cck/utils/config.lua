@@ -6,10 +6,10 @@ local M = {}
 -- For '.lua' files, it clears the module cache and requires the module.
 -- @param path The path to the file to source.
 function M.source(path)
-  if vim.endswith(path, '.vim') then
+  if vim.endswith(path, ".vim") then
     -- Source VimL files from the user's config directory
-    vim.cmd("source " .. vim.fn.stdpath("config") .. "/viml/" .. path)
-  elseif vim.endswith(path, '.lua') then
+    vim.cmd("source " .. vim.fn.stdpath "config" .. "/viml/" .. path)
+  elseif vim.endswith(path, ".lua") then
     -- Reload Lua modules to ensure changes take effect
     local module_name = path:gsub("%.lua$", "")
     package.loaded[module_name] = nil
@@ -23,9 +23,6 @@ end
 -- This is a wrapper around vim.fn.has() that returns a boolean value.
 -- @param feat The feature to check for.
 -- @return `true` if the feature is available, `false` otherwise.
-function M.has(feat)
-  return vim.fn.has(feat) == 1
-end
 
 --- Retrieves a mapper function for AstroNvim v4.0 style key mappings.
 -- 
@@ -39,6 +36,7 @@ end
 function M.get_astrocore_mapper(maps)
 
   -- Helper function to replace <leader> (case-insensitive) with usermapleader
+function M.has(feat) return vim.fn.has(feat) == 1 end
   local function replace_lhs_leader(lhs)
     -- Check if usermapleader is defined
     if vim.g.usermapleader == nil then

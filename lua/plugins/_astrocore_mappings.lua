@@ -17,9 +17,9 @@ return {
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
     local map, mapf = require('cck.utils.config').get_astrocore_mapper(maps)
     -- Get other utilities required by mappings
-    local util_win = require('cck.utils.win')
+    local util_win = require "cck.utils.win"
 
-    mapf({ "n", "x",}, "<LEADER>", { desc = "AstroNvim mappings" })
+    map({ "n", "x" }, "<LEADER>", { desc = "AstroNvim mappings", uleader = false })
 
     -- ============================
     -- Basic vim commands remapping
@@ -162,7 +162,6 @@ return {
     map("n", "<LEADER>x<TAB>", "<CMD>tabclose<CR>", { desc = "Close current tab" })
     map("n", "<LEADER>X", { copy = { "n", "<LEADER>x<TAB>" } })
 
-
     -- Quickfix and Locations list
     map("n", "<LEADER>ol", "<CMD>lopen<cr>", { desc = "Open location list" })
     map("n", "<LEADER>oq", "<CMD>copen<cr>", { desc = "Open quickfix list" })
@@ -171,24 +170,39 @@ return {
 
     -- Help and Man pages
     map("n", "<LEADER>oh", { desc = "Open nvim help" })
-    map("n", "<LEADER>ohh", function()
-        util_win.open_util_in_current_win({init = ":help", ft = "help", prompt_cmd = ":help "})
-    end, { desc = "Open nvim help (tag)" })
-    map("n", "<LEADER>ohg", function()
-        util_win.open_util_in_current_win({init = ":help", ft = "help", prompt_cmd = ":helpgrep "})
-    end, { desc = "Open nvim help (grep)" })
-    map("n", "<LEADER>om", function()
-        util_win.open_util_in_current_win({init = ":Man man", ft = "man", prompt_cmd = ":Man "})
-    end, { desc = "Open manpages" })
+    map(
+      "n",
+      "<LEADER>ohh",
+      function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":help " } end,
+      { desc = "Open nvim help (tag)" }
+    )
+    map(
+      "n",
+      "<LEADER>ohg",
+      function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":helpgrep " } end,
+      { desc = "Open nvim help (grep)" }
+    )
+    map(
+      "n",
+      "<LEADER>om",
+      function() util_win.open_util_in_current_win { init = ":Man man", ft = "man", prompt_cmd = ":Man " } end,
+      { desc = "Open manpages" }
+    )
 
     -- Git (fugitive)
     map("n", "<LEADER>og", { desc = "Open fugitive git ..." })
-    map("n", "<LEADER>ogg", function()
-        util_win.open_cmd_in_current_win(":Git")
-    end, { desc = "Open fugitive git status" })
-    map("n", "<LEADER>ogl", function()
-        util_win.open_cmd_in_current_win(":Git log --oneline")
-    end, { desc = "Open fugitive git `log --oneline`" })
+    map(
+      "n",
+      "<LEADER>ogg",
+      function() util_win.open_cmd_in_current_win ":Git" end,
+      { desc = "Open fugitive git status" }
+    )
+    map(
+      "n",
+      "<LEADER>ogl",
+      function() util_win.open_cmd_in_current_win ":Git log --oneline" end,
+      { desc = "Open fugitive git `log --oneline`" }
+    )
 
     -- Terminal
     map("n", "<LEADER>ot", { desc = "Open terminal" })
@@ -303,27 +317,27 @@ return {
     -- =====================================
     -- Finding stuff with a picker (fzf.vim)
     -- =====================================
-    map("n", "<LEADER>f", { desc = "Find(FZF) ..." } )
+    map("n", "<LEADER>f", { desc = "Find(FZF) ..." })
 
     -- find nvim stuff
-    map("n", "<LEADER>fh", "<CMD>FzfHistory<CR>", { desc = "Find(FZF) recent files" } )
-    map("n", "<LEADER>f/", "<CMD>FzfHistory/<CR>", { desc = "Find(FZF) recent searches" } )
-    map("n", "<LEADER>f:", "<CMD>FzfHistory:<CR>", { desc = "Find(FZF) recent commands" } )
+    map("n", "<LEADER>fh", "<CMD>FzfHistory<CR>", { desc = "Find(FZF) recent files" })
+    map("n", "<LEADER>f/", "<CMD>FzfHistory/<CR>", { desc = "Find(FZF) recent searches" })
+    map("n", "<LEADER>f:", "<CMD>FzfHistory:<CR>", { desc = "Find(FZF) recent commands" })
     map("n", "<LEADER>f;", { copy = { "n", "<LEADER>f:" } })
-    map("n", "<LEADER>fb", "<CMD>FzfBuffers<CR>", { desc = "Find(FZF) buffers" } )
-    map("n", "<LEADER>fw", "<CMD>FzfWindows<CR>", { desc = "Find(FZF) windows" } )
-    map("n", "<LEADER>fc", "<CMD>FzfCommands<CR>", { desc = "Find(FZF) commands" } )
-    map("n", "<LEADER>fm", "<CMD>FzfMaps<CR>", { desc = "Find(FZF) mappings" } )
-    map("n", "<LEADER>f'", "<CMD>FzfMarks<CR>", { desc = "Find(FZF) marks" } )
+    map("n", "<LEADER>fb", "<CMD>FzfBuffers<CR>", { desc = "Find(FZF) buffers" })
+    map("n", "<LEADER>fw", "<CMD>FzfWindows<CR>", { desc = "Find(FZF) windows" })
+    map("n", "<LEADER>fc", "<CMD>FzfCommands<CR>", { desc = "Find(FZF) commands" })
+    map("n", "<LEADER>fm", "<CMD>FzfMaps<CR>", { desc = "Find(FZF) mappings" })
+    map("n", "<LEADER>f'", "<CMD>FzfMarks<CR>", { desc = "Find(FZF) marks" })
 
     -- find lines
     --  * NOTE: This section only contains global stuff that is appropriate for
     --    most/all file and buffer types, patterns fitting for specific
     --    filetypes are defined in the appropriate ftplugin.
-    map("n", "<LEADER>flb", "<CMD>FzfBLines<CR>", { desc = "Find(FZF) lines (buffer)" } )
-    map("n", "<LEADER>flB", ":FzfBLines ", { desc = "Find(FZF) lines (buffer,input)" } )
-    map("n", "<LEADER>fla", "<CMD>FzfLines<CR>", { desc = "Find(FZF) lines (all)" } )
-    map("n", "<LEADER>flA", ":FzfLines ", { desc = "Find(FZF) lines (all,input)" } )
+    map("n", "<LEADER>flb", "<CMD>FzfBLines<CR>", { desc = "Find(FZF) lines (buffer)" })
+    map("n", "<LEADER>flB", ":FzfBLines ", { desc = "Find(FZF) lines (buffer,input)" })
+    map("n", "<LEADER>fla", "<CMD>FzfLines<CR>", { desc = "Find(FZF) lines (all)" })
+    map("n", "<LEADER>flA", ":FzfLines ", { desc = "Find(FZF) lines (all,input)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

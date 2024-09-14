@@ -8,7 +8,7 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
- ---@param opts AstroCoreOpts
+  ---@param opts AstroCoreOpts
   opts = function(_, opts)
     -- easily configure vim options and globals
     -- first key should be same as `vim.<first_key>` e.g. "options.g" for "vim.g"
@@ -17,7 +17,7 @@ return {
     -- === set global `vim.g` settings here ===
     local g = options.g
 
-    g.python3_host_prog = vim.fn.stdpath("config") .. "/.venv/bin/python3"
+    g.python3_host_prog = vim.fn.stdpath "config" .. "/.venv/bin/python3"
 
     -- === set `opt` style options here ===
     local opt = options.opt

@@ -77,6 +77,20 @@ return {
     map({ "n", "i", "v", "t" }, "<M-k>", { copy = { "n", "<LEADER>wk" } })
     map({ "n", "i", "v", "t" }, "<M-l>", { copy = { "n", "<LEADER>wl" } })
 
+    -- Open/Close (enew) window
+    map("n", "<LEADER>ow", { desc = "Open new window" })
+    map("n", "<LEADER>owh", "<CMD>leftabove vertical split enew<CR>", { desc = "Open new window (left-inner)" })
+    map("n", "<LEADER>owj", "<CMD>rightbelow split enew<CR>", { desc = "Open new window (down-inner)" })
+    map("n", "<LEADER>owk", "<CMD>leftabove split enew<CR>", { desc = "Open new window (up-inner)" })
+    map("n", "<LEADER>owl", "<CMD>rightbelow vertical split enew<CR>", { desc = "Open new window (right-inner)" })
+    map("n", "<LEADER>owH", "<CMD>topleft vertical split enew<CR>", { desc = "Open new window (left-outer)" })
+    map("n", "<LEADER>owJ", "<CMD>botright split enew<CR>", { desc = "Open new window (down-outer)" })
+    map("n", "<LEADER>owK", "<CMD>topleft split enew<CR>", { desc = "Open new window (up-outer)" })
+    map("n", "<LEADER>owL", "<CMD>botright vertical split enew<CR>", { desc = "Open new window (right-outer)" })
+    map("n", "<LEADER>wx", "<CMD>close<CR>", { desc = "Close current window" })
+    map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
+    map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
+
     -- Move current window
     map({ "n", "x" }, "<LEADER>wm", { desc = "Move window" })
     map({ "n", "x" }, "<LEADER>wmh", "<CMD>wincmd H<CR>", { desc = "Move window (left)" })
@@ -113,6 +127,16 @@ return {
     map({ "n", "i", "v", "t" }, "<M-t>", { copy = { "n", "<LEADER><TAB>j" } })
     map({ "n", "i", "v", "t" }, "<M-r>", { copy = { "n", "<LEADER><TAB>k" } })
 
+    -- Open/Close new tab
+    map("n", "<LEADER>o<TAB>", { desc = "Open new tab" })
+    map("n", "<LEADER>o<TAB>h", "<CMD>0tabedit<CR>", { desc = "Open new tab (first)" })
+    map("n", "<LEADER>o<TAB>j", "<CMD>-tabedit<CR>", { desc = "Open new tab (previous)" })
+    map("n", "<LEADER>o<TAB>k", "<CMD>tabedit<CR>", { desc = "Open new tab (next)" })
+    map("n", "<LEADER>o<TAB>l", "<CMD>$tabedit<CR>", { desc = "Open new tab (last)" })
+    map("n", "<LEADER>o<TAB><TAB>", "<CMD>tabedit<CR>", { desc = "Open new tab (next)" })
+    map("n", "<LEADER>o<S-TAB>", "<CMD>-tabedit<CR>", { desc = "Open new tab (previous)" })
+    map("n", "<LEADER>x<TAB>", "<CMD>tabclose<CR>", { desc = "Close current tab" })
+
     -- Move current tab
     map({ "n", "x" }, "<LEADER><TAB>m", { desc = "Move tab" })
     map({ "n", "x" }, "<LEADER><TAB>mh", "<CMD>0tabmove<CR>", { desc = "Move tab (first)" })
@@ -126,7 +150,7 @@ return {
     map({ "n", "x" }, "<LEADER><TAB>S", { copy = { "n", "<LEADER>ws<S-TAB>" } })
 
     -- ========================================
-    -- Open/Close stuff
+    -- Open/Close misc stuff
     -- ========================================
     map("n", "<LEADER>o", { desc = "Open ..." })
     map("n", "<LEADER>x", { desc = "close (eXit) ..." })
@@ -134,31 +158,6 @@ return {
     -- Add blank line
     map("n", "<LEADER>oo", "o<ESC>0D", { desc = "Add Blank line below" })
     map("n", "<LEADER>O", "O<ESC>0D", { desc = "Add Blank line above" })
-
-    -- Open/Close (enew) window
-    map("n", "<LEADER>ow", { desc = "Open new window" })
-    map("n", "<LEADER>owh", "<CMD>leftabove vertical split enew<CR>", { desc = "Open new window (left-inner)" })
-    map("n", "<LEADER>owj", "<CMD>rightbelow split enew<CR>", { desc = "Open new window (down-inner)" })
-    map("n", "<LEADER>owk", "<CMD>leftabove split enew<CR>", { desc = "Open new window (up-inner)" })
-    map("n", "<LEADER>owl", "<CMD>rightbelow vertical split enew<CR>", { desc = "Open new window (right-inner)" })
-    map("n", "<LEADER>owH", "<CMD>topleft vertical split enew<CR>", { desc = "Open new window (left-outer)" })
-    map("n", "<LEADER>owJ", "<CMD>botright split enew<CR>", { desc = "Open new window (down-outer)" })
-    map("n", "<LEADER>owK", "<CMD>topleft split enew<CR>", { desc = "Open new window (up-outer)" })
-    map("n", "<LEADER>owL", "<CMD>botright vertical split enew<CR>", { desc = "Open new window (right-outer)" })
-    map("n", "<LEADER>wx", "<CMD>close<CR>", { desc = "Close current window" })
-    map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
-    map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
-
-    -- Open/Close new tab
-    map("n", "<LEADER>o<TAB>", { desc = "Open new tab" })
-    map("n", "<LEADER>o<TAB>h", "<CMD>0tabedit<CR>", { desc = "Open new tab (first)" })
-    map("n", "<LEADER>o<TAB>j", "<CMD>-tabedit<CR>", { desc = "Open new tab (previous)" })
-    map("n", "<LEADER>o<TAB>k", "<CMD>tabedit<CR>", { desc = "Open new tab (next)" })
-    map("n", "<LEADER>o<TAB>l", "<CMD>$tabedit<CR>", { desc = "Open new tab (last)" })
-    map("n", "<LEADER>o<TAB><TAB>", "<CMD>tabedit<CR>", { desc = "Open new tab (next)" })
-    map("n", "<LEADER>o<S-TAB>", "<CMD>-tabedit<CR>", { desc = "Open new tab (previous)" })
-    map("n", "<LEADER>x<TAB>", "<CMD>tabclose<CR>", { desc = "Close current tab" })
-    map("n", "<LEADER>X", { copy = { "n", "<LEADER>x<TAB>" } })
 
     -- Quickfix and Locations list
     map("n", "<LEADER>ol", "<CMD>lopen<cr>", { desc = "Open location list" })
@@ -201,12 +200,6 @@ return {
       function() util_win.open_cmd_in_current_win ":Git log --oneline" end,
       { desc = "Open fugitive git `log --oneline`" }
     )
-
-    -- Terminal
-    map("n", "<LEADER>ot", { desc = "Open terminal" })
-    map("n", "<LEADER>ott", "<CMD>terminal<CR>i", { desc = "Open terminal (PWD)" })
-    map("n", "<LEADER>otl", "<CMD>lcd %:h|terminal<CR>i", { desc = "Open terminal (buffer dir)" })
-    map("n", "<LEADER>oth", "<CMD>lcd ~|terminal<CR>i", { desc = "Open terminal (home)" })
 
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })
@@ -302,6 +295,14 @@ return {
     -- ======================
     -- Terminal mode mappings
     -- ======================
+
+    -- Open terminal
+    map("n", "<LEADER>ot", { desc = "Open terminal" })
+    map("n", "<LEADER>ott", "<CMD>terminal<CR>i", { desc = "Open terminal (PWD)" })
+    map("n", "<LEADER>otl", "<CMD>lcd %:h|terminal<CR>i", { desc = "Open terminal (buffer dir)" })
+    map("n", "<LEADER>oth", "<CMD>lcd ~|terminal<CR>i", { desc = "Open terminal (home)" })
+
+    -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })
 
     -- =========================

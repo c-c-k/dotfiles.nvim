@@ -11,6 +11,7 @@ return {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
+    local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
     local maps, map = require("cck.utils.config").get_astrocore_mapper()
@@ -61,6 +62,53 @@ return {
     map({ "n", "x" }, "]P", "[p", { desc = "Paste indented before" })
 
     -- ===============
+    -- Buffer mappings
+    -- ===============
+    map("n", "<LEADER>b", { desc = "buffer actions" })
+
+    -- Navigate buffers
+    map("n", "<LEADER>bb", { copy = { "n", "<Leader>bp", source = astromaps } }) -- desc = "Previous buffer"
+    -- map("n", "<Leader>bss", {... desc = "Select buffer from tabline" }) NOTE: Defined in heirline config
+    map("n", "<LEADER>bh", { copy = { "n", "[b", source = astromaps } }) -- desc = "Previous buffer"
+    map("n", "<LEADER>bj", { copy = { "n", "<LEADER>bh" } })
+    map("n", "<LEADER>bk", { copy = { "n", "]b", source = astromaps } }) -- desc = "Next buffer"
+    map("n", "<LEADER>bl", { copy = { "n", "<LEADER>bk" } })
+    map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER>bj" } })
+    map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER>bk" } })
+
+    -- Open/Close (enew) buffers
+    map("n", "<LEADER>bx", { desc = "Close buffer(s)" })
+    map("n", "<LEADER>bxx", { copy = { "n", "<Leader>c", source = astromaps } }) -- desc = "Close buffer"
+    map("n", "<LEADER>xbb", { copy = { "n", "<LEADER>bxx" } })
+    map("n", "<LEADER>X", { copy = { "n", "<LEADER>bxx" } })
+    -- map("n", "<Leader>bxs", {... desc = "Close buffer from tabline" }) NOTE: Defined in heirline config
+    map({ "n", "i", "v", "t" }, "<M-X>", { copy = { "n", "<LEADER>bxx" } })
+    map("n", "<LEADER>bX", { copy = { "n", "<Leader>C", source = astromaps } }) -- desc = "Force close buffer"
+    map("n", "<LEADER>bxa", { copy = { "n", "<Leader>bc", source = astromaps } }) -- desc = "Close all buffers except current"
+    map("n", "<LEADER>bxA", { copy = { "n", "<Leader>bC", source = astromaps } }) -- desc = "Close all buffers"
+    map("n", "<LEADER>bxh", { copy = { "n", "<Leader>bl", source = astromaps } }) -- desc = "Close all buffers to the left"
+    map("n", "<LEADER>bxj", { copy = { "n", "<LEADER>bxh" } })
+    map("n", "<LEADER>bxk", { copy = { "n", "<Leader>br", source = astromaps } }) -- desc = "Close all buffers to the right"
+    map("n", "<LEADER>bxl", { copy = { "n", "<LEADER>bxk" } })
+
+    -- Sort buffers
+    map("n", "<LEADER>bs", { desc = "Select/Sort buffer(s)" })
+    map("n", "<LEADER>bse", { copy = { "n", "<Leader>bse", source = astromaps } }) -- desc = "By extension"
+    map("n", "<LEADER>bsr", { copy = { "n", "<Leader>bsr", source = astromaps } }) -- desc = "By relative path"
+    map("n", "<LEADER>bsp", { copy = { "n", "<Leader>bsp", source = astromaps } }) -- desc = "By full path"
+    map("n", "<LEADER>bsi", { copy = { "n", "<Leader>bsi", source = astromaps } }) -- desc = "By buffer number"
+    map("n", "<LEADER>bsm", { copy = { "n", "<Leader>bsm", source = astromaps } }) -- desc = "By modification"
+
+    -- Move buffers
+    map("n", "<LEADER>bm", { desc = "Move buffer" })
+    map("n", "<LEADER>bmh", { copy = { "n", ">b", source = astromaps } }) -- desc = "Move buffer tab right"
+    map("n", "<LEADER>bmj", { copy = { "n", "<LEADER>bmh" } })
+    map("n", "<LEADER>bmk", { copy = { "n", "<b", source = astromaps } }) -- desc = "Move buffer tab right"
+    map("n", "<LEADER>bml", { copy = { "n", "<LEADER>bmk" } })
+    map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER>bmh" } })
+    map({ "n", "i", "v", "t" }, "<M-l>", { copy = { "n", "<LEADER>bml" } })
+
+    -- ===============
     -- Window mappings
     -- ===============
     map({ "n", "x" }, "<LEADER>w", { desc = "window actions" })
@@ -90,6 +138,7 @@ return {
     map("n", "<LEADER>wx", "<CMD>close<CR>", { desc = "Close current window" })
     map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
     map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
+    map({ "n", "i", "v", "t" }, "<M-x>", { copy = { "n", "<LEADER>wx" } })
 
     -- Move current window
     map({ "n", "x" }, "<LEADER>wm", { desc = "Move window" })
@@ -167,39 +216,29 @@ return {
 
     -- Help and Man pages
     map("n", "<LEADER>oh", { desc = "Open nvim help" })
-    map(
-      "n",
-      "<LEADER>ohh",
+    map("n", "<LEADER>ohh", {
       function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":help " } end,
-      { desc = "Open nvim help (tag)" }
-    )
-    map(
-      "n",
-      "<LEADER>ohg",
+      desc = "Open nvim help (tag)",
+    })
+    map("n", "<LEADER>ohg", {
       function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":helpgrep " } end,
-      { desc = "Open nvim help (grep)" }
-    )
-    map(
-      "n",
-      "<LEADER>om",
+      desc = "Open nvim help (grep)",
+    })
+    map("n", "<LEADER>om", {
       function() util_win.open_util_in_current_win { init = ":Man man", ft = "man", prompt_cmd = ":Man " } end,
-      { desc = "Open manpages" }
-    )
+      desc = "Open manpages",
+    })
 
     -- Git (fugitive)
     map("n", "<LEADER>og", { desc = "Open fugitive git ..." })
-    map(
-      "n",
-      "<LEADER>ogg",
+    map("n", "<LEADER>ogg", {
       function() util_win.open_cmd_in_current_win ":Git" end,
-      { desc = "Open fugitive git status" }
-    )
-    map(
-      "n",
-      "<LEADER>ogl",
+      desc = "Open fugitive git status",
+    })
+    map("n", "<LEADER>ogl", {
       function() util_win.open_cmd_in_current_win ":Git log --oneline" end,
-      { desc = "Open fugitive git `log --oneline`" }
-    )
+      desc = "Open fugitive git `log --oneline`",
+    })
 
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })

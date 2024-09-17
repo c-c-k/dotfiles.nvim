@@ -34,7 +34,6 @@ function M.has(feat) return vim.fn.has(feat) == 1 end
 function M.get_astrocore_mapper()
   local astrocore = require "astrocore"
   local maps = astrocore.empty_map_table() -- Initialize the mappings table
-  local astromaps = astrocore.config.mappings -- AstroNvim's default mappings
 
   --- Replaces '<leader>' with 'vim.g.usermapleader' in the LHS of a keymapping
   -- Also performs checks to ensure 'usermapleader' is defined and doesn't conflict with 'mapleader'
@@ -61,13 +60,13 @@ function M.get_astrocore_mapper()
   -- @return table: The extended options table
   local function copy_map(options)
     local mode, lhs = unpack(options.copy, 1, 2) -- Extract mode and lhs from copy table
-    local use_astro = options.copy.astro -- Whether to copy from AstroNvim's mappings
+    local source = options.copy.source -- Source mappings table to copy from
     local uleader = options.uleader -- uleader setting from the main options
     local copy_uleader = options.copy.uleader -- uleader setting from the copy options
-    local source_maps = use_astro and astromaps or maps -- Determine the source mappings table
+    local source_maps = type(source) == "table" and source or maps -- Select the source mappings table
 
     -- Logic for leader replacement in copied mappings
-    local replace_leader = copy_uleader or (copy_uleader == nil and not (use_astro or uleader == false))
+    local replace_leader = copy_uleader or (copy_uleader == nil and not (source or uleader == false))
     if replace_leader then lhs = replace_lhs_leader(lhs) end
 
     if source_maps[mode] and source_maps[mode][lhs] then
@@ -75,7 +74,10 @@ function M.get_astrocore_mapper()
       return astrocore.extend_tbl(source_maps[mode][lhs], options)
     else
       -- Notify if the mapping to copy is not found
-      vim.notify('Warning: Mapping to copy not found: "' .. mode .. '","' .. lhs .. '"', vim.log.levels.WARN)
+      -- vim.notify('Warning: Mapping to copy not found: "' .. mode .. '","' .. lhs .. '"', vim.log.levels.WARN)
+      vim.print('Warning: Mapping to copy not found: "' .. mode .. '","' .. lhs .. '"', vim.log.levels.WARN)
+      vim.print(source_maps)
+      error()
       return { desc = "ERROR" } -- Return an error options table
     end
   end

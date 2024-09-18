@@ -10,12 +10,5 @@ map({ "n", "x" }, "<LEADER>gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto fil
 map({ "n", "x" }, "<LEADER>gx", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto external" })
 -- map({ "n", "x" }, "gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" } )
 -- map({ "n", "x" }, "gx", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto external" } )
-map("n", "<LEADER>flh", [=[<CMD>FzfBLines ^\v#{1,7}<CR>]=], { desc = "Find(FZF) MD headers (buffer)" })
-map(
-  "n",
-  "<LEADER>fll",
-  [=[<CMD>FzfBLines \v(\[([^ x-]<BAR>[^]]{2,})]<BAR>\<[^>]{2,}\><BAR><https?://)<CR>]=],
-  { desc = "Find(FZF) MD links (buffer)" }
-)
 
 astrocore.set_mappings(maps, { buffer = true })

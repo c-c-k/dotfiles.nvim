@@ -352,31 +352,6 @@ return {
     map("n", "<LEADER>qs", "<CMD>wall<CR>", { desc = "Save all" })
     map("n", "<LEADER>qq", "<CMD>confirm qall<CR>", { desc = "Exit with confirm" })
 
-    -- =====================================
-    -- Finding stuff with a picker (fzf.vim)
-    -- =====================================
-    map("n", "<LEADER>f", { desc = "Find(FZF) ..." })
-
-    -- find nvim stuff
-    map("n", "<LEADER>fh", "<CMD>FzfHistory<CR>", { desc = "Find(FZF) recent files" })
-    map("n", "<LEADER>f/", "<CMD>FzfHistory/<CR>", { desc = "Find(FZF) recent searches" })
-    map("n", "<LEADER>f:", "<CMD>FzfHistory:<CR>", { desc = "Find(FZF) recent commands" })
-    map("n", "<LEADER>f;", { copy = { "n", "<LEADER>f:" } })
-    map("n", "<LEADER>fb", "<CMD>FzfBuffers<CR>", { desc = "Find(FZF) buffers" })
-    map("n", "<LEADER>fw", "<CMD>FzfWindows<CR>", { desc = "Find(FZF) windows" })
-    map("n", "<LEADER>fc", "<CMD>FzfCommands<CR>", { desc = "Find(FZF) commands" })
-    map("n", "<LEADER>fm", "<CMD>FzfMaps<CR>", { desc = "Find(FZF) mappings" })
-    map("n", "<LEADER>f'", "<CMD>FzfMarks<CR>", { desc = "Find(FZF) marks" })
-
-    -- find lines
-    --  * NOTE: This section only contains global stuff that is appropriate for
-    --    most/all file and buffer types, patterns fitting for specific
-    --    filetypes are defined in the appropriate ftplugin.
-    map("n", "<LEADER>flb", "<CMD>FzfBLines<CR>", { desc = "Find(FZF) lines (buffer)" })
-    map("n", "<LEADER>flB", ":FzfBLines ", { desc = "Find(FZF) lines (buffer,input)" })
-    map("n", "<LEADER>fla", "<CMD>FzfLines<CR>", { desc = "Find(FZF) lines (all)" })
-    map("n", "<LEADER>flA", ":FzfLines ", { desc = "Find(FZF) lines (all,input)" })
-
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,
 }

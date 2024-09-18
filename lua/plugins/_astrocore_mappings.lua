@@ -432,8 +432,15 @@ return {
     -- *** Top level Editor mappings ***
 
     map("n", "<LEADER>q", { desc = "Editor actions" })
-    map("n", "<LEADER>qs", "<CMD>wall<CR>", { desc = "Save all" })
+
+    -- Write/Quit
+    map("n", "<LEADER>qw", "<CMD>confirm wall<CR>", { desc = "Write all" })
     map("n", "<LEADER>qq", "<CMD>confirm qall<CR>", { desc = "Exit with confirm" })
+
+    -- Sessions
+    -- NOTE: Session mappings are defined in `resession-nvim`
+
+    map("n", "<LEADER>qs", { desc = "Sessions" })
 
     -- Change PWD
     map("n", "<LEADER>qp", { desc = "Set PWD" })

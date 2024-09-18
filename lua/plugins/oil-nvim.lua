@@ -89,9 +89,11 @@ return {
           ["<BS>"] = "actions.parent",
           -- ["_"] = "actions.open_cwd",
           -- ["`"] = "actions.cd",
-          [uleader .. "upg"] = "actions.cd",
           -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
-          [uleader .. "upt"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+          [uleader .. "qpp"] = {
+            function() vim.fn.chdir(oil.get_current_dir()) end,
+            desc = "Set PWD to the current oil directory",
+          },
           ["gs"] = "actions.change_sort",
           ["gx"] = "actions.open_external",
           ["g."] = "actions.toggle_hidden",

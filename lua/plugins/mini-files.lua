@@ -76,28 +76,17 @@ return {
             callback = function(args)
               local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-              local files_set_cwd = function(scope)
+              local files_set_cwd = function()
                 -- Works only if cursor is on the valid file system entry
                 local current_entry_path = MiniFiles.get_fs_entry().path
                 local current_dir = vim.fs.dirname(current_entry_path)
 
-                if scope == "g" then
-                  vim.cmd.cd(current_dir)
-                elseif scope == "t" then
-                  vim.cmd.tcd(current_dir)
-                elseif scope == "l" then
-                  vim.cmd.lcd(current_dir)
-                else
-                  vim.fn.chdir(current_dir)
-                end
+                vim.fn.chdir(current_dir)
               end
 
               map("n", "H", "h", { desc = "Cursor left" })
               map("n", "L", "l", { desc = "Cursor right" })
-              map("n", "<LEADER>upg", function() files_set_cwd "g" end, { desc = "Set PWD (global) to current dir" })
-              map("n", "<LEADER>upt", function() files_set_cwd "t" end, { desc = "Set PWD (tab) to current dir" })
-              map("n", "<LEADER>upl", function() files_set_cwd "l" end, { desc = "Set PWD (local) to current dir" })
-              map("n", "<LEADER>upp", function() files_set_cwd() end, { desc = "Set PWD (auto) to current dir" })
+              map("n", "<LEADER>qpp", function() files_set_cwd() end, { desc = "Set PWD to current mini.files dir" })
               map("n", "<LEADER>wy", function() MiniFiles.synchronize() end, { desc = "sync mini.files actions" })
               map("n", "<LEADER>wx", function() MiniFiles.close() end, { desc = "Close mini.files popup" })
               map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })

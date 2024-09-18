@@ -243,17 +243,6 @@ return {
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })
 
-    -- ===================================
-    -- UI set/toggle options/globals/etc..
-    -- ===================================
-    map("n", "<LEADER>u", { desc = "UI/UX" })
-
-    -- Change PWD to current dir
-    map("n", "<LEADER>up", { desc = "Set PWD" })
-    map("n", "<LEADER>upg", "<CMD>cd %:h<CR>", { desc = "Set PWD (global) to current dir" })
-    map("n", "<LEADER>upt", "<CMD>tcd %:h<CR>", { desc = "Set PWD (tab) to current dir" })
-    map("n", "<LEADER>upl", "<CMD>lcd %:h<CR>", { desc = "Set PWD (local) to current dir" })
-
     -- =================
     -- Yank/Put mappings
     -- =================
@@ -351,6 +340,19 @@ return {
     map("n", "<LEADER>q", { desc = "Editor actions" })
     map("n", "<LEADER>qs", "<CMD>wall<CR>", { desc = "Save all" })
     map("n", "<LEADER>qq", "<CMD>confirm qall<CR>", { desc = "Exit with confirm" })
+
+    -- Change PWD
+    map("n", "<LEADER>qp", { desc = "Set PWD" })
+    map("n", "<LEADER>qpp", {
+      function() vim.fn.chdir(vim.fs.dirname(vim.fn.bufname())) end,
+      desc = "Set PWD to buffer dir",
+    })
+    map("n", "<LEADER>qpr", "<CMD>:AstroRoot<CR>", {
+      desc = "Set PWD to buffer root",
+    })
+    map("n", "<LEADER>qpg", { function() vim.cmd.cd(vim.fn.getcwd()) end, desc = "Set PWD scope to global" })
+    map("n", "<LEADER>qpt", { function() vim.cmd.tcd(vim.fn.getcwd()) end, desc = "Set PWD scope to tab" })
+    map("n", "<LEADER>qpl", { function() vim.cmd.lcd(vim.fn.getcwd()) end, desc = "Set PWD scope to local" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

@@ -169,7 +169,7 @@ return {
           if not success then vim.print(error) end
         end
       end, { desc = "Open mini.files (Select current file)" })
-      map("n", "<LEADER>ofc", function() minifiles_toggle(nil, false) end, { desc = "Open mini.files (CWD)" })
+      map("n", "<LEADER>ofc", function() MiniFiles.open(nil, false) end, { desc = "Open mini.files (CWD)" })
 
       opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
     end,

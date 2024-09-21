@@ -127,14 +127,14 @@ return {
 
     -- Open/Close (enew) window
     map("n", "<LEADER>ow", { desc = "Open new window" })
-    map("n", "<LEADER>owh", "<CMD>leftabove vertical split enew<CR>", { desc = "Open new window (left-inner)" })
-    map("n", "<LEADER>owj", "<CMD>rightbelow split enew<CR>", { desc = "Open new window (down-inner)" })
-    map("n", "<LEADER>owk", "<CMD>leftabove split enew<CR>", { desc = "Open new window (up-inner)" })
-    map("n", "<LEADER>owl", "<CMD>rightbelow vertical split enew<CR>", { desc = "Open new window (right-inner)" })
-    map("n", "<LEADER>owH", "<CMD>topleft vertical split enew<CR>", { desc = "Open new window (left-outer)" })
-    map("n", "<LEADER>owJ", "<CMD>botright split enew<CR>", { desc = "Open new window (down-outer)" })
-    map("n", "<LEADER>owK", "<CMD>topleft split enew<CR>", { desc = "Open new window (up-outer)" })
-    map("n", "<LEADER>owL", "<CMD>botright vertical split enew<CR>", { desc = "Open new window (right-outer)" })
+    map("n", "<LEADER>owh", "<CMD>leftabove vertical new<CR>", { desc = "Open new window (left-inner)" })
+    map("n", "<LEADER>owj", "<CMD>rightbelow new<CR>", { desc = "Open new window (down-inner)" })
+    map("n", "<LEADER>owk", "<CMD>leftabove new<CR>", { desc = "Open new window (up-inner)" })
+    map("n", "<LEADER>owl", "<CMD>rightbelow vertical new<CR>", { desc = "Open new window (right-inner)" })
+    map("n", "<LEADER>owH", "<CMD>topleft vertical new<CR>", { desc = "Open new window (left-outer)" })
+    map("n", "<LEADER>owJ", "<CMD>botright new<CR>", { desc = "Open new window (down-outer)" })
+    map("n", "<LEADER>owK", "<CMD>topleft new<CR>", { desc = "Open new window (up-outer)" })
+    map("n", "<LEADER>owL", "<CMD>botright vertical new<CR>", { desc = "Open new window (right-outer)" })
     map("n", "<LEADER>wx", "<CMD>close<CR>", { desc = "Close current window" })
     map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
     map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
@@ -173,8 +173,8 @@ return {
     map({ "n", "x" }, "<LEADER><TAB>j", "<CMD>tabprevious<CR>", { desc = "Go to tab (previous)" })
     map({ "n", "x" }, "<LEADER><TAB>k", "<CMD>tabnext<CR>", { desc = "Go to tab (next)" })
     map({ "n", "x" }, "<LEADER><TAB>l", "<CMD>tablast<CR>", { desc = "Go to tab (last)" })
-    map({ "n", "i", "v", "t" }, "<M-t>", { copy = { "n", "<LEADER><TAB>j" } })
-    map({ "n", "i", "v", "t" }, "<M-r>", { copy = { "n", "<LEADER><TAB>k" } })
+    map({ "n", "i", "v", "t" }, "<M-r>", { copy = { "n", "<LEADER><TAB>j" } })
+    map({ "n", "i", "v", "t" }, "<M-t>", { copy = { "n", "<LEADER><TAB>k" } })
 
     -- Open/Close new tab
     map("n", "<LEADER>o<TAB>", { desc = "Open new tab" })

@@ -101,12 +101,12 @@ return {
 
     -- Move buffers
     map("n", "<LEADER>bm", { desc = "Move buffer" })
-    map("n", "<LEADER>bmh", { copy = { "n", ">b", source = astromaps } }) -- desc = "Move buffer tab right"
+    map("n", "<LEADER>bmh", { copy = { "n", "<b", source = astromaps } }) -- desc = "Move buffer tab right"
     map("n", "<LEADER>bmj", { copy = { "n", "<LEADER>bmh" } })
-    map("n", "<LEADER>bmk", { copy = { "n", "<b", source = astromaps } }) -- desc = "Move buffer tab right"
+    map("n", "<LEADER>bmk", { copy = { "n", ">b", source = astromaps } }) -- desc = "Move buffer tab right"
     map("n", "<LEADER>bml", { copy = { "n", "<LEADER>bmk" } })
     map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER>bmh" } })
-    map({ "n", "i", "v", "t" }, "<M-l>", { copy = { "n", "<LEADER>bml" } })
+    map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER>bml" } })
 
     -- ===============
     -- Window mappings

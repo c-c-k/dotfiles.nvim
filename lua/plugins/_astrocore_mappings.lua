@@ -20,9 +20,7 @@ return {
 
     map({ "n", "x" }, "<LEADER>", { desc = "AstroNvim mappings", uleader = false })
 
-    -- ============================
-    -- Basic vim commands remapping
-    -- ============================
+    -- *** Basic vim commands mappings ***
 
     -- Remap Redo to U because U is more convenient to press than <C-R> and it's
     -- official mapping seems pointless
@@ -61,9 +59,8 @@ return {
     map({ "n", "x" }, "[P", "[p", { desc = "Paste indented before" })
     map({ "n", "x" }, "]P", "[p", { desc = "Paste indented before" })
 
-    -- ===============
-    -- Buffer mappings
-    -- ===============
+    -- *** Buffer mappings ***
+
     map("n", "<LEADER>b", { desc = "buffer actions" })
 
     -- Navigate buffers
@@ -108,9 +105,8 @@ return {
     map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER>bmh" } })
     map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER>bml" } })
 
-    -- ===============
-    -- Window mappings
-    -- ===============
+    -- *** Window mappings ***
+
     map({ "n", "x" }, "<LEADER>w", { desc = "window actions" })
 
     -- Navigate windows
@@ -162,9 +158,8 @@ return {
     map({ "n", "x" }, "<LEADER>ws<TAB>", "<CMD>split|wincmd T<CR>", { desc = "Split window (tab-next)" })
     map({ "n", "x" }, "<LEADER>ws<S-TAB>", "<CMD>split|wincmd T|-tabmove<CR>", { desc = "Split window (tab-previous)" })
 
-    -- ============
-    -- Tab mappings
-    -- ============
+    -- *** Tab mappings ***
+
     map({ "n", "x" }, "<LEADER><TAB>", { desc = "Tab actions" })
 
     -- Navigate tabs
@@ -198,9 +193,8 @@ return {
     map({ "n", "x" }, "<LEADER><TAB>s", { copy = { "n", "<LEADER>ws<TAB>" } })
     map({ "n", "x" }, "<LEADER><TAB>S", { copy = { "n", "<LEADER>ws<S-TAB>" } })
 
-    -- ========================================
-    -- Open/Close misc stuff
-    -- ========================================
+    -- *** Open/Close mappings ***
+
     map("n", "<LEADER>o", { desc = "Open ..." })
     map("n", "<LEADER>x", { desc = "close (eXit) ..." })
 
@@ -243,9 +237,8 @@ return {
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })
 
-    -- =================
-    -- Yank/Put mappings
-    -- =================
+    -- *** Yank/Put mappings ***
+
     map({ "n", "x" }, "<LEADER>g", { desc = "g variants" })
     map({ "n", "x" }, "<LEADER>z", { desc = "z variants" })
     map({ "n", "x" }, "<LEADER>[", { desc = "[ variants" })
@@ -309,9 +302,7 @@ return {
     map({ "n", "x" }, "<LEADER>zps", '"*zp', { desc = "Paste (selection:after-no-trail-space)" })
     map({ "n", "x" }, "<LEADER>zPs", '"*zP', { desc = "Paste (selection:before-no-trail-space)" })
 
-    -- =========================
-    -- Visual selection mappings
-    -- =========================
+    -- *** Visual selection mappings ***
 
     -- Increment/Decrement visual selection using TreeSitter
     -- NOTE: this is defined in the nvim-treesitter plugin config
@@ -320,9 +311,7 @@ return {
     -- map("v", "<C-l>", "", { desc = "scope_incremental" })
     -- map("v", "<C-j>", "", { desc = "node_decremental" })
 
-    -- ======================
-    -- Terminal mode mappings
-    -- ======================
+    -- *** Terminal mode mappings ***
 
     -- Open terminal
     map("n", "<LEADER>ot", { desc = "Open terminal" })
@@ -333,9 +322,7 @@ return {
     -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })
 
-    -- =========================
-    -- Top level Editor mappings
-    -- =========================
+    -- *** Top level Editor mappings ***
 
     map("n", "<LEADER>q", { desc = "Editor actions" })
     map("n", "<LEADER>qs", "<CMD>wall<CR>", { desc = "Save all" })

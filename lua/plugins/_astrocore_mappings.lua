@@ -310,6 +310,11 @@ return {
     map({ "n", "v" }, "<LEADER>l", { desc = "LSP actions" })
     map("n", "<LEADER>ld", { copy = { "n", "<Leader>ld", source = astromaps } }) -- desc = "Hover diagnostics"
 
+    -- *** Run/Debug mappings ***
+    -- NOTE: most Run/Debug mappings are defined in `dap`
+
+    map({ "n", "v" }, "<LEADER>r", { desc = "Run/Debug" })
+
     -- *** UI/UX toggle mappings ***
     -- NOTE: A lot of additional UI/UX toggle mappings are spread in other plugin configs
 

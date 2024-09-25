@@ -25,6 +25,7 @@ return {
       map("n", "<LEADER>fbl", { copy = { "n", "<Leader>f/", source = astromaps }, desc = "Find lines in buffer" })
 
       -- find nvim stuff
+      map("n", "<LEADER>f<CR>", { copy = { "n", "<Leader>f<CR>", source = astromaps } }) -- desc = "Resume previous search"
       map("n", "<LEADER>f'", { copy = { "n", "<Leader>f'", source = astromaps } }) -- desc = "Find marks"
       map("n", '<LEADER>f"', { copy = { "n", "<Leader>fr", source = astromaps } }) -- desc = "Find registers"
       map("n", "<LEADER>fc", { copy = { "n", "<Leader>fC", source = astromaps } }) -- desc = "Find commands"

@@ -333,6 +333,27 @@ return {
     map({ "n", "v" }, "<LEADER>l", { desc = "LSP actions" })
     map("n", "<LEADER>ld", { copy = { "n", "<Leader>ld", source = astromaps } }) -- desc = "Hover diagnostics"
 
+    -- *** UI/UX toggle mappings ***
+    -- NOTE: A lot of additional UI/UX toggle mappings are spread in other plugin configs
+
+    map("n", "<LEADER>u", { desc = "UI/UX toggles" })
+    map("n", "<LEADER>uA", { copy = { "n", "<Leader>uA", source = astromaps } }) -- desc = "Toggle rooter autochdir"
+    map("n", "<LEADER>ub", { copy = { "n", "<Leader>ub", source = astromaps } }) -- desc = "Toggle background"
+    map("n", "<LEADER>ud", { copy = { "n", "<Leader>ud", source = astromaps } }) -- desc = "Toggle diagnostics"
+    map("n", "<LEADER>ug", { copy = { "n", "<Leader>ug", source = astromaps } }) -- desc = "Toggle signcolumn"
+    map("n", "<LEADER>u>", { copy = { "n", "<Leader>u>", source = astromaps } }) -- desc = "Toggle foldcolumn"
+    map("n", "<LEADER>ui", { copy = { "n", "<Leader>ui", source = astromaps } }) -- desc = "Change indent setting"
+    map("n", "<LEADER>ul", { copy = { "n", "<Leader>ul", source = astromaps } }) -- desc = "Toggle statusline"
+    map("n", "<LEADER>un", { copy = { "n", "<Leader>un", source = astromaps } }) -- desc = "Change line numbering"
+    map("n", "<LEADER>uN", { copy = { "n", "<Leader>uN", source = astromaps } }) -- desc = "Toggle Notifications"
+    map("n", "<LEADER>up", { copy = { "n", "<Leader>up", source = astromaps } }) -- desc = "Toggle paste mode"
+    map("n", "<LEADER>us", { copy = { "n", "<Leader>us", source = astromaps } }) -- desc = "Toggle spellcheck"
+    map("n", "<LEADER>uS", { copy = { "n", "<Leader>uS", source = astromaps } }) -- desc = "Toggle conceal"
+    map("n", "<LEADER>ut", { copy = { "n", "<Leader>ut", source = astromaps } }) -- desc = "Toggle tabline"
+    map("n", "<LEADER>uu", { copy = { "n", "<Leader>uu", source = astromaps } }) -- desc = "Toggle URL highlight"
+    map("n", "<LEADER>uw", { copy = { "n", "<Leader>uw", source = astromaps } }) -- desc = "Toggle wrap"
+    map("n", "<LEADER>uy", { copy = { "n", "<Leader>uy", source = astromaps } }) -- desc = "Toggle syntax highlight"
+
     -- *** Top level Editor mappings ***
 
     map("n", "<LEADER>q", { desc = "Editor actions" })

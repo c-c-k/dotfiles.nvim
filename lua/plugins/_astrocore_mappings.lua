@@ -327,6 +327,12 @@ return {
 
     map("n", "<LEADER>f", { desc = "Find ..." })
 
+    -- *** LSP mappings ***
+    -- NOTE: most lsp mappings are defined in `_astrolsp_mappings`
+
+    map({ "n", "v" }, "<LEADER>l", { desc = "LSP actions" })
+    map("n", "<LEADER>ld", { copy = { "n", "<Leader>ld", source = astromaps } }) -- desc = "Hover diagnostics"
+
     -- *** Top level Editor mappings ***
 
     map("n", "<LEADER>q", { desc = "Editor actions" })

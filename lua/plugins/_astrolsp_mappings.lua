@@ -19,6 +19,25 @@ return {
     --  * A string (e.g. `cond = "textDocument/declaration"`) of a language server capability.
     --  * A function (sig: `cond = function(client, bufnr) ... end`)  that returns a boolean of whether or not the mapping is added.
 
+    map({ "n", "x" }, "<LEADER>la", { copy = { "n", "<Leader>la", source = astromaps } }) -- desc = "LSP code action"
+    map("n", "<LEADER>lA", { copy = { "n", "<Leader>lA", source = astromaps } }) -- desc = "LSP source action"
+
+    map("n", "<LEADER>ll", { copy = { "n", "<Leader>ll", source = astromaps } }) -- desc = "LSP CodeLens refresh"
+    map("n", "<LEADER>lL", { copy = { "n", "<Leader>lL", source = astromaps } }) -- desc = "LSP CodeLens run"
+
+    map({ "n", "v" }, "<LEADER>lf", { copy = { "n", "<Leader>lf", source = astromaps } }) -- desc = "Format buffer"
+
+
+
+    map("n", "<LEADER>lR", { copy = { "n", "<Leader>lR", source = astromaps, desc = "List references" } })
+
+    map("n", "<LEADER>lr", { copy = { "n", "<Leader>lr", source = astromaps } }) -- desc = "Rename current symbol"
+
+    map("n", "<LEADER>lh", { copy = { "n", "<Leader>lh", source = astromaps } }) -- desc = "Signature help"
+
+    map("n", "<LEADER>lG", { copy = { "n", "<Leader>lG", source = astromaps, desc = "List workspace symbols" } })
+
+
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,
 }

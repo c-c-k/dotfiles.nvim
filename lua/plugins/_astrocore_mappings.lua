@@ -70,6 +70,14 @@ return {
     -- whereas `i_CTRL-K` can be convenient for other mappings.
     map("i", "<C-B>", "<C-K>", { desc = "Insert digraph" })
 
+    -- *** Insert mappings ***
+
+    map("n", "<LEADER>i", { desc = "Insert" })
+
+    -- **** Insert Docs/Annotations mappings ****
+
+    map("n", "<LEADER>id", { desc = "Insert docs/annotations" })
+
     -- *** Buffer mappings ***
 
     map("n", "<LEADER>b", { desc = "buffer actions" })

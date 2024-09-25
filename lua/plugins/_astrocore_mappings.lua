@@ -59,6 +59,11 @@ return {
     map({ "n", "x" }, "[P", "[p", { desc = "Paste indented before" })
     map({ "n", "x" }, "]P", "[p", { desc = "Paste indented before" })
 
+    -- Set `i_CTRL-B` as a replacement for `i_CTRL-K`
+    -- because it is unused by default and right next to `i_CTRL-V`
+    -- whereas `i_CTRL-K` can be convenient for other mappings.
+    map("i", "<C-B>", "<C-K>", { desc = "Insert digraph" })
+
     -- *** Buffer mappings ***
 
     map("n", "<LEADER>b", { desc = "buffer actions" })

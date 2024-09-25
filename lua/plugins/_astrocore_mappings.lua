@@ -291,6 +291,11 @@ return {
     -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })
 
+    -- *** Git actions ***
+    -- NOTE: most git action mappings are defined in `gitsigns-nvim`
+
+    map({ "n", "v" }, "<LEADER>g", { desc = "Git actions" })
+
     -- *** Find (picker/telescope) mappings ***
     -- NOTE: most find mappings are defined in `telescope`
 

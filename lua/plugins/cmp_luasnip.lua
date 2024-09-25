@@ -8,7 +8,27 @@
 -- nvim help: `:help luasnip.txt`
 
 return {
-  "hrsh7th/nvim-cmp",
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      local luasnip, cmp = require "luasnip", require "cmp"
+      if not opts.mappings then opts.mappings = {} end
+      opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
+        if vim.api.nvim_get_mode().mode ~= "c" and luasnip.expand_or_locally_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end, { "i", "s" })
+      opts.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
+        if vim.api.nvim_get_mode().mode ~= "c" and luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" })
+    end,
+  },
   "L3MON4D3/LuaSnip",
   {
     "AstroNvim/astrocore",

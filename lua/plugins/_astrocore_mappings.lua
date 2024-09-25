@@ -59,6 +59,10 @@ return {
     map({ "n", "x" }, "[P", "[p", { desc = "Paste indented before" })
     map({ "n", "x" }, "]P", "[p", { desc = "Paste indented before" })
 
+    -- change/delete to black hole register ("_)
+    map({ "n", "x" }, "<LEADER>c", '"_c', { desc = "black hole change" })
+    map({ "n", "x" }, "<LEADER>d", '"_d', { desc = "black hole delete" })
+
     -- Set `i_CTRL-B` as a replacement for `i_CTRL-K`
     -- because it is unused by default and right next to `i_CTRL-V`
     -- whereas `i_CTRL-K` can be convenient for other mappings.

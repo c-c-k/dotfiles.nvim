@@ -322,6 +322,11 @@ return {
     -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })
 
+    -- *** Find (picker/telescope) mappings ***
+    -- NOTE: most find mappings are defined in `telescope`
+
+    map("n", "<LEADER>f", { desc = "Find ..." })
+
     -- *** Top level Editor mappings ***
 
     map("n", "<LEADER>q", { desc = "Editor actions" })

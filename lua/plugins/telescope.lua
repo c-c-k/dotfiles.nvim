@@ -17,8 +17,6 @@ return {
 
       local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-      map("n", "<LEADER>f", { desc = "Find ..." })
-
       -- find buffer/in buffer
       map("n", "<LEADER>fb", { desc = "buffer(s)" })
       map("n", "<LEADER>fbb", { copy = { "n", "<Leader>fb", source = astromaps } }) -- desc = "Find buffers"

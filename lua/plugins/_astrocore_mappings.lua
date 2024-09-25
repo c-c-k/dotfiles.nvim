@@ -61,7 +61,9 @@ return {
 
     -- change/delete to black hole register ("_)
     map({ "n", "x" }, "<LEADER>c", '"_c', { desc = "black hole change" })
+    map({ "n", "x" }, "<LEADER>C", '"_C', { desc = "black hole Change" })
     map({ "n", "x" }, "<LEADER>d", '"_d', { desc = "black hole delete" })
+    map({ "n", "x" }, "<LEADER>D", '"_D', { desc = "black hole Delete" })
 
     -- Set `i_CTRL-B` as a replacement for `i_CTRL-K`
     -- because it is unused by default and right next to `i_CTRL-V`

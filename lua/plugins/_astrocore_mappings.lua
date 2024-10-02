@@ -323,6 +323,11 @@ return {
 
     map({ "n", "v" }, "<LEADER>r", { desc = "Run/Debug" })
 
+    -- *** Test mappings ***
+    -- NOTE: most Test mappings are defined in `neotest`
+
+    map("n", "<LEADER>t", { desc = "Test" })
+
     -- *** UI/UX toggle mappings ***
     -- NOTE: A lot of additional UI/UX toggle mappings are spread in other plugin configs
 

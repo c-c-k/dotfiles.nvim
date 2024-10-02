@@ -44,6 +44,7 @@ return {
     --  * Set width of current window to standard 80 half screen.
     --  * Disable conceal because nvim like vim tends to handle it badly anyway.
     opt.background = "dark"
+    opt.cmdheight = 1
     opt.conceallevel = 0
     opt.cursorline = true
     opt.winwidth = 80

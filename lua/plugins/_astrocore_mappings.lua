@@ -70,10 +70,11 @@ return {
     -- whereas `i_CTRL-K` can be convenient for other mappings.
     map("i", "<C-B>", "<C-K>", { desc = "Insert digraph" })
 
-    -- *** Surround mappings ***
+    -- *** Surround/quick Search mappings ***
     -- NOTE: Surround mappings are defined in `nvim-surround`
+    -- NOTE: quick Search mappings are defined in `leap-nvim`
 
-    map({ "n", "x" }, "<LEADER>s", { desc = "Surround" })
+    map({ "n", "x" }, "<LEADER>s", { desc = "Surround/quick Search" })
 
     -- *** Insert mappings ***
 

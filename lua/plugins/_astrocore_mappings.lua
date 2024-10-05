@@ -70,6 +70,11 @@ return {
     -- whereas `i_CTRL-K` can be convenient for other mappings.
     map("i", "<C-B>", "<C-K>", { desc = "Insert digraph" })
 
+    -- Set (<LEADER> + :/?) as replacement for (q + :/?) because `q` is remapped to close stuff in some contexts
+    map({ "n", "x" }, "<LEADER>;", "q:", { desc = "Ex-cmd win open" })
+    map({ "n", "x" }, "<LEADER>/", "q/", { desc = "search win open (forward)" })
+    map({ "n", "x" }, "<LEADER>?", "q?", { desc = "search win open (backword)" })
+
     -- Remap "s" to the "Surround/quick Search" mappings
     -- The vanilla "s" mapping is somewhat redundant as it's convenient enough to use "cl" instead
     -- Mapping "Surround/quick Search" directly to "s" doesn't work well because it doesn't trigger whichkey

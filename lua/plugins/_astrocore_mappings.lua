@@ -75,6 +75,10 @@ return {
     map({ "n", "x" }, "<LEADER>/", "q/", { desc = "search win open (forward)" })
     map({ "n", "x" }, "<LEADER>?", "q?", { desc = "search win open (backword)" })
 
+    -- Set c_<CTRL-N/P> to work like c_<UP/DOWN> because it's more useful
+    map("c", "<C-N>", "<DOWN>", { desc = "cmd history next" })
+    map("c", "<C-P>", "<UP>", { desc = "cmd history prev" })
+
     -- Remap "s" to the "Surround/quick Search" mappings
     -- The vanilla "s" mapping is somewhat redundant as it's convenient enough to use "cl" instead
     -- Mapping "Surround/quick Search" directly to "s" doesn't work well because it doesn't trigger whichkey

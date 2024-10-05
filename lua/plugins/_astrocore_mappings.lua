@@ -70,6 +70,11 @@ return {
     -- whereas `i_CTRL-K` can be convenient for other mappings.
     map("i", "<C-B>", "<C-K>", { desc = "Insert digraph" })
 
+    -- Remap "s" to the "Surround/quick Search" mappings
+    -- The vanilla "s" mapping is somewhat redundant as it's convenient enough to use "cl" instead
+    -- Mapping "Surround/quick Search" directly to "s" doesn't work well because it doesn't trigger whichkey
+    map({ "n", "x" }, "s", vim.g.usermapleader .. "s", { remap = true, desc = "Surround/quick Search" })
+
     -- *** Surround/quick Search mappings ***
     -- NOTE: Surround mappings are defined in `nvim-surround`
     -- NOTE: quick Search mappings are defined in `leap-nvim`

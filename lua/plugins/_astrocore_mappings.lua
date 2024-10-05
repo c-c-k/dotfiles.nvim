@@ -148,6 +148,14 @@ return {
 
     map({ "n", "x" }, "<LEADER>w", { desc = "window actions" })
 
+    -- Sync window
+    map(
+      { "n", "x" },
+      "<LEADER>wy",
+      function() require("cck.utils.win").sync_current_win() end,
+      { desc = "Sync window" }
+    )
+
     -- Navigate windows
     map({ "n", "x" }, "<LEADER>ww", "<CMD>wincmd w<CR>", { desc = "Go to window (alternate)" })
     map({ "n", "x" }, "<LEADER>wh", "<CMD>wincmd h<CR>", { desc = "Go to window (left)" })

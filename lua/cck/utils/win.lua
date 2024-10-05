@@ -94,4 +94,18 @@ function M.open_util_in_current_win(opts)
   end
 end
 
+--- Syncs current window (write+read+preserve folds)
+function M.sync_current_win()
+  if vim.o.buftype ~= "" or vim.fn.win_gettype() ~= "" then return end
+  local prev_viewoptions = vim.opt.viewoptions
+  local view_file = ("/dev/shm/view_%s.vim"):format(os.date "%s")
+  vim.opt.viewoptions = { "cursor", "folds" }
+  vim.cmd.mkview(view_file)
+  vim.cmd.write()
+  vim.cmd.edit()
+  vim.cmd.source(view_file)
+  os.remove(view_file)
+  vim.opt.viewoptions = prev_viewoptions
+end
+
 return M

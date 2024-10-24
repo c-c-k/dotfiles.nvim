@@ -284,6 +284,11 @@ return {
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })
 
+    -- AI (CodeCompanion)
+    -- NOTE: This is defined in the CodeCompanion plugin config
+
+    map({ "n", "v" }, "<LEADER>oa", { desc = "Open AI chat" })
+
     -- *** Yank/Put mappings ***
 
     -- Paste in insert/command/terminal modes (meant as enhanced `i_<C-R>`)
@@ -329,6 +334,11 @@ return {
 
     -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })
+
+    -- AI (CodeCompanion)
+    -- NOTE: This is defined in the CodeCompanion plugin config
+
+    map({ "n", "v" }, "<LEADER>a", { desc = "AI" })
 
     -- *** Git actions ***
     -- NOTE: most git action mappings are defined in `gitsigns-nvim`

@@ -76,17 +76,27 @@ return {
             callback = function(args)
               local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-              local files_set_cwd = function()
+              local mfscd = function(scope)
                 -- Works only if cursor is on the valid file system entry
                 local current_entry_path = MiniFiles.get_fs_entry().path
                 local current_dir = vim.fs.dirname(current_entry_path)
 
-                vim.fn.chdir(current_dir)
+                MiniFiles.close()
+                require("cck.utils.editor").schdir(current_dir, scope)
+                MiniFiles.open(MiniFiles.get_latest_path())
               end
 
               map("n", "H", "h", { desc = "Cursor left" })
               map("n", "L", "l", { desc = "Cursor right" })
-              map("n", "<LEADER>qpp", function() files_set_cwd() end, { desc = "Set PWD to current mini.files dir" })
+              map("n", "<LEADER>qppp", function() mfscd "a" end, { desc = "Set PWD to mini.files dir(active-scope)" })
+              map("n", "<LEADER>qppg", function() mfscd "g" end, { desc = "Set PWD to mini.files dir(global-scope)" })
+              map("n", "<LEADER>qppt", function() mfscd "t" end, { desc = "Set PWD to mini.files dir(tab-scope)" })
+              map("n", "<LEADER>qppw", function() mfscd "w" end, { desc = "Set PWD to mini.files dir(win-scope)" })
+              map("n", "<LEADER>qpr", { desc = "Disabled in mini.files window" })
+              map("n", "<LEADER>qprr", "", { desc = "Disabled in mini.files window" })
+              map("n", "<LEADER>qprg", "", { desc = "Disabled in mini.files window" })
+              map("n", "<LEADER>qprw", "", { desc = "Disabled in mini.files window" })
+              map("n", "<LEADER>qprt", "", { desc = "Disabled in mini.files window" })
               map("n", "<LEADER>wy", function() MiniFiles.synchronize() end, { desc = "sync mini.files actions" })
               map("n", "<LEADER>wx", function() MiniFiles.close() end, { desc = "Close mini.files popup" })
               map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })

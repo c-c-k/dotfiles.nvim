@@ -16,6 +16,7 @@ return {
       local astrocore = require "astrocore"
       local oil = require "oil"
       local uleader = vim.g.usermapleader
+      local schdir = require("cck.utils.editor").schdir
 
       return astrocore.extend_tbl(opts, {
         -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -90,10 +91,27 @@ return {
           -- ["_"] = "actions.open_cwd",
           -- ["`"] = "actions.cd",
           -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
-          [uleader .. "qpp"] = {
-            function() vim.fn.chdir(oil.get_current_dir()) end,
-            desc = "Set PWD to the current oil directory",
+          [uleader .. "qppp"] = {
+            function() schdir(oil.get_current_dir(), "a") end,
+            desc = "Set PWD to oil dir(active-scope)",
           },
+          [uleader .. "qppg"] = {
+            function() schdir(oil.get_current_dir(), "g") end,
+            desc = "Set PWD to oil dir(global-scope)",
+          },
+          [uleader .. "qppw"] = {
+            function() schdir(oil.get_current_dir(), "w") end,
+            desc = "Set PWD to oil dir(win-scope)",
+          },
+          [uleader .. "qppt"] = {
+            function() schdir(oil.get_current_dir(), "t") end,
+            desc = "Set PWD to oil dir(tab-scope)",
+          },
+          [uleader .. "qpr"] = { desc = "Disabled in mini.files window" },
+          [uleader .. "qprr"] = { "", desc = "Disabled in mini.files window" },
+          [uleader .. "qprg"] = { "", desc = "Disabled in mini.files window" },
+          [uleader .. "qprw"] = { "", desc = "Disabled in mini.files window" },
+          [uleader .. "qprt"] = { "", desc = "Disabled in mini.files window" },
           ["gs"] = "actions.change_sort",
           ["gx"] = "actions.open_external",
           ["g."] = "actions.toggle_hidden",

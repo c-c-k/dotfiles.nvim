@@ -5,6 +5,9 @@
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
 
+local schdir_buf_dir = require("cck.utils.editor").schdir_buf_dir
+local schdir_buf_root = require("cck.utils.editor").schdir_buf_root
+
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
@@ -395,16 +398,16 @@ return {
 
     -- Change PWD
     map("n", "<LEADER>qp", { desc = "Set PWD" })
-    map("n", "<LEADER>qpp", {
-      function() vim.fn.chdir(vim.fs.dirname(vim.fn.bufname())) end,
-      desc = "Set PWD to buffer dir",
-    })
-    map("n", "<LEADER>qpr", "<CMD>:AstroRoot<CR>", {
-      desc = "Set PWD to buffer root",
-    })
-    map("n", "<LEADER>qpg", { function() vim.cmd.cd(vim.fn.getcwd()) end, desc = "Set PWD scope to global" })
-    map("n", "<LEADER>qpt", { function() vim.cmd.tcd(vim.fn.getcwd()) end, desc = "Set PWD scope to tab" })
-    map("n", "<LEADER>qpl", { function() vim.cmd.lcd(vim.fn.getcwd()) end, desc = "Set PWD scope to local" })
+    map("n", "<LEADER>qpp", { desc = "Set PWD to buffer parent dir" })
+    map("n", "<LEADER>qpr", { desc = "Set PWD to buffer root dir" })
+    map("n", "<LEADER>qppp", function() schdir_buf_dir "a" end, { desc = "Set PWD to buffer parent dir(active-scope)" })
+    map("n", "<LEADER>qppg", function() schdir_buf_dir "g" end, { desc = "Set PWD to buffer parent dir(global-scope)" })
+    map("n", "<LEADER>qppt", function() schdir_buf_dir "t" end, { desc = "Set PWD to buffer parent dir(tab-scope)" })
+    map("n", "<LEADER>qppw", function() schdir_buf_dir "w" end, { desc = "Set PWD to buffer parent dir(win-scope)" })
+    map("n", "<LEADER>qprr", function() schdir_buf_root "a" end, { desc = "Set PWD to buffer root dir(active-scope)" })
+    map("n", "<LEADER>qprg", function() schdir_buf_root "g" end, { desc = "Set PWD to buffer root dir(global-scope)" })
+    map("n", "<LEADER>qprt", function() schdir_buf_root "t" end, { desc = "Set PWD to buffer root dir(tab-scope)" })
+    map("n", "<LEADER>qprw", function() schdir_buf_root "w" end, { desc = "Set PWD to buffer root dir(win-scope)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

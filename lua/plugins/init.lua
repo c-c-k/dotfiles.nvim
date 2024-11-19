@@ -69,6 +69,7 @@ return {
   -- # Programming, Languages, Filetypes
   require "plugins/bash",
   require "plugins/go",
+  require "plugins/godot",
   require "plugins/lua",
   require "plugins/markdown",
   require "plugins/python",

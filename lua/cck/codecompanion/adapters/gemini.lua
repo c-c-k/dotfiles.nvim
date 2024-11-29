@@ -1,10 +1,27 @@
-local _gemini_api_key = "cmd: secret-tool lookup API_KEY gemini"
+-- local get_gemini_api_key = "cmd: secret-tool lookup API_KEY gemini"
+local api_key
+local get_gemini_api_key = function()
+  -- Input via nvim inputsecret()
+  -- if not api_key then api_key = vim.fn.inputsecret "Please perform KeepassXC autotype for Gemini API key:" end
+
+  -- Input via KDialog
+  if not api_key then
+    local handle =
+      io.popen [[kdialog --password "Please perform KeepassXC autotype for Gemini API key:" --title "nvim codecompanion gemini api_key"]]
+    if handle then
+      api_key = handle:read("*a"):gsub("\n", "")
+      if api_key == "" then api_key = nil end
+    end
+  end
+
+  return api_key
+end
 
 local gemini_template = function()
   return require("codecompanion.adapters").extend("gemini", {
     name = "gemini_template",
     env = {
-      api_key = _gemini_api_key,
+      api_key = get_gemini_api_key,
     },
     schema = {
       model = {

@@ -10,7 +10,7 @@ local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
 map({ "n", "x" }, "<LEADER>gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" })
 map({ "n", "x" }, "<LEADER>gx", "<CMD>CCKGoToEx<CR>", { desc = "(CCK) goto external" })
--- map({ "n", "x" }, "gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" } )
--- map({ "n", "x" }, "gx", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto external" } )
+map({ "n", "x" }, "gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" })
+map({ "n", "x" }, "gx", "<CMD>CCKGoToEx<CR>", { desc = "(CCK) goto external" })
 
 astrocore.set_mappings(maps, { buffer = true })

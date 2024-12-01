@@ -53,7 +53,8 @@ return {
     "jay-babu/mason-null-ls.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "black", "isort" })
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "yapf", "isort", "flake8", "mypy" })
     end,
   },
   {
@@ -69,8 +70,10 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "basedpyright", "black", "isort", "debugpy" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(
+        opts.ensure_installed,
+        { "basedpyright", "yapf", "isort", "debugpy", "flake8", "mypy" }
+      )
     end,
   },
   {
@@ -131,7 +134,7 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        python = { "isort", "black" },
+        python = { "isort", "yapf" },
       },
     },
   },

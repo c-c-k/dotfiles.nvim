@@ -47,6 +47,10 @@ return {
     map({ "n", "x" }, "<UP>", "k", { desc = "Up (ignore wrap)" })
     map({ "n", "x" }, "<RIGHT>", "l", { desc = "Right (ignore wrap)" })
 
+    -- Set `gg` to go the begging of the first line because it's usually
+    -- whats needed
+    map({ "n", "x", "o" }, "gg", "gg0", { desc = "go to start of buffer" })
+
     -- Exchange ` and ' because the former is more often needed.
     map({ "n", "x" }, "`", "'", { desc = "Go to mark (col + row)" })
     map({ "n", "x" }, "'", "`", { desc = "Go to mark (col start)" })
@@ -92,6 +96,13 @@ return {
     -- NOTE: quick Search mappings are defined in `leap-nvim`
 
     map({ "n", "x" }, "<LEADER>s", { desc = "Surround/quick Search" })
+
+    -- *** Text Object mappings ***
+
+    map({ "x" }, "al", "gg0oG$", { desc = "All buffer" })
+    map({ "o" }, "al", ":normal val<CR>", { desc = "All buffer" })
+    map({ "x" }, "il", "^og_", { desc = "inner line" })
+    map({ "o" }, "il", ":normal vil<CR>", { desc = "inner line" })
 
     -- *** Insert mappings ***
 

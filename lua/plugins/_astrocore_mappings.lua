@@ -303,7 +303,27 @@ return {
 
     map({ "n", "v" }, "<LEADER>oa", { desc = "Open AI chat" })
 
-    -- *** Yank/Put mappings ***
+    -- *** Yank/Paste/Register mappings ***
+
+    -- Prepend register
+    map({ "n", "x" }, "<LEADER>''", '"', { desc = 'alternate " (choose register)' })
+    map({ "n", "x" }, "<LEADER>'c", '"+', { desc = "prepend clipboard register" })
+    map({ "n", "x" }, "<LEADER>'s", '"*', { desc = "prepend selection register" })
+    map({ "n", "x" }, "<LEADER>'e", '"=', { desc = "prepend expression register" })
+    map({ "n", "x" }, "<LEADER>'b", '"%', { desc = "prepend current buffer name register" })
+    map(
+      { "n", "x" },
+      "<LEADER>'d",
+      "\"=expand('%:h')<CR>",
+      { desc = "prepend current buffer dir (expression) register" }
+    )
+    map({ "n", "x" }, "<LEADER>'B", '"#', { desc = "prepend alternate buffer name register" })
+    map(
+      { "n", "x" },
+      "<LEADER>'D",
+      "\"=expand('#:h')<CR>",
+      { desc = "prepend alternate buffer dir (expression) register" }
+    )
 
     -- Paste in insert/command/terminal modes (meant as enhanced `i_<C-R>`)
     map({ "!", "n", "t", "x" }, "<M-p>", "", { desc = "Paste ..." })

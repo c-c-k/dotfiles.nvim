@@ -80,6 +80,10 @@ return {
     -- Disable hlsearch because it tends to be annoying.
     opt.hlsearch = false
 
+    -- Disable modlines because I don't use them and they can be a security issue
+    opt.modeline = false
+    opt.modelines = 0
+
     -- Spellchecking
     --  * Place `spellfile` inside `~/.vim/spell` as it might need to be shared
     --    between vim, nvim and different distributions of them.

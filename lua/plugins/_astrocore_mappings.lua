@@ -126,8 +126,8 @@ return {
     map("n", "<LEADER>bj", { copy = { "n", "<LEADER>bh" } })
     map("n", "<LEADER>bk", { copy = { "n", "]b", source = astromaps } }) -- desc = "Next buffer"
     map("n", "<LEADER>bl", { copy = { "n", "<LEADER>bk" } })
-    map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER>bj" } })
-    map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER>bk" } })
+    -- map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER>bj" } })
+    -- map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER>bk" } })
 
     -- Open/Close (enew) buffers
     map("n", "<LEADER>bx", { desc = "Close buffer(s)" })
@@ -232,8 +232,10 @@ return {
     map({ "n", "x" }, "<LEADER><TAB>j", "<CMD>tabprevious<CR>", { desc = "Go to tab (previous)" })
     map({ "n", "x" }, "<LEADER><TAB>k", "<CMD>tabnext<CR>", { desc = "Go to tab (next)" })
     map({ "n", "x" }, "<LEADER><TAB>l", "<CMD>tablast<CR>", { desc = "Go to tab (last)" })
-    map({ "n", "i", "v", "t" }, "<M-r>", { copy = { "n", "<LEADER><TAB>j" } })
-    map({ "n", "i", "v", "t" }, "<M-t>", { copy = { "n", "<LEADER><TAB>k" } })
+    map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER><TAB>h" } })
+    map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER><TAB>j" } })
+    map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER><TAB>k" } })
+    map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER><TAB>l" } })
 
     -- Open/Close new tab
     map("n", "<LEADER>o<TAB>", { desc = "Open new tab" })

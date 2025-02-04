@@ -86,6 +86,9 @@ return {
     map("c", "<C-N>", "<DOWN>", { desc = "cmd history next" })
     map("c", "<C-P>", "<UP>", { desc = "cmd history prev" })
 
+    -- Set <M-CR> as raw <CR> alternate to use raw <CR> when mappings added to <CR> are unwanted
+    map({ "n", "i", "o", "v", "t" }, "<M-CR>", "<CR>", { desc = "No remap <CR>" })
+
     -- Remap "s" to the "Surround/quick Search" mappings
     -- The vanilla "s" mapping is somewhat redundant as it's convenient enough to use "cl" instead
     -- Mapping "Surround/quick Search" directly to "s" doesn't work well because it doesn't trigger whichkey

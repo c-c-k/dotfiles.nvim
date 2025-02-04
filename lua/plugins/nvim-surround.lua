@@ -25,17 +25,17 @@ local spec_nvim_surround__astrocore = {
     local astrocore = require "astrocore"
     local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
-    map("i", "<C-S>s", "<Plug>(nvim-surround-insert)", { desc = "Surround (insert)" })
-    map("i", "<C-S>l", "<Plug>(nvim-surround-insert-line)", { desc = "Surround (insert-line)" })
-    map("n", "<LEADER>sa", "<Plug>(nvim-surround-normal)", { desc = "Surround (motion)" })
-    map("n", "<LEADER>sA", "<Plug>(nvim-surround-normal-line)", { desc = "Surround (motion-line-above,below)" })
-    map("n", "<LEADER>sl", "<Plug>(nvim-surround-normal-cur)", { desc = "Surround (cur-line-start,end)" })
-    map("n", "<LEADER>sL", "<Plug>(nvim-surround-normal-cur-line)", { desc = "Surround (cur-line-above,below)" })
-    map("x", "<LEADER>sa", "<Plug>(nvim-surround-visual)", { desc = "Surround (visual)" })
-    map("x", "<LEADER>sl", "<Plug>(nvim-surround-visual-line)", { desc = "Surround (visual-line)" })
-    map({ "n", "x" }, "<LEADER>sd", "<Plug>(nvim-surround-delete)", { desc = "Surround (delete)" })
-    map({ "n", "x" }, "<LEADER>sc", "<Plug>(nvim-surround-change)", { desc = "Surround (change)" })
-    map({ "n", "x" }, "<LEADER>sC", "<Plug>(nvim-surround-change-line)", { desc = "Surround (change-line)" })
+    map("i", "<A-s>s", "<Plug>(nvim-surround-insert)", { desc = "Surround (insert)" })
+    map("i", "<A-s>l", "<Plug>(nvim-surround-insert-line)", { desc = "Surround (insert-line)" })
+    map("n", "<A-s>a", "<Plug>(nvim-surround-normal)", { desc = "Surround (motion)" })
+    map("n", "<A-s>A", "<Plug>(nvim-surround-normal-line)", { desc = "Surround (motion-line-above,below)" })
+    map("n", "<A-s>l", "<Plug>(nvim-surround-normal-cur)", { desc = "Surround (cur-line-start,end)" })
+    map("n", "<A-s>L", "<Plug>(nvim-surround-normal-cur-line)", { desc = "Surround (cur-line-above,below)" })
+    map("x", "<A-s>a", "<Plug>(nvim-surround-visual)", { desc = "Surround (visual)" })
+    map("x", "<A-s>l", "<Plug>(nvim-surround-visual-line)", { desc = "Surround (visual-line)" })
+    map({ "n", "x" }, "<A-s>d", "<Plug>(nvim-surround-delete)", { desc = "Surround (delete)" })
+    map({ "n", "x" }, "<A-s>c", "<Plug>(nvim-surround-change)", { desc = "Surround (change)" })
+    map({ "n", "x" }, "<A-s>C", "<Plug>(nvim-surround-change-line)", { desc = "Surround (change-line)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

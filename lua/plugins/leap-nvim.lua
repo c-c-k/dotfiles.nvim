@@ -8,10 +8,10 @@ local spec_leap_nvim = {
     safe_labels = "",
     labels = [==[sfnjklhodweimbuyvrgtaqpcxz;'/[]SFNJKLHODWEIMBUYVRGTAQPCXZ:"?{}]==],
     keys = {
-      next_target = "<enter>",
-      prev_target = "<backspace>",
-      next_group = "<space>",
-      prev_group = "<backspace>",
+      next_target = { "<TAB>", "<ENTER>" },
+      prev_target = "<S-TAB>",
+      next_group = "<SPACE>",
+      prev_group = "BACKSPACE",
     },
   },
 }
@@ -44,14 +44,22 @@ local spec_leap_nvim__astrocore = {
     local astrocore = require "astrocore"
     local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
-    map({ "n", "x", "o" }, "<LEADER>ss", "<Plug>(leap)", { desc = "Leap bi-directional" })
-    map({ "n", "x", "o" }, "<LEADER>sf", "<Plug>(leap-forward)", { desc = "Leap forward" })
-    map({ "n", "x", "o" }, "<LEADER>sF", "<Plug>(leap-forward-till)", { desc = "Leap forward" })
-    map({ "n", "x", "o" }, "<LEADER>sb", "<Plug>(leap-backward)", { desc = "Leap backward" })
-    map({ "n", "x", "o" }, "<LEADER>sB", "<Plug>(leap-backward-till)", { desc = "Leap backward" })
-    map("n", "<LEADER>sw", "<Plug>(leap-from-window)", { desc = "Leap from window" })
-    map("n", "<LEADER>sS", "<Plug>(leap-anywhere)", { desc = "Leap from window" })
-    map("n", "<LEADER>sr", function() require("leap.remote").action() end, { desc = "Leap remote action" })
+    map({ "n", "x", "o" }, "<A-s>s", "<Plug>(leap)", { desc = "Leap in window" })
+    map({ "n", "x", "o" }, "<A-s>f", "<Plug>(leap-forward)", { desc = "Leap forward" })
+    map({ "n", "x", "o" }, "<A-s>t", "<Plug>(leap-forward-till)", { desc = "Leap forward till" })
+    map({ "n", "x", "o" }, "<A-s>F", "<Plug>(leap-backward)", { desc = "Leap backward" })
+    map({ "n", "x", "o" }, "<A-s>T", "<Plug>(leap-backward-till)", { desc = "Leap backward till" })
+    map({ "t", "i" }, "<A-s>s", "<C-\\><C-N><Plug>(leap)", { copy = { "n", "<A-s>s" } })
+    map({ "t", "i" }, "<A-s>f", "<C-\\><C-N><Plug>(leap-forward)", { copy = { "n", "<A-s>f" } })
+    map({ "t", "i" }, "<A-s>t", "<C-\\><C-N><Plug>(leap-forward-till)", { copy = { "n", "<A-s>t" } })
+    map({ "t", "i" }, "<A-s>F", "<C-\\><C-N><Plug>(leap-backward)", { copy = { "n", "<A-s>F" } })
+    map({ "t", "i" }, "<A-s>T", "<C-\\><C-N><Plug>(leap-backward-till)", { copy = { "n", "<A-s>T" } })
+    map({ "n", "x", "o", "t", "i" }, "<A-s>w", "<C-\\><C-N><Plug>(leap-from-window)", { desc = "Leap from window" })
+    map({ "n", "x", "o", "t", "i" }, "<A-s>o", "<C-\\><C-N><Plug>(leap-anywhere)", { desc = "Leap omniwhere" })
+    map({ "n", "x", "o", "t", "i" }, "<A-s>r", function()
+      vim.api.nvim_input "<C-\\><C-N>"
+      require("leap.remote").action()
+    end, { desc = "Leap remote action" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
     opts.autocmds = astrocore.extend_tbl(opts.autocmds, autocmds)

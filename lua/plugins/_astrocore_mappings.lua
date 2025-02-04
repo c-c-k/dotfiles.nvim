@@ -85,13 +85,14 @@ local spec_astrocore = {
     -- Remap "s" to the "Surround/quick Search" mappings
     -- The vanilla "s" mapping is somewhat redundant as it's convenient enough to use "cl" instead
     -- Mapping "Surround/quick Search" directly to "s" doesn't work well because it doesn't trigger whichkey
-    map({ "n", "x" }, "s", vim.g.usermapleader .. "s", { remap = true, desc = "Surround/quick Search" })
+    map({ "n", "x", "o" }, "s", "<A-s>", { remap = true, desc = "Surround/Leap" })
 
     -- *** Surround/quick Search mappings ***
     -- NOTE: Surround mappings are defined in `nvim-surround`
-    -- NOTE: quick Search mappings are defined in `leap-nvim`
+    -- NOTE: Leap mappings are defined in `leap-nvim`
 
-    map({ "n", "x" }, "<LEADER>s", { desc = "Surround/quick Search" })
+    map({ "n", "x", "i" }, "<A-s>", { desc = "Surround/Leap" })
+    map({ "o", "t" }, "<A-s>", { desc = "Leap" })
 
     -- *** Text Object mappings ***
 

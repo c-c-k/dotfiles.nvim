@@ -25,7 +25,7 @@ local gemini_template = function()
     },
     schema = {
       model = {
-        default = "gemini-1.5-pro",
+        default = "gemini-2.0-pro-exp-02-05",
       },
     },
   })

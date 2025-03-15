@@ -26,6 +26,7 @@ local gemini_template = function()
     schema = {
       model = {
         default = "gemini-2.0-pro-exp-02-05",
+        -- choices = { "gemini-2.0-flash-thinking-exp-01-21" },
       },
     },
   })
@@ -33,21 +34,27 @@ end
 
 local M = {}
 
-M.gemini_codecompanion = function()
-  return require("codecompanion.adapters").extend(gemini_template, {
-    name = "gemini_codecompanion",
-  })
-end
+-- M.gemini_codecompanion = function()
+--   return require("codecompanion.adapters").extend(gemini_template, {
+--     name = "gemini_codecompanion",
+--   })
+-- end
+--
+-- M.gemini_gem_code_assistant = function()
+--   return require("codecompanion.adapters").extend(gemini_template, {
+--     name = "gemini_gem_code_assistant",
+--   })
+-- end
+--
+-- M.gemini_general = function()
+--   return require("codecompanion.adapters").extend(gemini_template, {
+--     name = "gemini_general",
+--   })
+-- end
 
-M.gemini_gem_code_assistant = function()
+M.gemini = function()
   return require("codecompanion.adapters").extend(gemini_template, {
-    name = "gemini_gem_code_assistant",
-  })
-end
-
-M.gemini_general = function()
-  return require("codecompanion.adapters").extend(gemini_template, {
-    name = "gemini_general",
+    name = "gemini",
   })
 end
 

@@ -39,13 +39,13 @@ return {
       adapters = require "cck.codecompanion.adapters",
       strategies = {
         chat = {
-          adapter = "gemini_codecompanion",
+          adapter = "gemini",
         },
         inline = {
-          adapter = "gemini_codecompanion",
+          adapter = "gemini",
         },
         agent = {
-          adapter = "gemini_codecompanion",
+          adapter = "gemini",
         },
       },
       display = {
@@ -63,22 +63,22 @@ return {
         },
       },
       opts = {
-        ---@param opts table
-        ---@return string
-        system_prompt = function(opts)
-          local system_prompts = require "cck.codecompanion.system_prompts"
-          if system_prompts[opts.adapter.name] then return system_prompts[opts.adapter.name] end
-
-          vim.notify(
-            ("system prompt not found for '%s' in %s"):format(
-              vim.inspect(opts),
-              vim.inspect(vim.tbl_keys(system_prompts))
-            ),
-            vim.log.levels.WARN,
-            {}
-          )
-          return [[You will return the message "Error: System prompt missing, double check nvim codecompanion plugin config file and $NVIM_CODECOMPANION_MODEL_PARAMS !" to all queries]]
-        end,
+        -- ---@param opts table
+        -- ---@return string
+        -- system_prompt = function(opts)
+        --   local system_prompts = require "cck.codecompanion.system_prompts"
+        --   if system_prompts[opts.adapter.name] then return system_prompts[opts.adapter.name] end
+        --
+        --   vim.notify(
+        --     ("system prompt not found for '%s' in %s"):format(
+        --       vim.inspect(opts),
+        --       vim.inspect(vim.tbl_keys(system_prompts))
+        --     ),
+        --     vim.log.levels.WARN,
+        --     {}
+        --   )
+        --   return [[You will return the message "Error: System prompt missing, double check nvim codecompanion plugin config file and $NVIM_CODECOMPANION_MODEL_PARAMS !" to all queries]]
+        -- end,
       },
     },
   },

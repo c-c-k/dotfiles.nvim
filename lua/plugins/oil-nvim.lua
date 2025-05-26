@@ -9,8 +9,8 @@ return {
   {
     "stevearc/oil.nvim",
     -- Optional dependencies
-    -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
-    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+    dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
     -- config = function(_, opts)
     opts = function(_, opts)
       local astrocore = require "astrocore"

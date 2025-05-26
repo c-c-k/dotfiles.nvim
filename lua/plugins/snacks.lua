@@ -1,0 +1,35 @@
+-- ===========
+-- SNACKS NVIM
+-- ===========
+
+-- repo url: <https://github.com/folke/snacks.nvim>
+-- nvim help: `:help snacks.nvim.txt`
+
+---@type LazySpec
+return {
+  {
+    "folke/snacks.nvim",
+    ---@param opts snacks.Config
+    opts = function(_, opts)
+      local astrocore = require "astrocore"
+      return astrocore.extend_tbl(opts, {
+        -- PLACEHOLDER
+      })
+    end,
+    specs = {
+      {
+        "AstroNvim/astrocore",
+        ---@param opts AstroCoreOpts
+        opts = function(_, opts)
+          local astrocore = require "astrocore"
+          local astromaps = opts.mappings
+          local maps, map = require("cck.utils.config").get_astrocore_mapper()
+
+          -- PLACEHOLDER
+
+          opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+        end,
+      },
+    },
+  },
+}

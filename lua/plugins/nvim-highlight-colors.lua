@@ -1,12 +1,12 @@
--- ==============
--- NVIM-COLORIZER
--- ==============
+-- =====================
+-- NVIM-HIGHLIGHT-COLORS
+-- =====================
 
--- repo url: <https://github.com/NvChad/nvim-colorizer.lua>
--- nvim help: `:help colorizer`
+-- repo url: <https://github.com/brenoprata10/nvim-highlight-colors>
+-- nvim help: `:help nvim-highlight-colors`
 
 return {
-  "NvChad/nvim-colorizer.lua",
+  "brenoprata10/nvim-highlight-colors",
   {
     "AstroNvim/astrocore",
     ---@param opts AstroCoreOpts

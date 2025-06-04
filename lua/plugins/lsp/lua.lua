@@ -1,10 +1,21 @@
+local is_aarch64 = vim.loop.os_uname().machine == "aarch64"
+
 return {
   {
     "AstroNvim/astrolsp",
     optional = true,
     opts = {
       config = {
-        lua_ls = { settings = { Lua = { hint = { enable = true, arrayIndex = "Disable" } } } },
+        lua_ls = {
+          settings = {
+            Lua = {
+              hint = {
+                enable = true,
+                arrayIndex = "Disable",
+              },
+            },
+          },
+        },
       },
     },
   },
@@ -18,44 +29,15 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "lua_ls" })
-    end,
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "stylua", "selene" })
-    end,
-  },
-  {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "lua-language-server", "stylua", "selene" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+        "lua-language-server",
+        "stylua",
+        (not is_aarch64 and "selene") or nil,
+      })
     end,
-  },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-      },
-    },
-  },
-  {
-    "mfussenegger/nvim-lint",
-    optional = true,
-    opts = {
-      linters_by_ft = {
-        lua = { "selene" },
-      },
-    },
   },
   {
     "nvim-neotest/neotest",

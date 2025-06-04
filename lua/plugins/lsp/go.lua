@@ -23,7 +23,6 @@ return {
                 useany = true,
               },
               codelenses = {
-                gc_details = true, -- Show a code lens toggling the display of gc's choices.
                 generate = true, -- show the `go generate` lens.
                 regenerate_cgo = true,
                 test = true,
@@ -66,24 +65,6 @@ return {
       end
     end,
   },
-
-  {
-    "jay-babu/mason-null-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed,
-        { "gomodifytags", "iferr", "impl", "gotests", "goimports" }
-      )
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "gopls" })
-    end,
-  },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
@@ -100,8 +81,7 @@ return {
     dependencies = {
       "mfussenegger/nvim-dap",
       {
-        "jay-babu/mason-nvim-dap.nvim",
-        optional = true,
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
         opts = function(_, opts)
           opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "delve" })
         end,
@@ -133,15 +113,6 @@ return {
       if not opts.adapters then opts.adapters = {} end
       table.insert(opts.adapters, require "neotest-go"(require("astrocore").plugin_opts "neotest-go"))
     end,
-  },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        go = { "goimports", lsp_format = "last" },
-      },
-    },
   },
   {
     "echasnovski/mini.icons",

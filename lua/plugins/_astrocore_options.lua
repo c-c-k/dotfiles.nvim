@@ -1,6 +1,7 @@
--- =============================
--- ASTRONVIM ASTROCORE (OPTIONS)
--- =============================
+-- ===================
+-- ASTRONVIM ASTROCORE
+-- (OPTIONS)
+-- ===================
 
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
@@ -8,18 +9,16 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
-  ---@param opts AstroCoreOpts
+  ---@param opts AstroCoreConfig
   opts = function(_, opts)
-    -- easily configure vim options and globals
-    -- first key should be same as `vim.<first_key>` e.g. "options.g" for "vim.g"
     local options = { g = {}, opt = {} }
 
-    -- === set global `vim.g` settings here ===
+    -- === global variables (`vim.g`) ===
     local g = options.g
 
     g.python3_host_prog = vim.fn.stdpath "config" .. "/.venv/bin/python3"
 
-    -- === set `opt` style options here ===
+    -- === `opt` style options (`vim.opt`) ===
     local opt = options.opt
 
     -- Autoformatting

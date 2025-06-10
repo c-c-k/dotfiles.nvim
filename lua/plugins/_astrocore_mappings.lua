@@ -1,6 +1,7 @@
--- ==================================
--- ASTRONVIM ASTROCORE (KEY MAPPINGS)
--- ==================================
+-- ===================
+-- ASTRONVIM ASTROCORE
+-- (KEY MAPPINGS)
+-- ===================
 
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
@@ -11,7 +12,7 @@ local schdir_buf_root = require("cck.utils.editor").schdir_buf_root
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
-  ---@param opts AstroCoreOpts
+  ---@param opts AstroCoreConfig
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
@@ -423,6 +424,8 @@ return {
     map("n", "<LEADER>uS", { copy = { "n", "<Leader>uS", source = astromaps } }) -- desc = "Toggle conceal"
     map("n", "<LEADER>ut", { copy = { "n", "<Leader>ut", source = astromaps } }) -- desc = "Toggle tabline"
     map("n", "<LEADER>uu", { copy = { "n", "<Leader>uu", source = astromaps } }) -- desc = "Toggle URL highlight"
+    map("n", "<LEADER>uv", { copy = { "n", "<Leader>uv", source = astromaps } }) -- desc = "Toggle virtual text"
+    map("n", "<LEADER>uV", { copy = { "n", "<Leader>uV", source = astromaps } }) -- desc = "Toggle virtual lines"
     map("n", "<LEADER>uw", { copy = { "n", "<Leader>uw", source = astromaps } }) -- desc = "Toggle wrap"
     map("n", "<LEADER>uy", { copy = { "n", "<Leader>uy", source = astromaps } }) -- desc = "Toggle syntax highlight"
 

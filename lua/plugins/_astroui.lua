@@ -1,6 +1,8 @@
--- =============================================================
--- ASTRONVIM ASTROUI (COLOSCHEME, HIGHLIGHTS, ICONS, TEXT_ICONS)
--- =============================================================
+-- =================================
+-- ASTRONVIM ASTROUI
+-- (FOLDING, HIGHLIGHTS,
+-- ICONS, TEXT_ICONS, LAZYGIT)
+-- =================================
 
 -- repo url: <https://github.com/AstroNvim/astroui>
 -- nvim help: `:help astroui`
@@ -8,130 +10,23 @@
 ---@type LazySpec
 return {
   "AstroNvim/astroui",
-  lazy = true,
-  ---@type AstroUIOpts
-  opts = {
-    -- Colorscheme set on startup, a string that is used with `:colorscheme astrodark`
-    -- colorscheme = "astrotheme",
-
-    -- Override highlights in any colorscheme
-    -- Keys can be:
-    --   `init`: table of highlights to apply to all colorschemes
-    --   `<colorscheme_name>` override highlights in the colorscheme with name: `<colorscheme_name>`
-    -- highlights = {
-    --   -- this table overrides highlights in all colorschemes
-    --   init = {
-    --     Normal = { bg = "#000000" },
-    --   },
-    --   -- a table of overrides/changes when applying astrotheme
-    --   astrotheme = {
-    --     Normal = { bg = "#000000" },
-    --   },
-    -- },
-    -- A table of icons in the UI using NERD fonts
-    -- icons = {
-    --   ActiveLSP = "",
-    --   ActiveTS = "",
-    --   ArrowLeft = "",
-    --   ArrowRight = "",
-    --   Bookmarks = "",
-    --   BufferClose = "󰅖",
-    --   DapBreakpoint = "",
-    --   DapBreakpointCondition = "",
-    --   DapBreakpointRejected = "",
-    --   DapLogPoint = "󰛿",
-    --   DapStopped = "󰁕",
-    --   Debugger = "",
-    --   DefaultFile = "󰈙",
-    --   Diagnostic = "󰒡",
-    --   DiagnosticError = "",
-    --   DiagnosticHint = "󰌵",
-    --   DiagnosticInfo = "󰋼",
-    --   DiagnosticWarn = "",
-    --   Ellipsis = "…",
-    --   Environment = "",
-    --   FileNew = "",
-    --   FileModified = "",
-    --   FileReadOnly = "",
-    --   FoldClosed = "",
-    --   FoldOpened = "",
-    --   FoldSeparator = " ",
-    --   FolderClosed = "",
-    --   FolderEmpty = "",
-    --   FolderOpen = "",
-    --   Git = "󰊢",
-    --   GitAdd = "",
-    --   GitBranch = "",
-    --   GitChange = "",
-    --   GitConflict = "",
-    --   GitDelete = "",
-    --   GitIgnored = "◌",
-    --   GitRenamed = "➜",
-    --   GitSign = "▎",
-    --   GitStaged = "✓",
-    --   GitUnstaged = "✗",
-    --   GitUntracked = "★",
-    --   List = "",
-    --   LSPLoading1 = "",
-    --   LSPLoading2 = "󰀚",
-    --   LSPLoading3 = "",
-    --   MacroRecording = "",
-    --   Package = "󰏖",
-    --   Paste = "󰅌",
-    --   Refresh = "",
-    --   Search = "",
-    --   Selected = "❯",
-    --   Session = "󱂬",
-    --   Sort = "󰒺",
-    --   Spellcheck = "󰓆",
-    --   Tab = "󰓩",
-    --   TabClose = "󰅙",
-    --   Terminal = "",
-    --   Window = "",
-    --   WordFile = "󰈭",
-    -- },
-    -- A table of only text "icons" used when icons are disabled
-    -- text_icons = {
-    --   ActiveLSP = "LSP:",
-    --   ArrowLeft = "<",
-    --   ArrowRight = ">",
-    --   BufferClose = "x",
-    --   DapBreakpoint = "B",
-    --   DapBreakpointCondition = "C",
-    --   DapBreakpointRejected = "R",
-    --   DapLogPoint = "L",
-    --   DapStopped = ">",
-    --   DefaultFile = "[F]",
-    --   DiagnosticError = "X",
-    --   DiagnosticHint = "?",
-    --   DiagnosticInfo = "i",
-    --   DiagnosticWarn = "!",
-    --   Ellipsis = "...",
-    --   Environment = "Env:",
-    --   FileModified = "*",
-    --   FileReadOnly = "[lock]",
-    --   FoldClosed = "+",
-    --   FoldOpened = "-",
-    --   FoldSeparator = " ",
-    --   FolderClosed = "[D]",
-    --   FolderEmpty = "[E]",
-    --   FolderOpen = "[O]",
-    --   GitAdd = "[+]",
-    --   GitChange = "[/]",
-    --   GitConflict = "[!]",
-    --   GitDelete = "[-]",
-    --   GitIgnored = "[I]",
-    --   GitRenamed = "[R]",
-    --   GitSign = "|",
-    --   GitStaged = "[S]",
-    --   GitUnstaged = "[U]",
-    --   GitUntracked = "[?]",
-    --   MacroRecording = "Recording:",
-    --   Paste = "[PASTE]",
-    --   Search = "?",
-    --   Selected = "*",
-    --   Spellcheck = "[SPELL]",
-    --   TabClose = "X",
-    -- },
-  },
+  opts = function(_, opts)
+    return require("astrocore").extend_tbl(opts, {
+      folding = {
+        -- PLACEHOLDER
+      },
+      highlights = {
+        -- PLACEHOLDER
+      },
+      icons = {
+        -- PLACEHOLDER
+      },
+      text_icons = {
+        -- PLACEHOLDER
+      },
+      lazygit = {
+        -- PLACEHOLDER
+      },
+    } --[[@as AstroUIConfig]])
+  end,
 }

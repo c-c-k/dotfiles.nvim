@@ -29,6 +29,9 @@ return {
           -- Snacks.indent mappings
           map("n", "<LEADER>u|", { copy = { "n", "<Leader>u|", source = astromaps } }) -- desc = "Toggle indent guides"
 
+          -- Snacks.notifier mappings
+          map("n", "<LEADER>uD", { copy = { "n", "<Leader>uD", source = astromaps } }) -- desc = "Dismiss notifications"
+
           opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
         end,
       },

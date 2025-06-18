@@ -384,8 +384,8 @@ return {
 
     map({ "n", "v" }, "<LEADER>g", { desc = "Git actions" })
 
-    -- *** Find (picker/telescope) mappings ***
-    -- NOTE: most find mappings are defined in `telescope`
+    -- *** Find/Picker mappings ***
+    -- NOTE: most find mappings are defined in `snacks`
 
     map("n", "<LEADER>f", { desc = "Find ..." })
 

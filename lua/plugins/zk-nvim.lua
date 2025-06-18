@@ -47,9 +47,9 @@ return {
     },
   },
   opts = {
-    -- can be "telescope", "fzf", "fzf_lua", "minipick", or "select" (`vim.ui.select`)
-    -- it's recommended to use "telescope", "fzf", "fzf_lua", or "minipick"
-    picker = "telescope",
+    -- Can be "telescope", "fzf", "fzf_lua", "minipick", "snacks_picker",
+    -- or select" (`vim.ui.select`).
+    picker = "snacks_picker",
 
     lsp = {
       -- `config` is passed to `vim.lsp.start_client(config)`

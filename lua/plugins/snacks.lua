@@ -26,7 +26,8 @@ return {
           local astromaps = opts.mappings
           local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-          -- PLACEHOLDER
+          -- Snacks.indent mappings
+          map("n", "<LEADER>u|", { copy = { "n", "<Leader>u|", source = astromaps } }) -- desc = "Toggle indent guides"
 
           opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
         end,

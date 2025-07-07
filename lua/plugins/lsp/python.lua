@@ -6,6 +6,8 @@ return {
     opts = {
       ---@diagnostic disable: missing-fields
       config = {
+        ruff = { on_attach = function(client) client.server_capabilities.hoverProvider = false end },
+
         basedpyright = {
           before_init = function(_, c)
             if not c.settings then c.settings = {} end
@@ -46,10 +48,8 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed = require("astrocore").list_insert_unique(
-        opts.ensure_installed,
-        { "basedpyright", "yapf", "isort", "debugpy", "flake8", "mypy" }
-      )
+      opts.ensure_installed =
+        require("astrocore").list_insert_unique(opts.ensure_installed, { "basedpyright", "ruff", "debugpy", "mypy" })
     end,
   },
   {

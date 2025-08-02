@@ -8,27 +8,23 @@ return {
       config = {
         ruff = { on_attach = function(client) client.server_capabilities.hoverProvider = false end },
 
-        basedpyright = {
-          before_init = function(_, c)
-            if not c.settings then c.settings = {} end
-            if not c.settings.python then c.settings.python = {} end
-            c.settings.python.pythonPath = vim.fn.exepath "python"
-          end,
+        pylsp = {
           settings = {
-            basedpyright = {
-              analysis = {
-                typeCheckingMode = "basic",
-                autoImportCompletions = true,
-                diagnosticSeverityOverrides = {
-                  reportUnusedImport = "information",
-                  reportUnusedFunction = "information",
-                  reportUnusedVariable = "information",
-                  reportGeneralTypeIssues = "none",
-                  reportOptionalMemberAccess = "none",
-                  reportOptionalSubscript = "none",
-                  reportPrivateImportUsage = "none",
-                },
+            pylsp = {
+              plugins = {
+                autopep8 = { enabled = false },
+                flake8 = { enabled = false },
+                mccabe = { enabled = false },
+                -- preload = { enabled = false },
+                pycodestyle = { enabled = false },
+                pydocstyle = { enabled = false },
+                pyflakes = { enabled = false },
+                pylint = { enabled = false },
+                rope_autoimport = { enabled = false },
+                rope_completion = { enabled = false },
+                yapf = { enabled = false },
               },
+              signature = { formatter = "ruff" },
             },
           },
         },
@@ -48,8 +44,12 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     optional = true,
     opts = function(_, opts)
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "basedpyright", "ruff", "debugpy", "mypy" })
+      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+        "debugpy",
+        "mypy",
+        "python-lsp-server",
+        "ruff",
+      })
     end,
   },
   {

@@ -2,12 +2,12 @@
 -- MINI.FILES
 -- ==========
 
--- repo url: <https://github.com/echasnovski/mini.files>
+-- repo url: <https://github.com/nvim-mini/mini.files>
 -- nvim help: `:help mini.files`
 
 return {
   {
-    "echasnovski/mini.files",
+    "nvim-mini/mini.files",
     opts = {
       -- Customization of shown content
       content = {

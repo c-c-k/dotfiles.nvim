@@ -107,6 +107,20 @@ return {
       opts = function(_, opts) opts.library = require("astrocore").extend_tbl(opts.library or {}, { "neotest" }) end,
     },
   },
+  opts = function(_, opts)
+    opts.floating = { border = "rounded" }
+    if vim.g.icons_enabled == false then
+      opts.icons = {
+        failed = "X",
+        notify = "!",
+        passed = "O",
+        running = "*",
+        skipped = "-",
+        unknown = "?",
+        watching = "W",
+      }
+    end
+  end,
   config = function(_, opts)
     vim.diagnostic.config({
       virtual_text = {

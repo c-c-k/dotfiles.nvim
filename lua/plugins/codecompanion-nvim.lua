@@ -34,7 +34,7 @@ return {
       },
     },
     opts = {
-      adapters = require "cck.codecompanion.adapters",
+      adapters = { http = require "cck.codecompanion.adapters" },
       strategies = {
         chat = {
           adapter = "gemini",

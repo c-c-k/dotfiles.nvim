@@ -10,7 +10,7 @@ return {
   dependencies = {
     "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
-    -- "antoinemadec/FixCursorHold.nvim",
+    -- "antoinemadec/FixCursorHold.nvim", -- redundant as of NVIM v0.8.0
     "nvim-treesitter/nvim-treesitter",
     {
       "AstroNvim/astrocore",

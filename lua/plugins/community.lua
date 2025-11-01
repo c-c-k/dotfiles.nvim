@@ -3,7 +3,7 @@
 -- ========================
 
 -- repo url: <https://github.com/AstroNvim/astrocommunity>
--- nvim help: ``
+-- nvim help: `:help astrocommunity-setup`
 
 -- AstroCommunity: import any community modules here
 -- We import this file in `lazy_setup.lua` before the `plugins/` folder.

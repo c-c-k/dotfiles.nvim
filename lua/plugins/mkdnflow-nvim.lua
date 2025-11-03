@@ -1,10 +1,3 @@
--- =============
--- MKDNFLOW.NVIM
--- =============
-
--- repo url: <https://github.com/jakewvincent/mkdnflow.nvim>
--- nvim help: `:help Mkdnflow-help`
-
 ---@type LazyPluginSpec
 local spec_mkdnflow_nvim = {
   "jakewvincent/mkdnflow.nvim",

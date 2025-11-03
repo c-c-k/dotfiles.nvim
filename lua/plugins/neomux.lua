@@ -1,14 +1,6 @@
--- ======
--- NEOMUX
--- ======
-
--- repo url: <https://github.com/nikvdp/neomux>
--- nvim help: `:help neomux`
-
 ---@type LazyPluginSpec
 local spec_neomux = {
   "nikvdp/neomux",
-  lazy = false,
   init = function()
     vim.fn.serverstart "nvim.neomux"
     vim.g["neomux_start_term_map"] = false

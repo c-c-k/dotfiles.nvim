@@ -1,10 +1,3 @@
--- ========
--- HEIRLINE
--- ========
-
--- repo url: <https://github.com/rebelot/heirline.nvim>
--- nvim help: `:help heirline-about`
-
 ---@type LazyPluginSpec
 local spec_heirline_nvim = {
   "rebelot/heirline.nvim",

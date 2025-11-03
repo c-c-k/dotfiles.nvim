@@ -1,10 +1,3 @@
--- =========
--- CCK-Notes
--- =========
-
--- repo url: <>
--- nvim help: ``
-
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",

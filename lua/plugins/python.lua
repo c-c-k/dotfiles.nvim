@@ -20,7 +20,6 @@ local lsp_settings_pylsp = {
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
-  optional = true,
   ---@type AstroLSPOpts
   opts = {
     ---@diagnostic disable: missing-fields
@@ -38,7 +37,6 @@ local spec_astrolsp = {
 ---@type LazyPluginSpec
 local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
-  optional = true,
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "python", "toml" })
@@ -49,7 +47,6 @@ local spec_nvim_treesitter = {
 ---@type LazyPluginSpec
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  optional = true,
   opts = function(_, opts)
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
       "debugpy",
@@ -88,7 +85,6 @@ local spec_nvim_dap_python = {
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
-  optional = true,
   opts = function(_, opts)
     local neotest_python_opts = require "neotest-python"(require("astrocore").plugin_opts "neotest-python")
     if neotest_python_opts ~= nil then
@@ -108,7 +104,6 @@ local spec_neotest__neotest_python = {
 ---@type LazyPluginSpec
 local spec_neogen = {
   "danymat/neogen",
-  optional = true,
   opts = function(_, opts)
     opts.languages = require("astrocore").extend_tbl(opts.languages or {}, {
       -- python = { template = { annotation_convention = "google_docstrings" } },
@@ -121,7 +116,6 @@ local spec_neogen = {
 ---@type LazyPluginSpec
 local spec_venv_selector_nvim = {
   "linux-cultist/venv-selector.nvim",
-  enabled = vim.fn.executable "fd" == 1 or vim.fn.executable "fdfind" == 1 or vim.fn.executable "fd-find" == 1,
   cmd = "VenvSelect",
   opts = {},
 }

@@ -1,10 +1,3 @@
--- =======
--- LAZYDEV
--- =======
-
--- repo url: <https://github.com/folke/lazydev.nvim>
--- nvim help: `:help lazydev.nvim.txt`
-
 ---@type LazyPluginSpec
 local spec_lazydev_nvim = {
   "folke/lazydev.nvim",

@@ -1,11 +1,3 @@
--- ============================================
--- ASTRONVIM ASTROCORE
--- (COMMANDS, AUTOCOMMANDS, FILETYPES, ON_KEYS)
--- ============================================
-
--- repo url: <https://github.com/AstroNvim/astrocore>
--- nvim help: `:help astrocore`
-
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",

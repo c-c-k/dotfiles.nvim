@@ -1,16 +1,6 @@
--- ======================
--- NVIM-DAP + NVIM-DAP-UI
--- ======================
-
--- repo url: <https://github.com/mfussenegger/nvim-dap>
--- repo url: <https://github.com/rcarriga/nvim-dap-ui>
--- nvim help: `:help dap.txt`
--- nvim help: `:help nvim-dap-ui`
-
 ---@type LazyPluginSpec
 local spec_nvim_dap = {
   "mfussenegger/nvim-dap",
-  lazy = true,
 }
 
 ---@type LazyPluginSpec
@@ -43,7 +33,6 @@ local spec_nvim_dap__astrocore = {
 ---@type LazyPluginSpec
 local spec_nvim_dap_ui = {
   "rcarriga/nvim-dap-ui",
-  lazy = true,
   dependencies = { "mfussenegger/nvim-dap" },
 }
 

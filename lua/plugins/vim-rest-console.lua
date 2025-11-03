@@ -1,10 +1,3 @@
--- ================
--- VIM-REST-CONSOLE
--- ================
-
--- repo url: <https://github.com/diepm/vim-rest-console>
--- nvim help: `:help vim-rest-console`
-
 ---@type LazyPluginSpec
 local spec_vim_rest_console = {
   "diepm/vim-rest-console",

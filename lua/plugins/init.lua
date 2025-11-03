@@ -1,4 +1,7 @@
 return {
+  -- # Plugins Manifest
+  require "plugins/manifest",
+
   -- # AstroNvim framework
   require "plugins/astronvim",
   require "plugins/community",

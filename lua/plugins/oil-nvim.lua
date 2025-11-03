@@ -1,10 +1,3 @@
--- ========
--- OIL.NVIM
--- ========
-
--- repo url: <https://github.com/stevearc/oil.nvim>
--- nvim help: `:help oil.nvim`
-
 ---@type LazyPluginSpec
 local spec_oil_nvim = {
   "stevearc/oil.nvim",

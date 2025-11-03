@@ -1,10 +1,3 @@
--- ===========
--- Copilot Vim
--- ===========
-
--- repo url: <https://github.com/github/copilot.vim>
--- nvim help: `:help copilot`
-
 ---@type LazyPluginSpec
 local spec_copilot_vim = {
   "github/copilot.vim",

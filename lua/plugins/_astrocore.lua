@@ -1,16 +1,6 @@
--- ==============================================================
--- ASTRONVIM ASTROCORE
--- (FEATURES, DIAGNOSTICS, GIT_WORKTREES, ROOTER, SESSIONS)
--- ==============================================================
-
--- repo url: <https://github.com/AstroNvim/astrocore>
--- nvim help: `:help astrocore`
-
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",
-  lazy = false,
-  priority = 10000,
   ---@type AstroCoreOpts
   opts = {
     diagnostics = {

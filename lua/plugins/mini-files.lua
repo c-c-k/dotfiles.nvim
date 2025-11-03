@@ -1,10 +1,3 @@
--- ==========
--- MINI.FILES
--- ==========
-
--- repo url: <https://github.com/nvim-mini/mini.files>
--- nvim help: `:help mini.files`
-
 ---@type LazyPluginSpec
 local spec_mini_files = {
   "nvim-mini/mini.files",

@@ -1,10 +1,3 @@
--- =======
--- NEOGEN
--- =======
-
--- repo url: <https://github.com/danymat/neogen>
--- nvim help: `:help neogen`
-
 ---@type LazyPluginSpec
 local spec_neogen = {
   "danymat/neogen",

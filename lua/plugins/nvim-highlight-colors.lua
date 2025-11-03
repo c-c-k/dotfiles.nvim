@@ -1,10 +1,3 @@
--- =====================
--- NVIM-HIGHLIGHT-COLORS
--- =====================
-
--- repo url: <https://github.com/brenoprata10/nvim-highlight-colors>
--- nvim help: `:help nvim-highlight-colors`
-
 ---@type LazyPluginSpec
 local spec_nvim_highlight_colors = {
   "brenoprata10/nvim-highlight-colors",

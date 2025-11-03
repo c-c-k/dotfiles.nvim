@@ -1,14 +1,7 @@
--- =============
--- MARKDOWN-NVIM
--- =============
-
--- repo url: <https://github.com/tadmccorkle/markdown.nvim>
--- nvim help: `:help markdown.nvim`
-
 ---@type LazyPluginSpec
 local spec_markdown_nvim = {
   "tadmccorkle/markdown.nvim",
-  ft = "markdown", -- or 'event = "VeryLazy"'
+  ft = "markdown",
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local uleader = vim.g.usermapleader

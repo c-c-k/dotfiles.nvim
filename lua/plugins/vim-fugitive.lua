@@ -1,10 +1,3 @@
--- ============
--- VIM-FUGITIVE
--- ============
-
--- repo url: <https://github.com/tpope/vim-fugitive>
--- nvim help: `:help fugitive`
-
 ---@type LazyPluginSpec
 local spec_vim_fugitive = {
   "tpope/vim-fugitive",

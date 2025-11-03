@@ -1,10 +1,3 @@
--- ==============
--- VIM-ILLUMINATE
--- ==============
-
--- repo url: <https://github.com/RRethy/vim-illuminate>
--- nvim help: `:help illuminate.txt`
-
 ---@type LazyPluginSpec
 local spec_vim_illuminate = {
   "RRethy/vim-illuminate",

@@ -1,10 +1,3 @@
--- =======
--- LUASNIP
--- =======
-
--- repo url: <https://github.com/L3MON4D3/LuaSnip>
--- nvim help: `:help luasnip.txt`
-
 ---@type LazyPluginSpec
 local spec_luasnip = {
   -- PLACEHOLDER

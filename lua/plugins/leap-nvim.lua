@@ -1,10 +1,3 @@
--- =========
--- LEAP.NVIM
--- =========
-
--- repo url: <https://github.com/ggandor/leap.nvim>
--- nvim help: `:help leat.txt`
-
 ---@type LazyPluginSpec
 local spec_leap_nvim = {
   "ggandor/leap.nvim",

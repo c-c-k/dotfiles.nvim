@@ -1,10 +1,3 @@
--- =========
--- BLINK.CMP
--- =========
-
--- repo url: <https://github.com/saghen/blink.cmp>
--- nvim help: `:help blink`
-
 ---@type LazyPluginSpec
 local spec_blink_cmp = {
   "saghen/blink.cmp",

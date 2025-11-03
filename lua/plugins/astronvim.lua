@@ -1,14 +1,6 @@
--- ===========================================================================
--- ASTRONVIM
--- ===========================================================================
-
--- repo url: <https://github.com/AstroNvim/AstroNvim>
--- nvim help: `:help astronvim-preview`
-
 ---@type LazyPluginSpec
 local spec_astronvim = {
   "AstroNvim/AstroNvim",
-  version = "^5", -- Remove version tracking to elect for nightly AstroNvim
   import = "astronvim.plugins",
   opts = { -- AstroNvim options must be set here with the `import` key
     --  * `vim.g.mapleader` is set to two spaces while a single space

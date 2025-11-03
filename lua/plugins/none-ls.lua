@@ -1,10 +1,3 @@
--- =======
--- NONE-LS
--- =======
-
--- repo url: <https://github.com/nvimtools/none-ls.nvim>
--- nvim help: `:help null-ls.txt`
-
 ---@type LazyPluginSpec
 local spec_none_ls_nvim = {
   "nvimtools/none-ls.nvim",

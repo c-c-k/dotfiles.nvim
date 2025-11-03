@@ -45,7 +45,6 @@ local lsp_settings_gopls = {
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
-  optional = true,
   ---@type AstroLSPOpts
   opts = {
     ---@diagnostic disable-next-line: missing-fields
@@ -60,7 +59,6 @@ local spec_astrolsp = {
 ---@type LazyPluginSpec
 local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
-  optional = true,
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
       opts.ensure_installed =
@@ -72,7 +70,6 @@ local spec_nvim_treesitter = {
 ---@type LazyPluginSpec
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  optional = true,
   opts = function(_, opts)
     opts.ensure_installed = require("astrocore").list_insert_unique(
       opts.ensure_installed,
@@ -108,7 +105,6 @@ local spec_nvim_dap_go__mason_tool_installer = {
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
-  optional = true,
   dependencies = { "fredrikaverpil/neotest-golang" },
   opts = function(_, opts)
     if not opts.adapters then opts.adapters = {} end
@@ -119,7 +115,6 @@ local spec_neotest = {
 ---@type LazyPluginSpec
 local spec_mini_icons = {
   "nvim-mini/mini.icons",
-  optional = true,
   opts = {
     file = {
       [".go-version"] = { glyph = "", hl = "MiniIconsBlue" },
@@ -134,12 +129,6 @@ local spec_mini_icons = {
 local spec_gopher_nvim = {
   "olexsmir/gopher.nvim",
   ft = "go",
-  build = function()
-    if not require("lazy.core.config").spec.plugins["mason.nvim"] then
-      vim.print "Installing go dependencies..."
-      vim.cmd.GoInstallDeps()
-    end
-  end,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",

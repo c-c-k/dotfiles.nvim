@@ -12,7 +12,6 @@ local lsp_settings_lua_ls = {
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
-  optional = true,
   opts = {
     config = {
       lua_ls = {
@@ -25,7 +24,6 @@ local spec_astrolsp = {
 ---@type LazyPluginSpec
 local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
-  optional = true,
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "lua", "luap" })
@@ -36,7 +34,6 @@ local spec_nvim_treesitter = {
 ---@type LazyPluginSpec
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  optional = true,
   opts = function(_, opts)
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
       "lua-language-server",
@@ -49,7 +46,6 @@ local spec_mason_tool_installer_nvim = {
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
-  optional = true,
   dependencies = { "nvim-neotest/neotest-plenary", config = function() end },
   opts = function(_, opts)
     if not opts.adapters then opts.adapters = {} end
@@ -60,7 +56,6 @@ local spec_neotest = {
 ---@type LazyPluginSpec
 local spec_neogen = {
   "danymat/neogen",
-  optional = true,
   opts = function(_, opts)
     opts.languages = require("astrocore").extend_tbl(opts.languages or {}, {
       -- lua = { template = { annotation_convention = "ldoc" } },

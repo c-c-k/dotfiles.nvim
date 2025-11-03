@@ -1,11 +1,3 @@
--- =================
--- ASTRONVIM ASTROUI
--- (STATUS)
--- =================
-
--- repo url: <https://github.com/AstroNvim/astroui>
--- nvim help: `:help astroui`
-
 ---@type LazyPluginSpec
 local spec_astroui = {
   "AstroNvim/astroui",

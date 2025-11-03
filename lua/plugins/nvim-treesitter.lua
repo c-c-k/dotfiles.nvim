@@ -1,10 +1,3 @@
--- ===============
--- NVIM TREESITTER
--- ===============
-
--- repo url: <https://github.com/nvim-treesitter/nvim-treesitter>
--- nvim help: `:help nvim-treesitter`
-
 ---@type LazyPluginSpec
 local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",

@@ -1,10 +1,3 @@
--- ==============
--- RESESSION.NVIM
--- ==============
-
--- repo url: <https://github.com/stevearc/resession.nvim.git>
--- nvim help: `:help resession.nvim`
-
 ---@type LazyPluginSpec
 local spec_resession_nvim = {
   "stevearc/resession.nvim",

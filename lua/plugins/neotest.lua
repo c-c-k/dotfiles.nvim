@@ -1,10 +1,3 @@
--- =======
--- NEOTEST
--- =======
-
--- repo url: <https://github.com/nvim-neotest/neotest>
--- nvim help: `:help neotest.txt`
-
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
@@ -135,7 +128,6 @@ local spec_neotest__astrocore = {
 ---@type LazyPluginSpec
 local spec_neotest__lazydev_nvim = {
   "folke/lazydev.nvim",
-  optonal = true,
   opts = function(_, opts) opts.library = require("astrocore").extend_tbl(opts.library or {}, { "neotest" }) end,
 }
 

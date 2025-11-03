@@ -1,10 +1,3 @@
--- ==============
--- NVIM-LSPCONFIG
--- ==============
-
--- repo url: <https://github.com/neovim/nvim-lspconfig>
--- nvim help: `:help lspconfig`
-
 ---@type LazyPluginSpec
 local spec_nvim_lspconfig = {
   "neovim/nvim-lspconfig",

@@ -1,11 +1,3 @@
--- ===================
--- ASTRONVIM ASTROCORE
--- (KEY MAPPINGS)
--- ===================
-
--- repo url: <https://github.com/AstroNvim/astrocore>
--- nvim help: `:help astrocore`
-
 local schdir_buf_dir = require("cck.utils.editor").schdir_buf_dir
 local schdir_buf_root = require("cck.utils.editor").schdir_buf_root
 

@@ -1,10 +1,3 @@
--- ===========
--- SNACKS NVIM
--- ===========
-
--- repo url: <https://github.com/folke/snacks.nvim>
--- nvim help: `:help snacks.nvim.txt`
-
 ---@type LazyPluginSpec
 local spec_snacks_nvim = {
   "folke/snacks.nvim",

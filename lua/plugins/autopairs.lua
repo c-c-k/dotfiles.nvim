@@ -1,10 +1,3 @@
--- ==============
--- NVIM-AUTOPAIRS
--- ==============
-
--- repo url: <https://github.com/windwp/nvim-autopairs>
--- nvim help: `:help nvim-autopairs.txt`
-
 ---@type LazyPluginSpec
 local spec_nvim_autopairs = {
   "windwp/nvim-autopairs",

@@ -1,15 +1,6 @@
--- =============
--- NVIM-SURROUND
--- =============
-
--- repo url: <https://github.com/kylechui/nvim-surround>
--- nvim help: `:help nvim-surround.txt`
-
 ---@type LazyPluginSpec
 local spec_nvim_surround = {
   "kylechui/nvim-surround",
-  version = "*", -- Use for stability; omit to use `main` branch for the latest features
-  event = "VeryLazy",
   opts = {
     keymaps = {
       insert = false, -- "<C-g>s"

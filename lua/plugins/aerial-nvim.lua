@@ -1,10 +1,3 @@
--- ===========
--- AERIAL-NVIM
--- ===========
-
--- repo url: <https://github.com/stevearc/aerial.nvim>
--- nvim help: `:help aerial`
-
 ---@type LazyPluginSpec
 local spec_aerial_nvim = {
   "stevearc/aerial.nvim",

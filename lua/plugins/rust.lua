@@ -19,7 +19,6 @@ local lsp_settings_rust_analyzer = {
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
-  optional = true,
   ---@type AstroLSPOpts
   opts = {
     ---@diagnostic disable: missing-fields
@@ -34,7 +33,6 @@ local spec_astrolsp = {
 ---@type LazyPluginSpec
 local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
-  optional = true,
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
       opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "rust" })
@@ -45,7 +43,6 @@ local spec_nvim_treesitter = {
 ---@type LazyPluginSpec
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  optional = true,
   opts = function(_, opts)
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb" })
   end,
@@ -54,7 +51,6 @@ local spec_mason_tool_installer_nvim = {
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
-  optional = true,
   opts = function(_, opts)
     if not opts.adapters then opts.adapters = {} end
     local rustaceanvim_avail, rustaceanvim = pcall(require, "rustaceanvim.neotest")
@@ -83,7 +79,6 @@ local spec_crates_nvim = {
 ---@type LazyPluginSpec
 local spec_rustaceanvim = {
   "mrcjkb/rustaceanvim",
-  version = vim.fn.has "nvim-0.11" == 1 and "^6" or "^5",
   ft = "rust",
   opts = function()
     local adapter
@@ -135,7 +130,6 @@ local spec_rustaceanvim = {
 ---@type LazyPluginSpec
 local spec_rustaceanvim__astrolsp = {
   "AstroNvim/astrolsp",
-  optional = true,
   ---@type AstroLSPOpts
   opts = {
     handlers = { rust_analyzer = false }, -- disable setup of `rust_analyzer`

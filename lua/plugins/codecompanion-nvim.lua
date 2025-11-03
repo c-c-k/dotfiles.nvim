@@ -1,10 +1,3 @@
--- ===================
--- CODE COMPANION NVIM
--- ===================
-
--- repo url: <https://github.com/olimorris/codecompanion.nvim>
--- nvim help: `:help codecompanion.txt`
-
 ---@type LazyPluginSpec
 local spec_codecompanion_nvim = {
   "olimorris/codecompanion.nvim",

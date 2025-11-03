@@ -1,10 +1,3 @@
--- =============
--- GITSIGNS.NVIM
--- =============
-
--- repo url: <https://github.com/lewis6991/gitsigns.nvim>
--- nvim help: `:help gitsigns`
-
 ---@type LazyPluginSpec
 local spec_gitsigns_nvim = {
   "lewis6991/gitsigns.nvim",

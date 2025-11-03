@@ -1,11 +1,3 @@
--- ============
--- COLORSCHEMES
--- ============
-
--- NVIM-BASE16
--- repo url: <https://github.com/RRethy/base16-nvim>
--- nvim help: `:help base16`
-
 -- SOLARIZED-OSAKA
 -- repo url: <https://github.com/craftzdog/solarized-osaka.nvim>
 -- nvim help: `:help solarized-osaka.nvim.txt`
@@ -19,13 +11,11 @@ local spec_astroui = {
 ---@type LazyPluginSpec
 local spec_base16_nvim = {
   "RRethy/base16-nvim",
-  lazy = true,
 }
 
 ---@type LazyPluginSpec
 local spec_solarized_osaka_nvim = {
   "craftzdog/solarized-osaka.nvim",
-  lazy = true,
   opts = {
     styles = {
       sidebars = "transparent",

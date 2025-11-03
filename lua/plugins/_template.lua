@@ -1,10 +1,3 @@
--- ===========================================================================
---
--- ===========================================================================
-
--- repo url: <>
--- nvim help: `:help `
-
 -- == PLUGIN DISABLED ==
 -- MEMO: This is a new plugin config file that needs to be double-checked before enabling.
 if true then return {} end

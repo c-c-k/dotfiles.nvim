@@ -6,10 +6,10 @@
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astrocore = {
   "AstroNvim/astrocore",
-  ---@param opts AstroCoreConfig
+  ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local options = { g = {}, opt = {} }
 
@@ -92,4 +92,9 @@ return {
 
     opts.options = require("astrocore").extend_tbl(opts.options, options)
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astrocore,
 }

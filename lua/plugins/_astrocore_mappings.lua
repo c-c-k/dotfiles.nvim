@@ -9,10 +9,10 @@
 local schdir_buf_dir = require("cck.utils.editor").schdir_buf_dir
 local schdir_buf_root = require("cck.utils.editor").schdir_buf_root
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astrocore = {
   "AstroNvim/astrocore",
-  ---@param opts AstroCoreConfig
+  ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
@@ -457,4 +457,9 @@ return {
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astrocore,
 }

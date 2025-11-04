@@ -5,6 +5,12 @@
 -- repo url: <https://github.com/godlygeek/tabular>
 -- nvim help: `:help tabular`
 
-return {
+---@type LazyPluginSpec
+local spec_tabular = {
   "godlygeek/tabular",
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_tabular,
 }

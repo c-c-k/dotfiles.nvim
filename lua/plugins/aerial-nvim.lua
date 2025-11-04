@@ -5,20 +5,32 @@
 -- repo url: <https://github.com/stevearc/aerial.nvim>
 -- nvim help: `:help aerial`
 
-return {
+---@type LazyPluginSpec
+local spec_aerial_nvim = {
   "stevearc/aerial.nvim",
-  {
-    "AstroNvim/astrocore",
-    ---@param opts AstroCoreOpts
-    opts = function(_, opts)
-      local astrocore = require "astrocore"
-      local astromaps = opts.mappings
+}
 
-      local maps, map = require("cck.utils.config").get_astrocore_mapper()
+---@type LazyPluginSpec
+local spec_aerial_nvim__astrocore = {
+  "AstroNvim/astrocore",
+  ---@param opts AstroCoreOpts
+  opts = function(_, opts)
+    local astrocore = require "astrocore"
+    local astromaps = opts.mappings
 
-      map("n", "<LEADER>ls", { copy = { "n", "<Leader>lS", source = astromaps } }) -- desc = "Symbols outline"
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-      opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    end,
-  },
+    map("n", "<LEADER>ls", { copy = { "n", "<Leader>lS", source = astromaps } }) -- desc = "Symbols outline"
+
+    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+  end,
+}
+
+spec_aerial_nvim.specs = {
+  spec_aerial_nvim__astrocore,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_aerial_nvim,
 }

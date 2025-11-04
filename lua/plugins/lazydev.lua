@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/folke/lazydev.nvim>
 -- nvim help: `:help lazydev.nvim.txt`
 
-return {
+---@type LazyPluginSpec
+local spec_lazydev_nvim = {
   "folke/lazydev.nvim",
   ft = "lua",
   cmd = "LazyDev",
@@ -38,4 +39,9 @@ return {
     --   return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
     -- end
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_lazydev_nvim,
 }

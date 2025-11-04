@@ -5,10 +5,10 @@
 -- repo url: <https://github.com/AstroNvim/astrolsp>
 -- nvim help: `:help astrolsp`
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astrolsp = {
   "AstroNvim/astrolsp",
-  ---@param opts AstroLSPConfig
+  ---@param opts AstroLSPOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
@@ -43,4 +43,9 @@ return {
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astrolsp,
 }

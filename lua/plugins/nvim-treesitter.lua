@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/nvim-treesitter/nvim-treesitter>
 -- nvim help: `:help nvim-treesitter`
 
-return {
+---@type LazyPluginSpec
+local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = {
     incremental_selection = {
@@ -18,4 +19,9 @@ return {
       },
     },
   },
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_nvim_treesitter,
 }

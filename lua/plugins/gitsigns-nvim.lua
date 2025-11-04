@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/lewis6991/gitsigns.nvim>
 -- nvim help: `:help gitsigns`
 
-return {
+---@type LazyPluginSpec
+local spec_gitsigns_nvim = {
   "lewis6991/gitsigns.nvim",
   opts = function(_, opts)
     local astro_on_attach = opts.on_attach
@@ -47,4 +48,9 @@ return {
       astrocore.set_mappings(maps, { buffer = bufnr })
     end
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_gitsigns_nvim,
 }

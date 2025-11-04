@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/jakewvincent/mkdnflow.nvim>
 -- nvim help: `:help Mkdnflow-help`
 
-return {
+---@type LazyPluginSpec
+local spec_mkdnflow_nvim = {
   "jakewvincent/mkdnflow.nvim",
   opts = {
     modules = {
@@ -156,4 +157,9 @@ return {
       MkdnUnfoldSection = false, -- orig: {'n', '<leader>F'}
     },
   },
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_mkdnflow_nvim,
 }

@@ -6,10 +6,10 @@
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astrocore = {
   "AstroNvim/astrocore",
-  ---@type AstroCoreConfig
+  ---@type AstroCoreOpts
   opts = {
     autocmds = {
       -- PLACEHOLDER
@@ -33,4 +33,9 @@ return {
       },
     },
   },
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astrocore,
 }

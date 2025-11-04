@@ -5,20 +5,32 @@
 -- repo url: <https://github.com/windwp/nvim-autopairs>
 -- nvim help: `:help nvim-autopairs.txt`
 
-return {
+---@type LazyPluginSpec
+local spec_nvim_autopairs = {
   "windwp/nvim-autopairs",
-  {
-    "AstroNvim/astrocore",
-    ---@param opts AstroCoreOpts
-    opts = function(_, opts)
-      local astrocore = require "astrocore"
-      local astromaps = opts.mappings
+}
 
-      local maps, map = require("cck.utils.config").get_astrocore_mapper()
+---@type LazyPluginSpec
+local spec_nvim_autopairs__astrocore = {
+  "AstroNvim/astrocore",
+  ---@param opts AstroCoreOpts
+  opts = function(_, opts)
+    local astrocore = require "astrocore"
+    local astromaps = opts.mappings
 
-      map("n", "<LEADER>ua", { copy = { "n", "<Leader>ua", source = astromaps } }) -- desc = "Toggle autopairs"
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-      opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    end,
-  },
+    map("n", "<LEADER>ua", { copy = { "n", "<Leader>ua", source = astromaps } }) -- desc = "Toggle autopairs"
+
+    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+  end,
+}
+
+spec_nvim_autopairs.specs = {
+  spec_nvim_autopairs__astrocore,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_nvim_autopairs,
 }

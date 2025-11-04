@@ -5,8 +5,8 @@
 -- repo url: <https://github.com/AstroNvim/AstroNvim>
 -- nvim help: `:help astronvim-preview`
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astronvim = {
   "AstroNvim/AstroNvim",
   version = "^5", -- Remove version tracking to elect for nightly AstroNvim
   import = "astronvim.plugins",
@@ -20,4 +20,9 @@ return {
     pin_plugins = nil, -- Default will pin plugins when tracking `version` of AstroNvim, set to true/false to override
     update_notifications = true, -- Enable/disable notification about running `:Lazy update` twice to update pinned plugins
   },
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astronvim,
 }

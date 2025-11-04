@@ -5,282 +5,292 @@
 -- repo url: <https://github.com/stevearc/oil.nvim>
 -- nvim help: `:help oil.nvim`
 
-return {
-  {
-    "stevearc/oil.nvim",
-    -- Optional dependencies
-    dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    -- config = function(_, opts)
-    opts = function(_, opts)
-      local astrocore = require "astrocore"
-      local oil = require "oil"
-      local uleader = vim.g.usermapleader
-      local schdir = require("cck.utils.editor").schdir
+---@type LazyPluginSpec
+local spec_oil_nvim = {
+  "stevearc/oil.nvim",
+  dependencies = {
+    "nvim-mini/mini.icons",
+    -- "nvim-tree/nvim-web-devicons" -- use if prefer nvim-web-devicons
+  },
+  opts = function(_, opts)
+    local astrocore = require "astrocore"
+    local oil = require "oil"
+    local uleader = vim.g.usermapleader
+    local schdir = require("cck.utils.editor").schdir
 
-      return astrocore.extend_tbl(opts, {
-        -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
-        -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
-        default_file_explorer = true,
-        -- Id is automatically added at the beginning, and name at the end
-        -- See :help oil-columns
-        columns = {
-          "icon",
-          "permissions",
-          "size",
-          "mtime",
+    return astrocore.extend_tbl(opts, {
+      -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+      -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
+      default_file_explorer = true,
+      -- Id is automatically added at the beginning, and name at the end
+      -- See :help oil-columns
+      columns = {
+        "icon",
+        "permissions",
+        "size",
+        "mtime",
+      },
+      -- Buffer-local options to use for oil buffers
+      buf_options = {
+        buflisted = false,
+        bufhidden = "hide",
+      },
+      -- Window-local options to use for oil buffers
+      win_options = {
+        wrap = false,
+        signcolumn = "no",
+        cursorcolumn = false,
+        foldcolumn = "0",
+        spell = false,
+        list = false,
+        conceallevel = 3,
+        concealcursor = "nvic",
+      },
+      -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
+      delete_to_trash = false,
+      -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
+      skip_confirm_for_simple_edits = false,
+      -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+      -- (:help prompt_save_on_select_new_entry)
+      prompt_save_on_select_new_entry = true,
+      -- Oil will automatically delete hidden buffers after this delay
+      -- You can set the delay to false to disable cleanup entirely
+      -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
+      cleanup_delay_ms = 2000,
+      lsp_file_methods = {
+        -- Time to wait for LSP file operations to complete before skipping
+        timeout_ms = 1000,
+        -- Set to true to autosave buffers that are updated with LSP willRenameFiles
+        -- Set to "unmodified" to only save unmodified buffers
+        autosave_changes = false,
+      },
+      -- Constrain the cursor to the editable parts of the oil buffer
+      -- Set to `false` to disable, or "name" to keep it on the file names
+      constrain_cursor = "editable",
+      -- Set to true to watch the filesystem for changes and reload oil
+      watch_for_changes = false,
+      -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+      -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
+      -- Additionally, if it is a string that matches "actions.<name>",
+      -- it will use the mapping at require("oil.actions").<name>
+      -- Set to `false` to remove a keymap
+      -- See :help oil-actions for a list of all available actions
+      keymaps = {
+        ["g?"] = "actions.show_help",
+        ["<CR>"] = "actions.select",
+        -- ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+        -- ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+        -- ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
+        -- ["<C-p>"] = "actions.preview",
+        [uleader .. "ov"] = "actions.preview",
+        -- ["<C-c>"] = "actions.close",
+        [uleader .. "xx"] = "actions.close",
+        -- ["<C-l>"] = "actions.refresh",
+        -- ["-"] = "actions.parent",
+        ["<BS>"] = "actions.parent",
+        -- ["_"] = "actions.open_cwd",
+        -- ["`"] = "actions.cd",
+        -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+        [uleader .. "qppp"] = {
+          function() schdir(oil.get_current_dir(), "a") end,
+          desc = "Set PWD to oil dir(active-scope)",
         },
-        -- Buffer-local options to use for oil buffers
-        buf_options = {
-          buflisted = false,
-          bufhidden = "hide",
+        [uleader .. "qppg"] = {
+          function() schdir(oil.get_current_dir(), "g") end,
+          desc = "Set PWD to oil dir(global-scope)",
         },
-        -- Window-local options to use for oil buffers
+        [uleader .. "qppw"] = {
+          function() schdir(oil.get_current_dir(), "w") end,
+          desc = "Set PWD to oil dir(win-scope)",
+        },
+        [uleader .. "qppt"] = {
+          function() schdir(oil.get_current_dir(), "t") end,
+          desc = "Set PWD to oil dir(tab-scope)",
+        },
+        [uleader .. "qpr"] = { desc = "Disabled in mini.files window" },
+        [uleader .. "qprr"] = { "", desc = "Disabled in mini.files window" },
+        [uleader .. "qprg"] = { "", desc = "Disabled in mini.files window" },
+        [uleader .. "qprw"] = { "", desc = "Disabled in mini.files window" },
+        [uleader .. "qprt"] = { "", desc = "Disabled in mini.files window" },
+        ["gs"] = "actions.change_sort",
+        ["gx"] = "actions.open_external",
+        ["g."] = "actions.toggle_hidden",
+        -- ["g\\"] = "actions.toggle_trash",
+
+        -- fugitive integration
+        [uleader .. "ogg"] = {
+          callback = function()
+            local current_dir = oil.get_current_dir()
+            local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
+            vim.cmd.edit(temp_path)
+            vim.cmd "Git"
+            vim.cmd.bwipeout(temp_path)
+          end,
+          desc = "Open fugitive git manager",
+          mode = "n",
+        },
+        [uleader .. "ogl"] = {
+          callback = function()
+            local current_dir = oil.get_current_dir()
+            local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
+            vim.cmd.edit(temp_path)
+            vim.cmd "Git log --oneline"
+            vim.cmd.bwipeout(temp_path)
+          end,
+          desc = "Open fugitive git `log --oneline`",
+          mode = "n",
+        },
+
+        -- mini.files integration
+        [uleader .. "ofs"] = {
+          callback = function()
+            local current_dir = oil.get_current_dir()
+            local success, error = pcall(MiniFiles.open, current_dir, false)
+            if not success then vim.print(error) end
+          end,
+          desc = "Open mini.files (current dir)",
+          mode = "n",
+        },
+
+        -- terminal integration
+        [uleader .. "otl"] = {
+          callback = function()
+            local current_dir = oil.get_current_dir()
+            vim.cmd.lcd(current_dir)
+            vim.cmd.terminal()
+            vim.cmd.startinsert()
+          end,
+          desc = "Open terminal (buffer dir)",
+          mode = "n",
+        },
+      },
+      -- Set to false to disable all of the above keymaps
+      use_default_keymaps = true,
+      view_options = {
+        -- Show files and directories that start with "."
+        show_hidden = false,
+        -- This function defines what is considered a "hidden" file
+        is_hidden_file = function(name, bufnr) return vim.startswith(name, ".") end,
+        -- This function defines what will never be shown, even when `show_hidden` is set
+        is_always_hidden = function(name, bufnr) return false end,
+        -- Sort file names in a more intuitive order for humans. Is less performant,
+        -- so you may want to set to false if you work with large directories.
+        natural_order = true,
+        -- Sort file and directory names case insensitive
+        case_insensitive = false,
+        sort = {
+          -- sort order can be "asc" or "desc"
+          -- see :help oil-columns to see which columns are sortable
+          { "type", "asc" },
+          { "name", "asc" },
+        },
+      },
+      -- Extra arguments to pass to SCP when moving/copying files over SSH
+      extra_scp_args = {},
+      -- EXPERIMENTAL support for performing file operations with git
+      git = {
+        -- Return true to automatically git add/mv/rm files
+        add = function(path) return false end,
+        mv = function(src_path, dest_path) return false end,
+        rm = function(path) return false end,
+      },
+      -- Configuration for the floating window in oil.open_float
+      float = {
+        -- Padding around the floating window
+        padding = 2,
+        max_width = 0,
+        max_height = 0,
+        border = "rounded",
         win_options = {
-          wrap = false,
-          signcolumn = "no",
-          cursorcolumn = false,
-          foldcolumn = "0",
-          spell = false,
-          list = false,
-          conceallevel = 3,
-          concealcursor = "nvic",
+          winblend = 0,
         },
-        -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
-        delete_to_trash = false,
-        -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
-        skip_confirm_for_simple_edits = false,
-        -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-        -- (:help prompt_save_on_select_new_entry)
-        prompt_save_on_select_new_entry = true,
-        -- Oil will automatically delete hidden buffers after this delay
-        -- You can set the delay to false to disable cleanup entirely
-        -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
-        cleanup_delay_ms = 2000,
-        lsp_file_methods = {
-          -- Time to wait for LSP file operations to complete before skipping
-          timeout_ms = 1000,
-          -- Set to true to autosave buffers that are updated with LSP willRenameFiles
-          -- Set to "unmodified" to only save unmodified buffers
-          autosave_changes = false,
+        -- preview_split: Split direction: "auto", "left", "right", "above", "below".
+        preview_split = "auto",
+        -- This is the config that will be passed to nvim_open_win.
+        -- Change values here to customize the layout
+        override = function(conf) return conf end,
+      },
+      -- Configuration for the actions floating preview window
+      preview = {
+        -- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+        -- min_width and max_width can be a single value or a list of mixed integer/float types.
+        -- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
+        max_width = 0.9,
+        -- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
+        min_width = { 40, 0.4 },
+        -- optionally define an integer/float for the exact width of the preview window
+        width = nil,
+        -- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+        -- min_height and max_height can be a single value or a list of mixed integer/float types.
+        -- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
+        max_height = 0.9,
+        -- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
+        min_height = { 5, 0.1 },
+        -- optionally define an integer/float for the exact height of the preview window
+        height = nil,
+        border = "rounded",
+        win_options = {
+          winblend = 0,
         },
-        -- Constrain the cursor to the editable parts of the oil buffer
-        -- Set to `false` to disable, or "name" to keep it on the file names
-        constrain_cursor = "editable",
-        -- Set to true to watch the filesystem for changes and reload oil
-        watch_for_changes = false,
-        -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-        -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
-        -- Additionally, if it is a string that matches "actions.<name>",
-        -- it will use the mapping at require("oil.actions").<name>
-        -- Set to `false` to remove a keymap
-        -- See :help oil-actions for a list of all available actions
-        keymaps = {
-          ["g?"] = "actions.show_help",
-          ["<CR>"] = "actions.select",
-          -- ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-          -- ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
-          -- ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
-          -- ["<C-p>"] = "actions.preview",
-          [uleader .. "ov"] = "actions.preview",
-          -- ["<C-c>"] = "actions.close",
-          [uleader .. "xx"] = "actions.close",
-          -- ["<C-l>"] = "actions.refresh",
-          -- ["-"] = "actions.parent",
-          ["<BS>"] = "actions.parent",
-          -- ["_"] = "actions.open_cwd",
-          -- ["`"] = "actions.cd",
-          -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
-          [uleader .. "qppp"] = {
-            function() schdir(oil.get_current_dir(), "a") end,
-            desc = "Set PWD to oil dir(active-scope)",
-          },
-          [uleader .. "qppg"] = {
-            function() schdir(oil.get_current_dir(), "g") end,
-            desc = "Set PWD to oil dir(global-scope)",
-          },
-          [uleader .. "qppw"] = {
-            function() schdir(oil.get_current_dir(), "w") end,
-            desc = "Set PWD to oil dir(win-scope)",
-          },
-          [uleader .. "qppt"] = {
-            function() schdir(oil.get_current_dir(), "t") end,
-            desc = "Set PWD to oil dir(tab-scope)",
-          },
-          [uleader .. "qpr"] = { desc = "Disabled in mini.files window" },
-          [uleader .. "qprr"] = { "", desc = "Disabled in mini.files window" },
-          [uleader .. "qprg"] = { "", desc = "Disabled in mini.files window" },
-          [uleader .. "qprw"] = { "", desc = "Disabled in mini.files window" },
-          [uleader .. "qprt"] = { "", desc = "Disabled in mini.files window" },
-          ["gs"] = "actions.change_sort",
-          ["gx"] = "actions.open_external",
-          ["g."] = "actions.toggle_hidden",
-          -- ["g\\"] = "actions.toggle_trash",
+        -- Whether the preview window is automatically updated when the cursor is moved
+        update_on_cursor_moved = true,
+      },
+      -- Configuration for the floating progress window
+      progress = {
+        max_width = 0.9,
+        min_width = { 40, 0.4 },
+        width = nil,
+        max_height = { 10, 0.9 },
+        min_height = { 5, 0.1 },
+        height = nil,
+        border = "rounded",
+        minimized_border = "none",
+        win_options = {
+          winblend = 0,
+        },
+      },
+      -- Configuration for the floating SSH window
+      ssh = {
+        border = "rounded",
+      },
+      -- Configuration for the floating keymaps help window
+      keymaps_help = {
+        border = "rounded",
+      },
+    })
+  end,
+}
 
-          -- fugitive integration
-          [uleader .. "ogg"] = {
-            callback = function()
-              local current_dir = oil.get_current_dir()
-              local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-              vim.cmd.edit(temp_path)
-              vim.cmd "Git"
-              vim.cmd.bwipeout(temp_path)
-            end,
-            desc = "Open fugitive git manager",
-            mode = "n",
-          },
-          [uleader .. "ogl"] = {
-            callback = function()
-              local current_dir = oil.get_current_dir()
-              local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-              vim.cmd.edit(temp_path)
-              vim.cmd "Git log --oneline"
-              vim.cmd.bwipeout(temp_path)
-            end,
-            desc = "Open fugitive git `log --oneline`",
-            mode = "n",
-          },
+---@type LazyPluginSpec
+local spec_oil_nvim__astrocore = {
+  "AstroNvim/astrocore",
+  ---@param opts AstroCoreOpts
+  opts = function(_, opts)
+    local astrocore = require "astrocore"
+    local oil = require "oil"
 
-          -- mini.files integration
-          [uleader .. "ofs"] = {
-            callback = function()
-              local current_dir = oil.get_current_dir()
-              local success, error = pcall(MiniFiles.open, current_dir, false)
-              if not success then vim.print(error) end
-            end,
-            desc = "Open mini.files (current dir)",
-            mode = "n",
-          },
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
 
-          -- terminal integration
-          [uleader .. "otl"] = {
-            callback = function()
-              local current_dir = oil.get_current_dir()
-              vim.cmd.lcd(current_dir)
-              vim.cmd.terminal()
-              vim.cmd.startinsert()
-            end,
-            desc = "Open terminal (buffer dir)",
-            mode = "n",
-          },
-        },
-        -- Set to false to disable all of the above keymaps
-        use_default_keymaps = true,
-        view_options = {
-          -- Show files and directories that start with "."
-          show_hidden = false,
-          -- This function defines what is considered a "hidden" file
-          is_hidden_file = function(name, bufnr) return vim.startswith(name, ".") end,
-          -- This function defines what will never be shown, even when `show_hidden` is set
-          is_always_hidden = function(name, bufnr) return false end,
-          -- Sort file names in a more intuitive order for humans. Is less performant,
-          -- so you may want to set to false if you work with large directories.
-          natural_order = true,
-          -- Sort file and directory names case insensitive
-          case_insensitive = false,
-          sort = {
-            -- sort order can be "asc" or "desc"
-            -- see :help oil-columns to see which columns are sortable
-            { "type", "asc" },
-            { "name", "asc" },
-          },
-        },
-        -- Extra arguments to pass to SCP when moving/copying files over SSH
-        extra_scp_args = {},
-        -- EXPERIMENTAL support for performing file operations with git
-        git = {
-          -- Return true to automatically git add/mv/rm files
-          add = function(path) return false end,
-          mv = function(src_path, dest_path) return false end,
-          rm = function(path) return false end,
-        },
-        -- Configuration for the floating window in oil.open_float
-        float = {
-          -- Padding around the floating window
-          padding = 2,
-          max_width = 0,
-          max_height = 0,
-          border = "rounded",
-          win_options = {
-            winblend = 0,
-          },
-          -- preview_split: Split direction: "auto", "left", "right", "above", "below".
-          preview_split = "auto",
-          -- This is the config that will be passed to nvim_open_win.
-          -- Change values here to customize the layout
-          override = function(conf) return conf end,
-        },
-        -- Configuration for the actions floating preview window
-        preview = {
-          -- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-          -- min_width and max_width can be a single value or a list of mixed integer/float types.
-          -- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
-          max_width = 0.9,
-          -- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
-          min_width = { 40, 0.4 },
-          -- optionally define an integer/float for the exact width of the preview window
-          width = nil,
-          -- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-          -- min_height and max_height can be a single value or a list of mixed integer/float types.
-          -- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
-          max_height = 0.9,
-          -- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
-          min_height = { 5, 0.1 },
-          -- optionally define an integer/float for the exact height of the preview window
-          height = nil,
-          border = "rounded",
-          win_options = {
-            winblend = 0,
-          },
-          -- Whether the preview window is automatically updated when the cursor is moved
-          update_on_cursor_moved = true,
-        },
-        -- Configuration for the floating progress window
-        progress = {
-          max_width = 0.9,
-          min_width = { 40, 0.4 },
-          width = nil,
-          max_height = { 10, 0.9 },
-          min_height = { 5, 0.1 },
-          height = nil,
-          border = "rounded",
-          minimized_border = "none",
-          win_options = {
-            winblend = 0,
-          },
-        },
-        -- Configuration for the floating SSH window
-        ssh = {
-          border = "rounded",
-        },
-        -- Configuration for the floating keymaps help window
-        keymaps_help = {
-          border = "rounded",
-        },
-      })
-    end,
-  },
-  {
-    "AstroNvim/astrocore",
-    ---@param opts AstroCoreOpts
-    opts = function(_, opts)
-      local astrocore = require "astrocore"
-      local oil = require "oil"
+    map("n", "<LEADER>ofo", function()
+      local current_buf_name = vim.api.nvim_buf_get_name(0)
+      local success, current_dir = pcall(vim.fs.dirname, current_buf_name)
+      if success then
+        oil.open(current_dir)
+      else
+        oil.open()
+      end
+    end, { desc = "Open oil.nvim (current file dir)" })
+    map("n", "<LEADER>ofO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" })
 
-      local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+  end,
+}
 
-      map("n", "<LEADER>ofo", function()
-        local current_buf_name = vim.api.nvim_buf_get_name(0)
-        local success, current_dir = pcall(vim.fs.dirname, current_buf_name)
-        if success then
-          oil.open(current_dir)
-        else
-          oil.open()
-        end
-      end, { desc = "Open oil.nvim (current file dir)" })
-      map("n", "<LEADER>ofO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" })
+spec_oil_nvim.specs = {
+  spec_oil_nvim__astrocore,
+}
 
-      opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    end,
-  },
+---@type LazyPluginSpec[]
+return {
+  spec_oil_nvim,
 }

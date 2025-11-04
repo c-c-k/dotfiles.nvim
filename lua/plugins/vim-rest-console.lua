@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/diepm/vim-rest-console>
 -- nvim help: `:help vim-rest-console`
 
-return {
+---@type LazyPluginSpec
+local spec_vim_rest_console = {
   "diepm/vim-rest-console",
   init = function()
     -- vim.g['vrc_trigger'] =  '<LEADER>ue'
@@ -14,4 +15,9 @@ return {
     -- parameters, it can/should be set on a buffer level.
     vim.g["vrc_split_request_body"] = 1
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_vim_rest_console,
 }

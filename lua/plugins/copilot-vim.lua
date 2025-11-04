@@ -5,7 +5,8 @@
 -- repo url: <https://github.com/github/copilot.vim>
 -- nvim help: `:help copilot`
 
-return {
+---@type LazyPluginSpec
+local spec_copilot_vim = {
   "github/copilot.vim",
   config = function()
     vim.g["copilot_filetypes"] = {
@@ -22,4 +23,9 @@ return {
     -- information).
     vim.g["copilot_enabled"] = false
   end,
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_copilot_vim,
 }

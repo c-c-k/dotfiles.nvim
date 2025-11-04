@@ -6,12 +6,12 @@
 -- repo url: <https://github.com/AstroNvim/astrocore>
 -- nvim help: `:help astrocore`
 
----@type LazySpec
-return {
+---@type LazyPluginSpec
+local spec_astrocore = {
   "AstroNvim/astrocore",
   lazy = false,
   priority = 10000,
-  ---@type AstroCoreConfig
+  ---@type AstroCoreOpts
   opts = {
     diagnostics = {
       virtual_text = true,
@@ -64,4 +64,9 @@ return {
       },
     },
   },
+}
+
+---@type LazyPluginSpec[]
+return {
+  spec_astrocore,
 }

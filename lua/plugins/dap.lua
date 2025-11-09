@@ -54,15 +54,52 @@ local spec_nvim_dap_ui__astrocore = {
   end,
 }
 
+---@type LazyPluginSpec
+local spec_nvim_dap_view = {
+  "igorlfs/nvim-dap-view",
+}
+
+---@type LazyPluginSpec
+local spec_nvim_dap_view__astrocore = {
+  "AstroNvim/astrocore",
+  opts = function(_, opts)
+    local astrocore = require "astrocore"
+
+    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+
+    map("n", "<LEADER>rE", { function() require("dap-view").add_expr() end, desc = "Add expression" })
+    map("n", "<LEADER>ru", { function() require("dap-view").toggle() end, desc = "Toggle Debugger UI" })
+
+    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+  end,
+}
+
+---@type LazyPluginSpec
+local spec_nvim_dap_view__nvim_dap = {
+  "mfussenegger/nvim-dap",
+  dependencies = "igorlfs/nvim-dap-view",
+  opts = function()
+    local dap, dap_view = require "dap", require "dap-view"
+    dap.listeners.after.event_initialized.dapview_config = function() dap_view.open() end
+    -- dap.listeners.before.event_terminated.dapview_config = function() dap_view.close() end
+    -- dap.listeners.before.event_exited.dapview_config = function() dap_view.close() end
+  end,
+}
+
 spec_nvim_dap.specs = {
   spec_nvim_dap__astrocore,
 }
 spec_nvim_dap_ui.specs = {
   spec_nvim_dap_ui__astrocore,
 }
+spec_nvim_dap_view.specs = {
+  spec_nvim_dap_view__astrocore,
+  spec_nvim_dap_view__nvim_dap,
+}
 
 ---@type LazyPluginSpec[]
 return {
   spec_nvim_dap,
   spec_nvim_dap_ui,
+  spec_nvim_dap_view,
 }

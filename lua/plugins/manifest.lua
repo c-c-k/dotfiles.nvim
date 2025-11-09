@@ -3,6 +3,8 @@ local M = {}
 
 local ACTIVE_PLUGIN = true
 local ACTIVE_PLUGIN_COND = true
+local INACTIVE_PLUGIN = true
+local INACTIVE_PLUGIN_COND = false
 local DISABLED_PLUGIN = false
 local DISABLED_PLUGIN_COND = false
 local INSPIRATION_PLUGIN = true
@@ -376,6 +378,16 @@ M[#M + 1] = {
   -- repo url: <https://github.com/rcarriga/nvim-dap-ui>
   -- nvim help: `:help nvim-dap-ui`
   "rcarriga/nvim-dap-ui",
+  enabled = INACTIVE_PLUGIN,
+  cond = INACTIVE_PLUGIN_COND,
+  lazy = true,
+}
+
+M[#M + 1] = {
+  -- # Nvim-dap-view
+  -- repo url: <https://github.com/igorlfs/nvim-dap-view>
+  -- nvim help: `:help nvim-dap-view`
+  "igorlfs/nvim-dap-view",
   enabled = ACTIVE_PLUGIN,
   cond = ACTIVE_PLUGIN_COND,
   lazy = true,

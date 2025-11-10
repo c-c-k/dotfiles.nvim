@@ -31,4 +31,3 @@ end
 vim.g.usermapleader = " "
 
 require "lazy_setup"
-require "polish"

@@ -333,6 +333,18 @@ M[#M + 1] = {
   cond = ACTIVE_PLUGIN_COND,
   lazy = false,
 }
+
+M[#M + 1] = {
+  -- # Null-plugin-cck
+  -- repo url: N/A
+  -- nvim help: N/A
+  dir = vim.fn.stdpath "config",
+  name = "cck",
+  enabled = ACTIVE_PLUGIN,
+  cond = ACTIVE_PLUGIN_COND,
+  lazy = false,
+}
+
 M[#M + 1] = {
   -- # Nvim-autopairs
   -- repo url: <https://github.com/windwp/nvim-autopairs>

@@ -23,7 +23,7 @@ local spec_nvim_surround__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("i", "<C-S>s", "<Plug>(nvim-surround-insert)", { desc = "Surround (insert)" })
     map("i", "<C-S>l", "<Plug>(nvim-surround-insert-line)", { desc = "Surround (insert-line)" })

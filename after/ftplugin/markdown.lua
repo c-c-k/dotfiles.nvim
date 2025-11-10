@@ -11,7 +11,7 @@ vim.opt_local.shiftwidth = 4
 vim.opt_local.softtabstop = 4
 
 local astrocore = require "astrocore"
-local maps, map = require("cck.utils.config").get_astrocore_mapper()
+local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
 map({ "n", "x" }, "<LEADER>gf", "<CMD>CCKGoToFile<CR>", { desc = "(CCK) goto file" })
 map({ "n", "x" }, "<LEADER>gx", "<CMD>CCKGoToEx<CR>", { desc = "(CCK) goto external" })

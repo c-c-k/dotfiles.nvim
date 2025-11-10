@@ -39,7 +39,7 @@ local spec_neotest__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     local get_file_path = function() return vim.fn.expand "%" end
     local get_project_path = function() return vim.fn.getcwd() end

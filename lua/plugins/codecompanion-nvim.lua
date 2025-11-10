@@ -60,7 +60,7 @@ local spec_codecompanion_nvim__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map({ "n", "v" }, "<LEADER>oan", "<CMD>CodeCompanionChat<CR>", { desc = "Open new AI chat" })
     map({ "n", "v" }, "<LEADER>oaN", ":CodeCompanionChat ", { desc = "Open new AI chat (CMD)" })

@@ -33,7 +33,7 @@ local spec_leap_nvim__astrocore = {
     }
 
     local astrocore = require "astrocore"
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map({ "n", "x" }, "<LEADER>ss", "<Plug>(leap)", { desc = "Leap bi-directional" })
     map({ "n", "x" }, "<LEADER>sf", "<Plug>(leap-forward)", { desc = "Leap forward" })

@@ -26,7 +26,7 @@ local spec_blink_cmp__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>uc", { copy = { "n", "<Leader>uc", source = astromaps } }) -- desc = "Toggle autocompletion (buffer)"
     map("n", "<LEADER>uC", { copy = { "n", "<Leader>uC", source = astromaps } }) -- desc = "Toggle autocompletion (global)"

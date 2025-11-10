@@ -5,7 +5,7 @@ local spec_astrocore = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local g = {}
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>n", { desc = "Notes" })
     map("n", "<LEADER>ne", ":CCKEditNote ", { desc = "Edit note" })

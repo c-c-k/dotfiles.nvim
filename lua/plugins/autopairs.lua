@@ -11,7 +11,7 @@ local spec_nvim_autopairs__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>ua", { copy = { "n", "<Leader>ua", source = astromaps } }) -- desc = "Toggle autopairs"
 

@@ -5,7 +5,7 @@ local spec_astrolsp = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map({ "n", "x" }, "<LEADER>la", { copy = { "n", "<Leader>la", source = astromaps } }) -- desc = "LSP code action"
     map("n", "<LEADER>lA", { copy = { "n", "<Leader>lA", source = astromaps } }) -- desc = "LSP source action"

@@ -10,7 +10,7 @@ local spec_astrocore = {
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
     -- Get other utilities required by mappings
     local util_win = require "cck.utils.win"
 

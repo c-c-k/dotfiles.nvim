@@ -262,7 +262,7 @@ local spec_oil_nvim__astrocore = {
     local astrocore = require "astrocore"
     local oil = require "oil"
 
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>ofo", function()
       local current_buf_name = vim.api.nvim_buf_get_name(0)

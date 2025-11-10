@@ -29,7 +29,7 @@ local spec_plugin_name__astrocore = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local g = {}
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
       placeholder_augroup = {
@@ -40,7 +40,7 @@ local spec_plugin_name__astrocore = {
           callback = function(args)
             -- selene: allow(shadowing)
             ---@diagnostic disable-next-line: redefined-local
-            local maps, map = require("cck.utils.config").get_astrocore_mapper()
+            local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
             map("n", "<LEADER>", "", { desc = "" })
 

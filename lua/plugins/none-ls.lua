@@ -11,7 +11,7 @@ local spec_none_ls_nvim__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>lI", { copy = { "n", "<Leader>lI", source = astromaps } }) -- desc = "Null-ls information"
 

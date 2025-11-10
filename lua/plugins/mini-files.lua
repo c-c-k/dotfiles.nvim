@@ -89,7 +89,7 @@ local spec_mini_files__astrocore = {
           pattern = "MiniFilesBufferCreate",
           desc = "Set mappings for a mini.files popup window",
           callback = function(args)
-            local maps, map = require("cck.utils.config").get_astrocore_mapper()
+            local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
             local mfscd = function(scope)
               -- Works only if cursor is on the valid file system entry
@@ -171,7 +171,7 @@ local spec_mini_files__astrocore = {
       },
     })
 
-    local maps, map = require("cck.utils.config").get_astrocore_mapper()
+    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
     local minifiles_toggle = function(...)
       if not MiniFiles.close() then MiniFiles.open(...) end

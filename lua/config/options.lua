@@ -9,23 +9,27 @@ g.python3_host_prog = vim.fn.stdpath "config" .. "/.venv/bin/python3"
 opt.autoindent = true
 opt.breakindent = true
 opt.expandtab = true
-opt.formatlistpat = [==[^\s*\d\+[\]:.)}\t ]\s*\|^\s*[-*+]\s\]==]
-opt.formatoptions = "jcroqlnt1"
+opt.formatlistpat = [==[^\s*\d\+[\]:.)}\t ]\s*\|^\s*[-*+]\s\+]==]
+opt.formatoptions = "croqwnl1j"
 opt.linebreak = true
-opt.shiftwidth = 4
-opt.softtabstop = 4
+opt.shiftwidth = 2
+opt.softtabstop = 2
 opt.tabstop = 8
-opt.textwidth = 72
+opt.textwidth = 78
 
 -- # Opts: Improved Visibility
 opt.background = "dark"
 opt.cmdheight = 1
 opt.conceallevel = 0
 opt.cursorline = true
-opt.winwidth = 80
-opt.wrap = true
+opt.listchars = [==[tab:>-,multispace:+...]==]
+opt.number = false
+opt.relativenumber = false
+opt.winwidth = 85
+opt.wrap = false
 
--- # Opts: Buffer Write/Close
+-- # Opts: Buffer Read/Write/Close
+opt.autoread = true
 opt.autowrite = false
 opt.autowriteall = false
 opt.confirm = true

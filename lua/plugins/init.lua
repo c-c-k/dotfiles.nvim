@@ -10,13 +10,13 @@ return {
   require "plugins/_astrocore",
   require "plugins/_astrocore_autocmds",
   require "plugins/_astrocore_mappings",
-  require "plugins/_astrocore_options",
   require "plugins/_astrolsp",
   require "plugins/_astrolsp_autocmds",
   require "plugins/_astrolsp_mappings",
   require "plugins/_astrotheme",
   require "plugins/_astroui",
   require "plugins/_astroui_status",
+  require "plugins/core_config",
 
   -- # Snacks.Nvim
   require "plugins/snacks",

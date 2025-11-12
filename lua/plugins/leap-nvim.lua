@@ -4,7 +4,16 @@ local spec_leap_nvim = {
   dependencies = {
     "tpope/vim-repeat",
   },
-  opts = {},
+  opts = {
+    safe_labels = "",
+    labels = [==[sfnjklhodweimbuyvrgtaqpcxz;'/[]SFNJKLHODWEIMBUYVRGTAQPCXZ:"?{}]==],
+    keys = {
+      next_target = "<enter>",
+      prev_target = "<backspace>",
+      next_group = "<space>",
+      prev_group = "<backspace>",
+    },
+  },
 }
 
 ---@type LazyPluginSpec
@@ -35,10 +44,13 @@ local spec_leap_nvim__astrocore = {
     local astrocore = require "astrocore"
     local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
 
-    map({ "n", "x" }, "<LEADER>ss", "<Plug>(leap)", { desc = "Leap bi-directional" })
-    map({ "n", "x" }, "<LEADER>sf", "<Plug>(leap-forward)", { desc = "Leap forward" })
-    map({ "n", "x" }, "<LEADER>sb", "<Plug>(leap-backward)", { desc = "Leap backward" })
+    map({ "n", "x", "o" }, "<LEADER>ss", "<Plug>(leap)", { desc = "Leap bi-directional" })
+    map({ "n", "x", "o" }, "<LEADER>sf", "<Plug>(leap-forward)", { desc = "Leap forward" })
+    map({ "n", "x", "o" }, "<LEADER>sF", "<Plug>(leap-forward-till)", { desc = "Leap forward" })
+    map({ "n", "x", "o" }, "<LEADER>sb", "<Plug>(leap-backward)", { desc = "Leap backward" })
+    map({ "n", "x", "o" }, "<LEADER>sB", "<Plug>(leap-backward-till)", { desc = "Leap backward" })
     map("n", "<LEADER>sw", "<Plug>(leap-from-window)", { desc = "Leap from window" })
+    map("n", "<LEADER>sS", "<Plug>(leap-anywhere)", { desc = "Leap from window" })
     map("n", "<LEADER>sr", function() require("leap.remote").action() end, { desc = "Leap remote action" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)

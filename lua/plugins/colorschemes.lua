@@ -21,7 +21,13 @@ local spec_solarized_osaka_nvim = {
       sidebars = "transparent",
       floats = "transparent",
     },
-    dim_inactive = true,
+    dim_inactive = false,
+    on_highlights = function(highlights, colors)
+      -- Avoid dimming text in inactive windows, `dim_inactive` only affects the background
+      highlights.NormalNC = { fg = colors.base0 } -- normal text in non-current windows
+      -- Make cursor line a bit more visible
+      highlights.CursorLine = { bg = colors.base02, sp = colors.base1 } -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+    end,
   },
 }
 

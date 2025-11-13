@@ -299,8 +299,8 @@ M[#M + 1] = {
   -- repo url: <https://github.com/nikvdp/neomux>
   -- nvim help: `:help neomux`
   "nikvdp/neomux",
-  enabled = ACTIVE_PLUGIN,
-  cond = ACTIVE_PLUGIN_COND,
+  enabled = DISABLED_PLUGIN,
+  cond = DISABLED_PLUGIN_COND,
   lazy = false,
 }
 

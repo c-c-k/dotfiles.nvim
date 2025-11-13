@@ -360,9 +360,9 @@ local spec_astrocore = {
     -- Open terminal
     map("n", "<LEADER>ot", { desc = "Open terminal" })
     -- NOTE: backup, current mappings in neomux plugin config
-    -- map("n", "<LEADER>ott", "<CMD>terminal<CR>i", { desc = "Open terminal (PWD)" })
-    -- map("n", "<LEADER>otl", "<CMD>lcd %:h|terminal<CR>i", { desc = "Open terminal (buffer dir)" })
-    -- map("n", "<LEADER>oth", "<CMD>lcd ~|terminal<CR>i", { desc = "Open terminal (home)" })
+    map("n", "<LEADER>ott", "<CMD>terminal<CR>i", { desc = "Open terminal (PWD)" })
+    map("n", "<LEADER>otl", "<CMD>lcd %:h|terminal<CR>i", { desc = "Open terminal (buffer dir)" })
+    map("n", "<LEADER>oth", "<CMD>lcd ~|terminal<CR>i", { desc = "Open terminal (home)" })
 
     -- Escape from terminal to normal mode
     map("t", "<M-ESC>", "<C-\\><C-n>", { desc = "Enter normal mode" })

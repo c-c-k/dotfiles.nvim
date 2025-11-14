@@ -89,16 +89,17 @@ local spec_mini_files__astrocore = {
           pattern = "MiniFilesBufferCreate",
           desc = "Set mappings for a mini.files popup window",
           callback = function(args)
+            local minifiles = require "mini.files"
             local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
             local mfscd = function(scope)
               -- Works only if cursor is on the valid file system entry
-              local current_entry_path = MiniFiles.get_fs_entry().path
+              local current_entry_path = minifiles.get_fs_entry().path
               local current_dir = vim.fs.dirname(current_entry_path)
 
-              MiniFiles.close()
+              minifiles.close()
               require("my.utils.editor").schdir(current_dir, scope)
-              MiniFiles.open(MiniFiles.get_latest_path())
+              minifiles.open(minifiles.get_latest_path())
             end
 
             map("n", "H", "h", { desc = "Cursor left" })
@@ -112,25 +113,25 @@ local spec_mini_files__astrocore = {
             map("n", "<LEADER>qprg", "", { desc = "Disabled in mini.files window" })
             map("n", "<LEADER>qprw", "", { desc = "Disabled in mini.files window" })
             map("n", "<LEADER>qprt", "", { desc = "Disabled in mini.files window" })
-            map("n", "<LEADER>wy", function() MiniFiles.synchronize() end, { desc = "sync mini.files actions" })
-            map("n", "<LEADER>wx", function() MiniFiles.close() end, { desc = "Close mini.files popup" })
+            map("n", "<LEADER>wy", function() minifiles.synchronize() end, { desc = "sync mini.files actions" })
+            map("n", "<LEADER>wx", function() minifiles.close() end, { desc = "Close mini.files popup" })
             map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
             map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
 
             -- fugitive integration
             map("n", "<LEADER>ogg", function()
-              local current_entry_path = MiniFiles.get_fs_entry().path
+              local current_entry_path = minifiles.get_fs_entry().path
               local current_dir = vim.fs.dirname(current_entry_path)
-              MiniFiles.close()
+              minifiles.close()
               local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
               vim.cmd.edit(temp_path)
               vim.cmd "Git"
               vim.cmd.bwipeout(temp_path)
             end, { desc = "Open fugitive git manager" })
             map("n", "<LEADER>ogl", function()
-              local current_entry_path = MiniFiles.get_fs_entry().path
+              local current_entry_path = minifiles.get_fs_entry().path
               local current_dir = vim.fs.dirname(current_entry_path)
-              MiniFiles.close()
+              minifiles.close()
               local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
               vim.cmd.edit(temp_path)
               vim.cmd "Git log --oneline"
@@ -141,9 +142,9 @@ local spec_mini_files__astrocore = {
             map("n", "<LEADER>ofo", function()
               local has_oil, oil = pcall(require, "oil")
               if has_oil then
-                local current_entry_path = MiniFiles.get_fs_entry().path
+                local current_entry_path = minifiles.get_fs_entry().path
                 local current_dir = vim.fs.dirname(current_entry_path)
-                MiniFiles.close()
+                minifiles.close()
                 oil.open(current_dir)
               else
                 vim.print "oil.nvim plugin not present"
@@ -152,15 +153,15 @@ local spec_mini_files__astrocore = {
 
             -- terminal integration
             map("n", "<LEADER>otl", function()
-              local cur_entry_path = MiniFiles.get_fs_entry().path
+              local cur_entry_path = minifiles.get_fs_entry().path
               local cur_directory = vim.fs.dirname(cur_entry_path)
-              MiniFiles.close()
+              minifiles.close()
               vim.cmd.lcd(cur_directory)
               vim.cmd.terminal()
               vim.cmd.startinsert()
             end, { desc = "Open terminal (buffer dir)" })
             map("n", "<LEADER>ott", function()
-              MiniFiles.close()
+              minifiles.close()
               vim.cmd.terminal()
               vim.cmd.startinsert()
             end, { desc = "Open terminal (PWD)" })
@@ -171,30 +172,31 @@ local spec_mini_files__astrocore = {
       },
     })
 
+    local minifiles = require "mini.files"
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     local minifiles_toggle = function(...)
-      if not MiniFiles.close() then MiniFiles.open(...) end
+      if not minifiles.close() then minifiles.open(...) end
     end
 
     map(
       "n",
       "<LEADER>off",
-      function() minifiles_toggle(MiniFiles.get_latest_path()) end,
+      function() minifiles_toggle(minifiles.get_latest_path()) end,
       { desc = "Toggle mini.files" }
     )
     map("n", "<LEADER>oF", function()
       local path = vim.fn.input("Path: ", "", "file")
-      MiniFiles.open(path)
+      minifiles.open(path)
     end, { desc = "Open mini.files (input)" })
     map("n", "<LEADER>ofs", function()
-      local success, _ = pcall(MiniFiles.open, vim.api.nvim_buf_get_name(0))
+      local success, _ = pcall(minifiles.open, vim.api.nvim_buf_get_name(0))
       if not success then
-        success, error = pcall(MiniFiles.open, vim.api.nvim_buf_get_name(0), false)
+        success, error = pcall(minifiles.open, vim.api.nvim_buf_get_name(0), false)
         if not success then vim.print(error) end
       end
     end, { desc = "Open mini.files (Select current file)" })
-    map("n", "<LEADER>ofc", function() MiniFiles.open(nil, false) end, { desc = "Open mini.files (CWD)" })
+    map("n", "<LEADER>ofc", function() minifiles.open(nil, false) end, { desc = "Open mini.files (CWD)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

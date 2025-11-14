@@ -39,7 +39,7 @@ local spec_vim_fugitive__astrocore = {
             -- mini.files integration
             map("n", "<LEADER>ofs", function()
               local current_dir = get_git_dir()
-              local success, error = pcall(MiniFiles.open, current_dir, false)
+              local success, error = pcall(require("mini.files").open, current_dir, false)
               if not success then vim.print(error) end
             end, { desc = "Open mini.files (git dir)" })
 

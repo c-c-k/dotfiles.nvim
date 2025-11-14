@@ -69,7 +69,7 @@ local spec_blink_cmp = {
         },
       },
       ghost_text = {
-        enabled = true,
+        enabled = false,
         show_with_selection = false,
         show_without_selection = true,
         show_with_menu = true,

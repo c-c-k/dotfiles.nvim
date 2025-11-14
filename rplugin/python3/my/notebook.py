@@ -3,17 +3,17 @@ from pathlib import Path
 
 import pynvim
 
-from cck.globals import config
-from cck.path import resolve_path_with_context
-from cck.exceptions import NotebookError
-from cck.utils import AttrDict
-from cck.utils import get_auto_id
+from my.globals import config
+from my.path import resolve_path_with_context
+from my.exceptions import NotebookError
+from my.utils import AttrDict
+from my.utils import get_auto_id
 
 
 def get_notebook_auto_id(nb_id: str) -> str:
     notebook = get_notebook_by_nb_id(nb_id)
     nb_path = Path(notebook.path)
-    id_file_path = nb_path.joinpath(".cck_nb/next_id")
+    id_file_path = nb_path.joinpath(".my_nb/next_id")
     return get_auto_id(id_file_path)
 
 
@@ -62,9 +62,7 @@ def get_current_nb_id(vim: pynvim.Nvim, check_cb=False, check_pwd=False) -> str:
     return nb_id
 
 
-def get_current_notebook(
-        vim: pynvim.Nvim, check_cb=False, check_pwd=False
-) -> AttrDict:
+def get_current_notebook(vim: pynvim.Nvim, check_cb=False, check_pwd=False) -> AttrDict:
     nb_id = get_current_nb_id(vim, check_cb, check_pwd)
     notebook = get_notebook_by_nb_id(nb_id)
 

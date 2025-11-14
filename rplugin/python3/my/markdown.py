@@ -9,7 +9,7 @@ from typing import Pattern
 import pynvim
 from pynvim.api import Buffer
 
-from cck.buffer import NBBuffer
+from my.buffer import NBBuffer
 
 
 class LinksError(Exception):
@@ -38,11 +38,11 @@ class Link:
     end: int
 
     def __init__(
-            self,
-            link_match: re.Match | None = None,
-            link_pattern: LinkPattern | None = None,
-            ref_source: Link | None = None,
-            ref_target: str | None = None
+        self,
+        link_match: re.Match | None = None,
+        link_pattern: LinkPattern | None = None,
+        ref_source: Link | None = None,
+        ref_target: str | None = None,
     ):
         if (link_match is not None) and (link_pattern is not None):
             self._init_from_match(link_match, link_pattern)
@@ -50,18 +50,17 @@ class Link:
             self._init_from_ref(ref_source, ref_target)
         else:
             raise ValueError(
-                    "Link must be initated with either "
-                    "link_match & link_pattern or ref_source & ref_target"
+                "Link must be initated with either "
+                "link_match & link_pattern or ref_source & ref_target"
             )
 
-    def _init_from_match(
-            self, link_match: re.Match, link_pattern: LinkPattern
-    ):
+    def _init_from_match(self, link_match: re.Match, link_pattern: LinkPattern):
         self.ref_type = link_pattern.ref_type
         self.target = link_match.group(link_pattern.target_group)
         self.name = (
-                link_match.group(link_pattern.name_group)
-                if link_pattern.name_group is not None else ""
+            link_match.group(link_pattern.name_group)
+            if link_pattern.name_group is not None
+            else ""
         )
         self.start = link_match.start()
         self.end = link_match.end()
@@ -79,56 +78,53 @@ class Link:
 
 _INVALID_LINK_DESCRIPTION_CHARS = "[]"
 _LINK_PATTERNS: list[LinkPattern] = [
-        # ref_target link ("^[name]: target")
-        LinkPattern(
-                pattern=re.compile(r"^\[(?P<name>[^]]+)\]: (?P<target>.*)"),
-                ref_type=LinkRefType.REF_TARGET,
-                target_group="target",
-                name_group="name",
-                full_line_link=True
-        ),
-        # normal link ("[name](target)")
-        LinkPattern(
-                pattern=re
-                .compile(r"\[(?P<name>[^]]+)\]\((?P<target>[^)]*)\)"),
-                ref_type=LinkRefType.NON_REF,
-                target_group="target",
-                name_group="name"
-        ),
-        # ref_source link ("[name][target]")
-        LinkPattern(
-                pattern=re
-                .compile(r"\[(?P<name>[^]]+)\]\[(?P<target>[^]]*)\]"),
-                ref_type=LinkRefType.REF_SOURCE,
-                target_group="target",
-                name_group="name"
-        ),
-        # name only ref_source link ("[name]")
-        LinkPattern(
-                pattern=re.compile(r"\[(?P<name>\d+|[^]]{2,})\]"),
-                ref_type=LinkRefType.REF_SOURCE,
-                target_group="name",
-                name_group="name"
-        ),
-        # chevron http link ("<http[s]://...>")
-        LinkPattern(
-                pattern=re.compile(r"<(?P<target>https?://[^>]+)>"),
-                ref_type=LinkRefType.NON_REF,
-                target_group="target",
-                name_group=None
-        ),
-        # simple http link ("http[s]://...")
-        LinkPattern(
-                pattern=re.compile(r"\b(?P<target>https?://\S+)"),
-                ref_type=LinkRefType.NON_REF,
-                target_group="target",
-                name_group=None
-        ),
+    # ref_target link ("^[name]: target")
+    LinkPattern(
+        pattern=re.compile(r"^\[(?P<name>[^]]+)\]: (?P<target>.*)"),
+        ref_type=LinkRefType.REF_TARGET,
+        target_group="target",
+        name_group="name",
+        full_line_link=True,
+    ),
+    # normal link ("[name](target)")
+    LinkPattern(
+        pattern=re.compile(r"\[(?P<name>[^]]+)\]\((?P<target>[^)]*)\)"),
+        ref_type=LinkRefType.NON_REF,
+        target_group="target",
+        name_group="name",
+    ),
+    # ref_source link ("[name][target]")
+    LinkPattern(
+        pattern=re.compile(r"\[(?P<name>[^]]+)\]\[(?P<target>[^]]*)\]"),
+        ref_type=LinkRefType.REF_SOURCE,
+        target_group="target",
+        name_group="name",
+    ),
+    # name only ref_source link ("[name]")
+    LinkPattern(
+        pattern=re.compile(r"\[(?P<name>\d+|[^]]{2,})\]"),
+        ref_type=LinkRefType.REF_SOURCE,
+        target_group="name",
+        name_group="name",
+    ),
+    # chevron http link ("<http[s]://...>")
+    LinkPattern(
+        pattern=re.compile(r"<(?P<target>https?://[^>]+)>"),
+        ref_type=LinkRefType.NON_REF,
+        target_group="target",
+        name_group=None,
+    ),
+    # simple http link ("http[s]://...")
+    LinkPattern(
+        pattern=re.compile(r"\b(?P<target>https?://\S+)"),
+        ref_type=LinkRefType.NON_REF,
+        target_group="target",
+        name_group=None,
+    ),
 ]
 
 
-def _find_link(line: str,
-               link_patterns: list[LinkPattern]) -> tuple[Link | None, bool]:
+def _find_link(line: str, link_patterns: list[LinkPattern]) -> tuple[Link | None, bool]:
     link = None
     for link_pattern in link_patterns:
         link_match = link_pattern.pattern.search(line)
@@ -139,9 +135,9 @@ def _find_link(line: str,
 
 
 def _replace_link_with_blanks(line: str, link: Link) -> str:
-    new_line = line[:link.start] + ' ' * len(link)
+    new_line = line[: link.start] + " " * len(link)
     if link.end < len(line):
-        new_line += line[link.end:]
+        new_line += line[link.end :]
     return new_line
 
 
@@ -163,7 +159,7 @@ def _extract_links_from_line(line: str) -> list[Link]:
 
 
 def _get_ref_target(buffer: Buffer, src_target: str) -> str:
-    ref_targets_map = buffer.vars.get("cck_nb_ref_targets", {})
+    ref_targets_map = buffer.vars.get("my_nb_ref_targets", {})
     ref_target = ref_targets_map.get(src_target, None)
     if ref_target is None:
         ref_targets_map = generate_ref_targets_map(buffer)
@@ -203,14 +199,15 @@ def generate_ref_targets_map(buffer: Buffer) -> dict[str, str]:
     # and returns it, which can all be considered separate responsibilities.
     ref_targets_map = {}
     link_patterns = [
-            link_pattern for link_pattern in _LINK_PATTERNS
-            if link_pattern.ref_type == LinkRefType.REF_TARGET
+        link_pattern
+        for link_pattern in _LINK_PATTERNS
+        if link_pattern.ref_type == LinkRefType.REF_TARGET
     ]
     for line in buffer:
         link, _ = _find_link(line, link_patterns)
         if link is not None:
             ref_targets_map[link.name] = link.target
-    # buffer.vars["cck_nb_ref_targets"] = ref_targets_map
+    # buffer.vars["my_nb_ref_targets"] = ref_targets_map
     return ref_targets_map
 
 
@@ -238,29 +235,32 @@ def _add_ref_trg(vim: pynvim.Nvim, description: str, target: str):
     buffer = vim.current.buffer
     # ref_trg_start = get_ref_trg_start(nb_buffer)
     # try:
-    #     ref_targets_map = buffer.vars["cck_nb_ref_targets"]
+    #     ref_targets_map = buffer.vars["my_nb_ref_targets"]
     # except KeyError:
     #     ref_targets_map = generate_ref_targets_map(nb_buffer.buffer)
     ref_targets_map = generate_ref_targets_map(buffer)
 
     ref_trg_index = str(
-            min(
-                    index for index in range(len(ref_targets_map) + 1)
-                    if str(index) not in ref_targets_map
-            )
+        min(
+            index
+            for index in range(len(ref_targets_map) + 1)
+            if str(index) not in ref_targets_map
+        )
     )
 
     buffer.append(f"[{ref_trg_index}]: {target}")
     # buffer[ref_trg_start:] = sorted(buffer[ref_trg_start:])
     # ref_targets_map[ref_trg_index] = str(target)
-    # buffer.vars["cck_nb_ref_targets"] = ref_targets_map
+    # buffer.vars["my_nb_ref_targets"] = ref_targets_map
     return ref_trg_index
 
 
 def _add_ref_src(
-        # nb_buffer: NBBuffer, description: str, ref_trg_index: str
-        # vim: pynvim.Nvim, buffer: Buffer, description: str, ref_trg_index: str
-        vim: pynvim.Nvim, description: str, ref_trg_index: str
+    # nb_buffer: NBBuffer, description: str, ref_trg_index: str
+    # vim: pynvim.Nvim, buffer: Buffer, description: str, ref_trg_index: str
+    vim: pynvim.Nvim,
+    description: str,
+    ref_trg_index: str,
 ):
     # vim = nb_buffer.vim
     link_str = f"[{description}][{ref_trg_index}]"
@@ -269,8 +269,7 @@ def _add_ref_src(
 
 def _clean_description(description: str) -> str:
     return "".join(
-            char for char in description
-            if char not in _INVALID_LINK_DESCRIPTION_CHARS
+        char for char in description if char not in _INVALID_LINK_DESCRIPTION_CHARS
     )
 
 

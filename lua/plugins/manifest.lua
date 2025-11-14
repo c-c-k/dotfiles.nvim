@@ -335,11 +335,11 @@ M[#M + 1] = {
 }
 
 M[#M + 1] = {
-  -- # Null-plugin-cck
+  -- # Null-plugin
   -- repo url: N/A
   -- nvim help: N/A
   dir = vim.fn.stdpath "config",
-  name = "cck",
+  name = "my",
   enabled = ACTIVE_PLUGIN,
   cond = ACTIVE_PLUGIN_COND,
   lazy = false,

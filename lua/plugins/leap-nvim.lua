@@ -42,7 +42,7 @@ local spec_leap_nvim__astrocore = {
     }
 
     local astrocore = require "astrocore"
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map({ "n", "x", "o" }, "<A-s>s", "<Plug>(leap)", { desc = "Leap in window" })
     map({ "n", "x", "o" }, "<A-s>f", "<Plug>(leap-forward)", { desc = "Leap forward" })

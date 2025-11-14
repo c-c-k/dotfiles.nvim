@@ -78,7 +78,7 @@ return {
   require "plugins/vim-rest-console",
 
   -- # PKBM, Zettelkasten, Second Brain, Note taking
-  require "plugins/cck-notes",
+  require "plugins/my-notes",
   require "plugins/markdown-nvim",
   require "plugins/mkdnflow-nvim",
 }

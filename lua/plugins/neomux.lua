@@ -26,7 +26,7 @@ local spec_neomux__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
       placeholder_augroup = {

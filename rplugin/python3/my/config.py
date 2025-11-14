@@ -3,31 +3,29 @@ import re
 
 import pynvim
 
-from cck.globals import config
-from cck.path import resolve_path_with_context
-from cck.exceptions import NotebookError
-from cck.utils import AttrDict
+from my.globals import config
+from my.path import resolve_path_with_context
+from my.exceptions import NotebookError
+from my.utils import AttrDict
 
 _DEFAULT_NOTEBOOK = {
-        "name": "default",
-        "path": "~/notebooks/default_notebook",
-        "use_path_as_root": True,
-        "notes_path": "/notes",
-        "extension": ".md",
-        "filename_template": "%s-${TITLE_CLEAN}${EXTENSION}",
-        "templates_path": "/templates",
-        "default_template": "/templates/note.tpl",
+    "name": "default",
+    "path": "~/notebooks/default_notebook",
+    "use_path_as_root": True,
+    "notes_path": "/notes",
+    "extension": ".md",
+    "filename_template": "%s-${TITLE_CLEAN}${EXTENSION}",
+    "templates_path": "/templates",
+    "default_template": "/templates/note.tpl",
 }
-_CONTEXTED_PATH_KEYS = [
-        "notes_path", "templates_path", "default_template"
-]
+_CONTEXTED_PATH_KEYS = ["notes_path", "templates_path", "default_template"]
 _PATTERN_VALID_NOTEBOOK_NAME = re.compile(r"[a-z0-9_]+")
 
 
 def load_config(vim: pynvim.Nvim):
     config.clear()
 
-    config.notebook_prefix = vim.vars.get("cck_notebook_prefix", "nb-")
+    config.notebook_prefix = vim.vars.get("my_notebook_prefix", "nb-")
     _load_notebooks_config(vim)
 
     return config
@@ -53,11 +51,11 @@ def _load_nb_config(raw_notebook: dict) -> AttrDict:
 
     for key in _CONTEXTED_PATH_KEYS:
         notebook[key] = resolve_path_with_context(
-                notebook[key],
-                context_pwd=notebook_path,
-                # context_pwd=context_pwd,
-                # context_root=context_root,
-                real=True
+            notebook[key],
+            context_pwd=notebook_path,
+            # context_pwd=context_pwd,
+            # context_root=context_root,
+            real=True,
         )
 
     return notebook
@@ -88,23 +86,21 @@ def get_nb_id(notebook: AttrDict) -> str:
     nb_name = notebook.name
     if not _PATTERN_VALID_NOTEBOOK_NAME.match(nb_name):
         raise NotebookError(
-                f"Invalid notebook name '{nb_name}', "
-                "notebook name must match '[a-z0-9_]+'"
+            f"Invalid notebook name '{nb_name}', notebook name must match '[a-z0-9_]+'"
         )
 
     return config.notebook_prefix + nb_name
 
 
 def _load_notebooks_config(vim: pynvim.Nvim):
-    notebooks_list = vim.vars.get("cck_notebooks", [])
+    notebooks_list = vim.vars.get("my_notebooks", [])
 
     if notebooks_list != []:
         notebooks = {
-                notebook._id: notebook
-                for notebook in (
-                        _load_nb_config(raw_notebook)
-                        for raw_notebook in notebooks_list
-                )
+            notebook._id: notebook
+            for notebook in (
+                _load_nb_config(raw_notebook) for raw_notebook in notebooks_list
+            )
         }
         active_nb_name = notebooks_list[0]["name"]
     else:

@@ -13,7 +13,7 @@ local spec_neogen__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>idd", "<CMD>Neogen any<CR>", { desc = "Insert any docs/annotations" })
     map("n", "<LEADER>idc", "<CMD>Neogen class<CR>", { desc = "Insert class docs/annotations" })

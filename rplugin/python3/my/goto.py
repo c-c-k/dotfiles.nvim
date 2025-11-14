@@ -3,12 +3,12 @@ from enum import Enum
 
 import pynvim
 
-from cck.handle import handle_uri
-from cck.resolve import resolve_uri_as_path
-from cck.markdown import get_uri_at_cursor
-from cck.path import get_context_pwd
-from cck.path import touch_with_mkdir
-from cck.uri import URI
+from my.handle import handle_uri
+from my.resolve import resolve_uri_as_path
+from my.markdown import get_uri_at_cursor
+from my.path import get_context_pwd
+from my.path import touch_with_mkdir
+from my.uri import URI
 
 
 class _GotoMethod(Enum):
@@ -23,9 +23,15 @@ def _edit_file_at_uri(vim: pynvim.Nvim, uri: URI, context_pwd: str | None):
         return
     path_str = touch_with_mkdir(path_str)
     if path_str is None:
-        vim.api.echo([[
-                f"'can't create {uri!s}'",
-        ]], True, {})
+        vim.api.echo(
+            [
+                [
+                    f"'can't create {uri!s}'",
+                ]
+            ],
+            True,
+            {},
+        )
         return
     command = f"edit {path_str}"
     vim.command(command)
@@ -64,14 +70,14 @@ def _ex_uri(vim: pynvim.Nvim, uri: URI, context_pwd: str | None):
 
 def _open_nvim_help(vim: pynvim.Nvim, help_topic: str):
     # Open the help and capture window details
-    vim.command(f'help {help_topic}')
+    vim.command(f"help {help_topic}")
     help_winid = vim.current.window.number
     help_bufnr = vim.current.buffer.number
     # Switch to the previous window and open the help there
-    vim.command('wincmd p')
+    vim.command("wincmd p")
     vim.current.buffer = help_bufnr
     # Close the split help window
-    vim.command(f'{help_winid}wincmd c')
+    vim.command(f"{help_winid}wincmd c")
 
 
 def _goto_uri(vim: pynvim.Nvim, goto_method: _GotoMethod):

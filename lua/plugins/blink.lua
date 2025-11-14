@@ -28,7 +28,7 @@ local spec_blink_cmp = {
         -- Toggle flag for <C-J> and <C-K> scrolling help or completion list
         function(cmp)
           if cmp.is_menu_visible() then
-            vim.b.cck_cmp_scroll_doc = not vim.b.cck_cmp_scroll_doc
+            vim.b.my_cmp_scroll_doc = not vim.b.my_cmp_scroll_doc
             return true
           end
         end,
@@ -37,7 +37,7 @@ local spec_blink_cmp = {
       ["<C-J>"] = {
         function(cmp)
           if cmp.is_menu_visible() then
-            if vim.b.cck_cmp_scroll_doc then return cmp.scroll_documentation_down(4) end
+            if vim.b.my_cmp_scroll_doc then return cmp.scroll_documentation_down(4) end
           end
         end,
         "select_next",
@@ -46,7 +46,7 @@ local spec_blink_cmp = {
       ["<C-K>"] = {
         function(cmp)
           if cmp.is_menu_visible() then
-            if vim.b.cck_cmp_scroll_doc then return cmp.scroll_documentation_up(4) end
+            if vim.b.my_cmp_scroll_doc then return cmp.scroll_documentation_up(4) end
           end
         end,
         "select_prev",
@@ -111,7 +111,7 @@ local spec_blink_cmp__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>uc", { copy = { "n", "<Leader>uc", source = astromaps } }) -- desc = "Toggle autocompletion (buffer)"
     map("n", "<LEADER>uC", { copy = { "n", "<Leader>uC", source = astromaps } }) -- desc = "Toggle autocompletion (global)"

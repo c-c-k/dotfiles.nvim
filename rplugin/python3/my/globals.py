@@ -1,3 +1,3 @@
-from cck.utils import AttrDict
+from my.utils import AttrDict
 
 config: AttrDict = AttrDict()

@@ -1,5 +1,5 @@
 ---@type LazyPluginSpec
-local spec_cck_core = {
+local spec_my_core = {
   dir = vim.fn.stdpath "config",
   opts = function()
     require "config/options"
@@ -11,5 +11,5 @@ local spec_cck_core = {
 
 ---@type LazyPluginSpec[]
 return {
-  spec_cck_core,
+  spec_my_core,
 }

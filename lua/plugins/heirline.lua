@@ -11,7 +11,7 @@ local spec_heirline_nvim__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<Leader>bss", { copy = { "n", "<Leader>bb", source = astromaps } }) -- desc = "Select buffer from tabline"
     map("n", "<Leader>bxs", { copy = { "n", "<Leader>bd", source = astromaps } }) -- desc = "Close buffer from tabline"

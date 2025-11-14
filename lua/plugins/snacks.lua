@@ -18,7 +18,7 @@ local spec_snacks_nvim__astrocore = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     -- Snacks.indent mappings
     map("n", "<LEADER>u|", { copy = { "n", "<Leader>u|", source = astromaps } }) -- desc = "Toggle indent guides"

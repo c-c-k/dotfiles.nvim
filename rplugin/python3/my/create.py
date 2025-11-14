@@ -7,25 +7,25 @@ import typing as t
 
 import pynvim
 
-from cck.buffer import NBBuffer
-from cck.globals import config
-from cck.markdown import add_ref_link as md_add_ref_link
-from cck.path import get_context_pwd
-from cck.path import resolve_path_with_context
-from cck.path import touch_with_mkdir
-from cck.exceptions import NotebookError
-from cck.notebook import get_nb_id_by_path
-from cck.notebook import get_notebook_by_nb_id
-from cck.notebook import get_current_nb_id
-from cck.utils import get_dir_auto_id
-from cck.uri import URI
-from cck.utils import AttrDict
+from my.buffer import NBBuffer
+from my.globals import config
+from my.markdown import add_ref_link as md_add_ref_link
+from my.path import get_context_pwd
+from my.path import resolve_path_with_context
+from my.path import touch_with_mkdir
+from my.exceptions import NotebookError
+from my.notebook import get_nb_id_by_path
+from my.notebook import get_notebook_by_nb_id
+from my.notebook import get_current_nb_id
+from my.utils import get_dir_auto_id
+from my.uri import URI
+from my.utils import AttrDict
 
 _TITLE_LEGAL_CHARACTERS = string.ascii_lowercase + string.digits + "._"
 _TAG_LEGAL_CHARACTERS = string.ascii_lowercase + string.digits + "-"
 _PATTERN_TAGS_LINE = re.compile(r"^[<>!-\\#/* \t]*@tags: *(?P<TAGS>.*)$")
 _PATTERN_TITLE_LINE = re.compile(r"^#(?P<TITLE>[^#].*)$")
-_TEMP_PROJECT_CARD_TEMPLATE = '${AUTO_ID}-${TITLE_CLEAN}'
+_TEMP_PROJECT_CARD_TEMPLATE = "${AUTO_ID}-${TITLE_CLEAN}"
 _TEMP_PATTERN_IS_PROJECT_CARD = re.compile(r"^.*/projects/.*/cards/?$")
 _TEMP_PATTERN_IS_CARD_ATTACHMENT = re.compile(r"^.*/projects/.*/cards/\w+/?$")
 _PLACEHOLDER_FILENAME = "--PLACEHOLDER-FILENAME--"
@@ -108,8 +108,8 @@ class NoteInfo:
 
     def _extract_extension(self):
         if (  # yapf hack
-                (len(self._title_args) > 0)
-                and (self._title_args[-1].find(".") == 0)):
+            (len(self._title_args) > 0) and (self._title_args[-1].find(".") == 0)
+        ):
             self.extension = self._title_args.pop()
         else:
             self.extension = ""
@@ -124,19 +124,13 @@ class NoteInfo:
         if self._use_cb:
             buffer = self._vim.current.buffer
             buf_dir = get_context_pwd(buffer=buffer)
-            buf_nb_id = (
-                    get_nb_id_by_path(buf_dir) if buf_dir is not None else None
-            )
-            context_pwd = (
-                    buf_dir if buf_nb_id == self._nb_id else nb_notes_path
-            )
+            buf_nb_id = get_nb_id_by_path(buf_dir) if buf_dir is not None else None
+            context_pwd = buf_dir if buf_nb_id == self._nb_id else nb_notes_path
         else:
             context_pwd = nb_notes_path
 
         self._dir_path_str = resolve_path_with_context(
-                self._dir_path_str,
-                context_pwd=context_pwd,
-                context_root=nb_notes_path
+            self._dir_path_str, context_pwd=context_pwd, context_root=nb_notes_path
         )
 
     def _resolve_extension(self):
@@ -178,7 +172,7 @@ class NoteInfo:
 
     def _create_path_str(self):
         self.path_str = resolve_path_with_context(
-                self.filename, context_pwd=self._dir_path_str
+            self.filename, context_pwd=self._dir_path_str
         )
 
     def _create_filename_params(self, use_auto_id: bool) -> dict[str, str]:
@@ -210,7 +204,7 @@ class NoteInfo:
 
     def _create_path_uri(self):
         prefix = osp.commonpath((self.notebook.notes_path, self.path_str))
-        path_str = self.path_str[len(prefix):]
+        path_str = self.path_str[len(prefix) :]
         self.path_uri = URI(self._nb_id, path_str)
 
     @property
@@ -220,25 +214,24 @@ class NoteInfo:
 
 def _clean_tag(name: str) -> str:
     return _clean_string(
-            name=name,
-            valid_chars=_TAG_LEGAL_CHARACTERS,
-            filler_char="-",
-            preprocessor=lambda s: s.lower()
+        name=name,
+        valid_chars=_TAG_LEGAL_CHARACTERS,
+        filler_char="-",
+        preprocessor=lambda s: s.lower(),
     )
 
 
 def _clean_title(name: str) -> str:
     return _clean_string(
-            name=name,
-            valid_chars=_TITLE_LEGAL_CHARACTERS,
-            filler_char="_",
-            preprocessor=lambda s: s.lower()
+        name=name,
+        valid_chars=_TITLE_LEGAL_CHARACTERS,
+        filler_char="_",
+        preprocessor=lambda s: s.lower(),
     )
 
 
 def _clean_string(
-        name: str, valid_chars: str, filler_char: str,
-        preprocessor: t.Callable | None
+    name: str, valid_chars: str, filler_char: str, preprocessor: t.Callable | None
 ) -> str:
     if preprocessor is not None:
         name = preprocessor(name)
@@ -255,9 +248,9 @@ def _clean_string(
 
 
 def create_note(
-        vim: pynvim.Nvim,
-        title_args: list[str],
-        use_cb: bool,
+    vim: pynvim.Nvim,
+    title_args: list[str],
+    use_cb: bool,
 ) -> NoteInfo | None:
     try:
         note_info = NoteInfo(vim, title_args, use_cb)
@@ -278,7 +271,7 @@ def create_note(
 
 
 def _create_initial_content(
-        vim: pynvim.Nvim, note_info: NoteInfo, use_cb: bool, **kwargs
+    vim: pynvim.Nvim, note_info: NoteInfo, use_cb: bool, **kwargs
 ) -> str:
     template_path = note_info.content_template_path
     if osp.exists(template_path):
@@ -293,7 +286,7 @@ def _create_initial_content(
 
 
 def _create_initial_content_params(
-        vim: pynvim.Nvim, note_info: NoteInfo, use_cb: bool, **kwargs
+    vim: pynvim.Nvim, note_info: NoteInfo, use_cb: bool, **kwargs
 ) -> dict[str, str]:
     params: dict[str, str] = {}
 
@@ -321,8 +314,9 @@ def _create_initial_content_params(
 def edit_note(vim: pynvim.Nvim, title_args: list[str]):
     note_info = create_note(vim, title_args, use_cb=True)
     if note_info is None:
-        vim.api.echo([["can not create/edit note from args: "],
-                      [" ".join(title_args)]], True, {})
+        vim.api.echo(
+            [["can not create/edit note from args: "], [" ".join(title_args)]], True, {}
+        )
         return
 
     command = f"edit {note_info.path_str}"
@@ -333,13 +327,10 @@ def add_note_ref_link(vim: pynvim.Nvim, title_args: list[str]):
     note_info = create_note(vim, title_args, use_cb=True)
     nb_buffer = NBBuffer(vim)
     if note_info is None:
-        vim.api.echo([["can not create/find note from args: "], title_args],
-                     True, {})
+        vim.api.echo([["can not create/find note from args: "], title_args], True, {})
         return
 
-    buffer_nb_id = get_nb_id_by_path(
-            resolve_path_with_context(nb_buffer.buffer.name)
-    )
+    buffer_nb_id = get_nb_id_by_path(resolve_path_with_context(nb_buffer.buffer.name))
     if note_info._nb_id == buffer_nb_id:
         link_target = note_info.path_uri.body
     else:

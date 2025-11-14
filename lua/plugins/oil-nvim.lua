@@ -9,7 +9,7 @@ local spec_oil_nvim = {
     local astrocore = require "astrocore"
     local oil = require "oil"
     local uleader = vim.g.usermapleader
-    local schdir = require("cck.utils.editor").schdir
+    local schdir = require("my.utils.editor").schdir
 
     return astrocore.extend_tbl(opts, {
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -262,7 +262,7 @@ local spec_oil_nvim__astrocore = {
     local astrocore = require "astrocore"
     local oil = require "oil"
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>ofo", function()
       local current_buf_name = vim.api.nvim_buf_get_name(0)

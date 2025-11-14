@@ -2,7 +2,7 @@ from datetime import datetime
 from time import sleep
 
 import pynvim
-from cck.uri import URI
+from my.uri import URI
 
 
 def handle_uri(vim: pynvim.Nvim, uri: URI):

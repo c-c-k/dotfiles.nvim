@@ -1,5 +1,5 @@
-if vim.b["did_ftplugin_cck_go"] then return end
-vim.b["did_ftplugin_cck_go"] = true
+if vim.b["did_ftplugin_my_go"] then return end
+vim.b["did_ftplugin_my_go"] = true
 
 vim.opt_local.expandtab = false
 vim.opt_local.textwidth = 0

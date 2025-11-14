@@ -10,7 +10,7 @@ local spec_nvim_dap__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>rb", { copy = { "n", "<Leader>db", source = astromaps } }) -- desc = "Toggle Breakpoint (F9)"
     map("n", "<LEADER>rB", { copy = { "n", "<Leader>dB", source = astromaps } }) -- desc = "Clear Breakpoints"
@@ -43,7 +43,7 @@ local spec_nvim_dap_ui__astrocore = {
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>rE", { copy = { "n", "<Leader>dE", source = astromaps } }) -- desc = "Evaluate Input"
     map("v", "<LEADER>rE", { copy = { "v", "<Leader>dE", source = astromaps } }) -- desc = "Evaluate Input"
@@ -65,7 +65,7 @@ local spec_nvim_dap_view__astrocore = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
 
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map("n", "<LEADER>rE", { function() require("dap-view").add_expr() end, desc = "Add expression" })
     map("n", "<LEADER>ru", { function() require("dap-view").toggle() end, desc = "Toggle Debugger UI" })

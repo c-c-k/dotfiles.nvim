@@ -1,5 +1,5 @@
-local schdir_buf_dir = require("cck.utils.editor").schdir_buf_dir
-local schdir_buf_root = require("cck.utils.editor").schdir_buf_root
+local schdir_buf_dir = require("my.utils.editor").schdir_buf_dir
+local schdir_buf_root = require("my.utils.editor").schdir_buf_root
 
 ---@type LazyPluginSpec
 local spec_astrocore = {
@@ -10,9 +10,9 @@ local spec_astrocore = {
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
     -- Get other utilities required by mappings
-    local util_win = require "cck.utils.win"
+    local util_win = require "my.utils.win"
 
     map({ "n", "x" }, "<LEADER>", { desc = "AstroNvim mappings", uleader = false })
 
@@ -160,12 +160,7 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER>w", { desc = "window actions" })
 
     -- Sync window
-    map(
-      { "n", "x" },
-      "<LEADER>wy",
-      function() require("cck.utils.win").sync_current_win() end,
-      { desc = "Sync window" }
-    )
+    map({ "n", "x" }, "<LEADER>wy", function() require("my.utils.win").sync_current_win() end, { desc = "Sync window" })
 
     -- Navigate windows
     map({ "n", "x" }, "<LEADER>ww", "<CMD>wincmd w<CR>", { desc = "Go to window (alternate)" })

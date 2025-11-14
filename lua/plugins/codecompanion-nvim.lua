@@ -7,7 +7,7 @@ local spec_codecompanion_nvim = {
     "nvim-telescope/telescope.nvim",
   },
   opts = {
-    adapters = { http = require "cck.codecompanion.adapters" },
+    adapters = { http = require "my.codecompanion.adapters.init" },
     strategies = {
       chat = {
         adapter = "gemini",
@@ -37,7 +37,7 @@ local spec_codecompanion_nvim = {
       -- ---@param opts table
       -- ---@return string
       -- system_prompt = function(opts)
-      --   local system_prompts = require "cck.codecompanion.system_prompts"
+      --   local system_prompts = require "my.codecompanion.system_prompts"
       --   if system_prompts[opts.adapter.name] then return system_prompts[opts.adapter.name] end
       --
       --   vim.notify(
@@ -60,7 +60,7 @@ local spec_codecompanion_nvim__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
     map({ "n", "v" }, "<LEADER>oan", "<CMD>CodeCompanionChat<CR>", { desc = "Open new AI chat" })
     map({ "n", "v" }, "<LEADER>oaN", ":CodeCompanionChat ", { desc = "Open new AI chat (CMD)" })

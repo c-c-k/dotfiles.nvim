@@ -16,14 +16,14 @@ local spec_vim_fugitive__astrocore = {
           pattern = "fugitive,git",
           desc = "Set mappings for git and fugitive buffers",
           callback = function(args)
-            local maps, map = require("cck.core.keymaps").get_astrocore_mapper()
+            local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
             local function get_git_dir() return vim.trim(vim.fn.execute "Git rev-parse --show-toplevel") end
 
             local fscd = function(scope)
               local current_dir = get_git_dir()
 
-              require("cck.utils.editor").schdir(current_dir, scope)
+              require("my.utils.editor").schdir(current_dir, scope)
             end
 
             map("n", "<LEADER>qppp", function() fscd "a" end, { desc = "Set PWD to git dir(active-scope)" })

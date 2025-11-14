@@ -53,12 +53,10 @@ local spec_blink_cmp = {
         "fallback",
       },
       ["<Tab>"] = {
-        "select_next",
         "snippet_forward",
         "fallback",
       },
       ["<S-Tab>"] = {
-        "select_prev",
         "snippet_backward",
         "fallback",
       },

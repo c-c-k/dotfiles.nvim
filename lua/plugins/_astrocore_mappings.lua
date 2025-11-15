@@ -1,11 +1,10 @@
-local schdir_buf_dir = require("my.utils.editor").schdir_buf_dir
-local schdir_buf_root = require("my.utils.editor").schdir_buf_root
-
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local schdir_buf_dir = require("my.utils.editor").schdir_buf_dir
+    local schdir_buf_root = require("my.utils.editor").schdir_buf_root
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
@@ -211,6 +210,10 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER>ws<TAB>", "<CMD>split|wincmd T<CR>", { desc = "Split window (tab-next)" })
     map({ "n", "x" }, "<LEADER>ws<S-TAB>", "<CMD>split|wincmd T|-tabmove<CR>", { desc = "Split window (tab-previous)" })
 
+    -- Change window PWD
+    map("n", "<LEADER>wp", function() schdir_buf_dir "w" end, { desc = "win cd" })
+    map("n", "<LEADER>wr", function() schdir_buf_root "w" end, { desc = "win cd root" })
+
     -- *** Tab mappings ***
 
     map({ "n", "x" }, "<LEADER><TAB>", { desc = "Tab actions" })
@@ -235,6 +238,10 @@ local spec_astrocore = {
     map("n", "<LEADER>o<TAB><TAB>", "<CMD>tabedit<CR>", { desc = "Open new tab (next)" })
     map("n", "<LEADER>o<S-TAB>", "<CMD>-tabedit<CR>", { desc = "Open new tab (previous)" })
     map("n", "<LEADER>x<TAB>", "<CMD>tabclose<CR>", { desc = "Close current tab" })
+
+    -- Change tab PWD
+    map("n", "<LEADER><TAB>p", function() schdir_buf_dir "t" end, { desc = "tab cd" })
+    map("n", "<LEADER><TAB>r", function() schdir_buf_root "t" end, { desc = "tab cd root" })
 
     -- Move current tab
     map({ "n", "x" }, "<LEADER><TAB>m", { desc = "Move tab" })
@@ -430,18 +437,11 @@ local spec_astrocore = {
 
     map("n", "<LEADER>qs", { desc = "Sessions" })
 
-    -- Change PWD
-    map("n", "<LEADER>qp", { desc = "Set PWD" })
-    map("n", "<LEADER>qpp", { desc = "Set PWD to buffer parent dir" })
-    map("n", "<LEADER>qpr", { desc = "Set PWD to buffer root dir" })
-    map("n", "<LEADER>qppp", function() schdir_buf_dir "a" end, { desc = "Set PWD to buffer parent dir(active-scope)" })
-    map("n", "<LEADER>qppg", function() schdir_buf_dir "g" end, { desc = "Set PWD to buffer parent dir(global-scope)" })
-    map("n", "<LEADER>qppt", function() schdir_buf_dir "t" end, { desc = "Set PWD to buffer parent dir(tab-scope)" })
-    map("n", "<LEADER>qppw", function() schdir_buf_dir "w" end, { desc = "Set PWD to buffer parent dir(win-scope)" })
-    map("n", "<LEADER>qprr", function() schdir_buf_root "a" end, { desc = "Set PWD to buffer root dir(active-scope)" })
-    map("n", "<LEADER>qprg", function() schdir_buf_root "g" end, { desc = "Set PWD to buffer root dir(global-scope)" })
-    map("n", "<LEADER>qprt", function() schdir_buf_root "t" end, { desc = "Set PWD to buffer root dir(tab-scope)" })
-    map("n", "<LEADER>qprw", function() schdir_buf_root "w" end, { desc = "Set PWD to buffer root dir(win-scope)" })
+    -- Change active/global PWD
+    map("n", "<LEADER>qp", function() schdir_buf_dir "a" end, { desc = "active cd" })
+    map("n", "<LEADER>qr", function() schdir_buf_root "a" end, { desc = "active cd root" })
+    map("n", "<LEADER>qP", function() schdir_buf_dir "g" end, { desc = "global cd" })
+    map("n", "<LEADER>qR", function() schdir_buf_root "g" end, { desc = "global cd root" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

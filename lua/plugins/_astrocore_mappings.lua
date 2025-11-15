@@ -162,16 +162,16 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER>wy", function() require("my.utils.win").sync_current_win() end, { desc = "Sync window" })
 
     -- Navigate windows
-    map({ "n", "x" }, "<LEADER>ww", "<CMD>wincmd w<CR>", { desc = "Go to window (alternate)" })
-    map({ "n", "x" }, "<LEADER>wh", "<CMD>wincmd h<CR>", { desc = "Go to window (left)" })
-    map({ "n", "x" }, "<LEADER>wj", "<CMD>wincmd j<CR>", { desc = "Go to window (down)" })
-    map({ "n", "x" }, "<LEADER>wk", "<CMD>wincmd k<CR>", { desc = "Go to window (up)" })
-    map({ "n", "x" }, "<LEADER>wl", "<CMD>wincmd l<CR>", { desc = "Go to window (right)" })
-    map({ "n", "i", "v", "t" }, "<M-w>", { copy = { "n", "<LEADER>ww" } })
-    map({ "n", "i", "v", "t" }, "<M-h>", { copy = { "n", "<LEADER>wh" } })
-    map({ "n", "i", "v", "t" }, "<M-j>", { copy = { "n", "<LEADER>wj" } })
-    map({ "n", "i", "v", "t" }, "<M-k>", { copy = { "n", "<LEADER>wk" } })
-    map({ "n", "i", "v", "t" }, "<M-l>", { copy = { "n", "<LEADER>wl" } })
+    map({ "n", "x" }, "<LEADER>ww", "<C-\\><C-N><CMD>wincmd p<CR>", { desc = "Go to window (alternate)" })
+    map({ "n", "x" }, "<LEADER>wh", "<C-\\><C-N><CMD>wincmd h<CR>", { desc = "Go to window (left)" })
+    map({ "n", "x" }, "<LEADER>wj", "<C-\\><C-N><CMD>wincmd j<CR>", { desc = "Go to window (down)" })
+    map({ "n", "x" }, "<LEADER>wk", "<C-\\><C-N><CMD>wincmd k<CR>", { desc = "Go to window (up)" })
+    map({ "n", "x" }, "<LEADER>wl", "<C-\\><C-N><CMD>wincmd l<CR>", { desc = "Go to window (right)" })
+    map({ "n", "i", "v", "t" }, "<M-W>", { copy = { "n", "<LEADER>ww" } })
+    map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER>wh" } })
+    map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER>wj" } })
+    map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER>wk" } })
+    map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER>wl" } })
 
     -- Open/Close (enew) window
     map("n", "<LEADER>ow", { desc = "Open new window" })
@@ -219,15 +219,16 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER><TAB>", { desc = "Tab actions" })
 
     -- Navigate tabs
-    map({ "n", "x" }, "<LEADER><TAB><TAB>", "<CMD>tabnext #<CR>", { desc = "Go to tab (alternate)" })
-    map({ "n", "x" }, "<LEADER><TAB>h", "<CMD>tabfirst<CR>", { desc = "Go to tab (first)" })
-    map({ "n", "x" }, "<LEADER><TAB>j", "<CMD>tabprevious<CR>", { desc = "Go to tab (previous)" })
-    map({ "n", "x" }, "<LEADER><TAB>k", "<CMD>tabnext<CR>", { desc = "Go to tab (next)" })
-    map({ "n", "x" }, "<LEADER><TAB>l", "<CMD>tablast<CR>", { desc = "Go to tab (last)" })
-    map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER><TAB>h" } })
-    map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER><TAB>j" } })
-    map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER><TAB>k" } })
-    map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER><TAB>l" } })
+    map({ "n", "x" }, "<LEADER><TAB><TAB>", "<C-\\><C-N><CMD>tabnext #<CR>", { desc = "Go to tab (alternate)" })
+    map({ "n", "x" }, "<LEADER><TAB>h", "<C-\\><C-N><CMD>tabfirst<CR>", { desc = "Go to tab (first)" })
+    map({ "n", "x" }, "<LEADER><TAB>j", "<C-\\><C-N><CMD>tabprevious<CR>", { desc = "Go to tab (previous)" })
+    map({ "n", "x" }, "<LEADER><TAB>k", "<C-\\><C-N><CMD>tabnext<CR>", { desc = "Go to tab (next)" })
+    map({ "n", "x" }, "<LEADER><TAB>l", "<C-\\><C-N><CMD>tablast<CR>", { desc = "Go to tab (last)" })
+    map({ "n", "i", "v", "t" }, "<M-h>", { copy = { "n", "<LEADER><TAB>h" } })
+    map({ "n", "i", "v", "t" }, "<M-j>", { copy = { "n", "<LEADER><TAB>j" } })
+    map({ "n", "i", "v", "t" }, "<M-k>", { copy = { "n", "<LEADER><TAB>k" } })
+    map({ "n", "i", "v", "t" }, "<M-l>", { copy = { "n", "<LEADER><TAB>l" } })
+    map({ "n", "i", "v", "t" }, "<M-TAB>", { copy = { "n", "<LEADER><TAB><TAB>" } })
 
     -- Open/Close new tab
     map("n", "<LEADER>o<TAB>", { desc = "Open new tab" })

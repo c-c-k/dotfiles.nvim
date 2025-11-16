@@ -13,12 +13,15 @@ local M = {}
 function M.schdir(path, scope)
   ---@type string | 'false' | nil
   if not path then
-    vim.api.nvim_err_writeln(("Invalid path: %s"):format(path))
+    local _msg = ("Invalid path: %s"):format(path)
+    vim.api.nvim_echo({ { _msg } }, true, { err = true })
     return false
   end
 
+  ---@type string?
   local prev_pwd = vim.fn.getcwd()
   local success = true
+  local scope_name = ""
 
   path = vim.trim(path)
 
@@ -33,15 +36,20 @@ function M.schdir(path, scope)
 
     if prev_pwd ~= path then
       if scope == "a" then
+        scope_name = "Active"
         success, _ = pcall(vim.fn.chdir, path)
       elseif scope == "g" then
+        scope_name = "Global"
         success, _ = pcall(vim.api.nvim_set_current_dir, path)
       elseif scope == "w" then
+        scope_name = "Window"
         success, _ = pcall(vim.cmd.lchdir, path)
       elseif scope == "t" then
+        scope_name = "Tab"
         success, _ = pcall(vim.cmd.tchdir, path)
       else
-        vim.api.nvim_err_writeln(("Unable to parse scope: %s"):format(scope))
+        local _msg = ("Unable to parse scope: %s"):format(scope)
+        vim.api.nvim_echo({ { _msg } }, true, { err = true })
       end
     else
       prev_pwd = nil
@@ -49,9 +57,12 @@ function M.schdir(path, scope)
   end
 
   if success then
+    local _msg = ("Changed %s PWD to: %s"):format(scope_name, path)
+    vim.api.nvim_echo({ { _msg } }, false, {})
     return prev_pwd
   else
-    vim.api.nvim_err_writeln(("Invalid path: %s"):format(path))
+    local _msg = ("Invalid path: %s"):format(path)
+    vim.api.nvim_echo({ { _msg } }, true, { err = true })
     return false
   end
 end
@@ -79,12 +90,14 @@ end
 ---| nil # in case the buffer root dir is the same as the current PWD
 ---| string prev_pwd the previous pwd
 function M.schdir_buf_root(scope)
-  local root = require("astrocore.rooter").detect()[1].paths[1]
+  local roots = require("astrocore.rooter").detect(0, false)
+  local root = #roots > 0 and roots[1].paths[1]
 
   if root then
     return M.schdir(root, scope)
   else
-    vim.api.nvim_err_writeln(("Buffer does not have root dir: %s"):format(vim.api.nvim_buf_get_name(0)))
+    local _msg = ("Buffer does not have root dir: %s"):format(vim.api.nvim_buf_get_name(0))
+    vim.api.nvim_echo({ { _msg } }, true, { err = true })
     return false
   end
 end

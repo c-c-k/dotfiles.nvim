@@ -20,29 +20,33 @@ local spec_leap_nvim = {
 local spec_leap_nvim__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local autocmds = {
-      -- leap_cursor = { -- https://github.com/ggandor/leap.nvim/issues/70#issuecomment-1521177534
-      --   {
-      --     event = "User",
-      --     pattern = "LeapEnter",
-      --     callback = function()
-      --       vim.cmd.hi("Cursor", "blend=100")
-      --       vim.opt.guicursor:append { "a:Cursor/lCursor" }
-      --     end,
-      --   },
-      --   {
-      --     event = "User",
-      --     pattern = "LeapLeave",
-      --     callback = function()
-      --       vim.cmd.hi("Cursor", "blend=0")
-      --       vim.opt.guicursor:remove { "a:Cursor/lCursor" }
-      --     end,
-      --   },
-      -- },
-    }
-
     local astrocore = require "astrocore"
+    local mycore = require "my.core"
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+
+    -- -- https://github.com/ggandor/leap.nvim/issues/70#issuecomment-1521177534
+    -- local aug_my_leap_cursor_fix = mycore.get_augroup {
+    --   name = "aug_my_leap_cursor_fix",
+    --   clear = true,
+    -- }
+    -- mycore.add_autocmd {
+    --   group = aug_my_leap_cursor_fix,
+    --   event = "User",
+    --   pattern = "LeapEnter",
+    --   callback = function()
+    --     vim.cmd.hi("Cursor", "blend=100")
+    --     vim.opt.guicursor:append { "a:Cursor/lCursor" }
+    --   end,
+    -- }
+    -- mycore.add_autocmd {
+    --   group = aug_my_leap_cursor_fix,
+    --   event = "User",
+    --   pattern = "LeapLeave",
+    --   callback = function()
+    --     vim.cmd.hi("Cursor", "blend=0")
+    --     vim.opt.guicursor:remove { "a:Cursor/lCursor" }
+    --   end,
+    -- }
 
     map({ "n", "x", "o" }, "<A-s>s", "<Plug>(leap)", { desc = "Leap in window" })
     map({ "n", "x", "o" }, "<A-s>f", "<Plug>(leap-forward)", { desc = "Leap forward" })
@@ -62,7 +66,6 @@ local spec_leap_nvim__astrocore = {
     end, { desc = "Leap remote action" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    opts.autocmds = astrocore.extend_tbl(opts.autocmds, autocmds)
   end,
 }
 

@@ -28,27 +28,30 @@ local spec_plugin_name__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
+    local mycore = require "my.core"
     local g = {}
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
-    opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
-      placeholder_augroup = {
-        {
-          event = { "placeholder_event" },
-          pattern = "placeholder_pattern",
-          desc = "placeholder description",
-          callback = function(args)
-            -- selene: allow(shadowing)
-            ---@diagnostic disable-next-line: redefined-local
-            local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local aug_my_placeholder = mycore.get_augroup {
+      name = "aug_my_placeholder",
+      clear = true,
+    }
+    mycore.add_autocmd {
+      group = aug_my_placeholder,
+      event = { "placeholder_event" },
+      pattern = "placeholder_pattern",
+      desc = "placeholder description",
+      callback = function(args)
+        -- selene: allow(shadowing)
+        ---@diagnostic disable-next-line: redefined-local
+        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
-            map("n", "<LEADER>", "", { desc = "" })
+        map("n", "<LEADER>", "", { desc = "" })
 
-            astrocore.set_mappings(maps, { buffer = args.data.buf_id })
-          end,
-        },
-      },
-    })
+        astrocore.set_mappings(maps, { buffer = args.data.buf_id })
+      end,
+    }
+
     map("n", "<LEADER>", "", { desc = "" })
 
     g.placeholder = {}

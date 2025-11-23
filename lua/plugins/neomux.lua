@@ -26,18 +26,21 @@ local spec_neomux__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
+    local mycore = require "my.core"
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
-    opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
-      placeholder_augroup = {
-        {
-          event = { "filetype" },
-          pattern = "gitcommit,gitrebase,gitconfig",
-          desc = "Neomux auto-del git temp buffers",
-          callback = function(_) vim.opt_local.bufhidden = "delete" end,
-        },
-      },
-    })
+    local aug_my_neomux_autodel_git_temp_buf = mycore.get_augroup {
+      name = "aug_my_neomux_autodel_git_temp_buf",
+      clear = true,
+    }
+    mycore.add_autocmd {
+      group = aug_my_neomux_autodel_git_temp_buf,
+      event = { "filetype" },
+      pattern = "gitcommit,gitrebase,gitconfig",
+      desc = "Neomux auto-del git temp buffers",
+      callback = function(_) vim.opt_local.bufhidden = "delete" end,
+    }
+
     map("n", "<LEADER>ott", "<CMD>Neomux<CR>", { desc = "Open terminal (PWD)" })
     map("n", "<LEADER>otl", "<CMD>lcd %:h|Neomux<CR>", { desc = "Open terminal (buffer dir)" })
     map("n", "<LEADER>oth", "<CMD>lcd ~|Neomux<CR>", { desc = "Open terminal (home)" })

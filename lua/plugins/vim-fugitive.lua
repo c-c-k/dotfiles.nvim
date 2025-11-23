@@ -9,64 +9,67 @@ local spec_vim_fugitive__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    opts.autocmds = astrocore.extend_tbl(opts.autocmds, {
-      setfugitivemappings = {
-        {
-          event = { "FileType" },
-          pattern = "fugitive,git",
-          desc = "Set mappings for git and fugitive buffers",
-          callback = function(args)
-            local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local mycore = require "my.core"
 
-            local function get_git_dir() return vim.trim(vim.fn.execute "Git rev-parse --show-toplevel") end
+    local aug_my_fugitive_buf_core_config = mycore.get_augroup {
+      name = "aug_my_fugitive_buf_core_config",
+      clear = true,
+    }
+    mycore.add_autocmd {
+      group = aug_my_fugitive_buf_core_config,
+      event = { "FileType" },
+      pattern = "fugitive,git",
+      desc = "Set mappings for git and fugitive buffers",
+      callback = function(args)
+        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
-            local fscd = function(scope)
-              local current_dir = get_git_dir()
+        local function get_git_dir() return vim.trim(vim.fn.execute "Git rev-parse --show-toplevel") end
 
-              require("my.utils.editor").schdir(current_dir, scope)
-            end
+        local fscd = function(scope)
+          local current_dir = get_git_dir()
 
-            map("n", "<LEADER>qppp", function() fscd "a" end, { desc = "Set PWD to git dir(active-scope)" })
-            map("n", "<LEADER>qppg", function() fscd "g" end, { desc = "Set PWD to git dir(global-scope)" })
-            map("n", "<LEADER>qppt", function() fscd "t" end, { desc = "Set PWD to git dir(tab-scope)" })
-            map("n", "<LEADER>qppw", function() fscd "w" end, { desc = "Set PWD to git dir(win-scope)" })
-            map("n", "<LEADER>qpr", { desc = "Disabled in git window" })
-            map("n", "<LEADER>qprr", "", { desc = "Disabled in git window" })
-            map("n", "<LEADER>qprg", "", { desc = "Disabled in git window" })
-            map("n", "<LEADER>qprw", "", { desc = "Disabled in git window" })
-            map("n", "<LEADER>qprt", "", { desc = "Disabled in git window" })
+          require("my.utils.editor").schdir(current_dir, scope)
+        end
 
-            -- mini.files integration
-            map("n", "<LEADER>ofs", function()
-              local current_dir = get_git_dir()
-              local success, error = pcall(require("mini.files").open, current_dir, false)
-              if not success then vim.print(error) end
-            end, { desc = "Open mini.files (git dir)" })
+        map("n", "<LEADER>qppp", function() fscd "a" end, { desc = "Set PWD to git dir(active-scope)" })
+        map("n", "<LEADER>qppg", function() fscd "g" end, { desc = "Set PWD to git dir(global-scope)" })
+        map("n", "<LEADER>qppt", function() fscd "t" end, { desc = "Set PWD to git dir(tab-scope)" })
+        map("n", "<LEADER>qppw", function() fscd "w" end, { desc = "Set PWD to git dir(win-scope)" })
+        map("n", "<LEADER>qpr", { desc = "Disabled in git window" })
+        map("n", "<LEADER>qprr", "", { desc = "Disabled in git window" })
+        map("n", "<LEADER>qprg", "", { desc = "Disabled in git window" })
+        map("n", "<LEADER>qprw", "", { desc = "Disabled in git window" })
+        map("n", "<LEADER>qprt", "", { desc = "Disabled in git window" })
 
-            -- oil.nvim integration
-            map("n", "<LEADER>ofo", function()
-              local has_oil, oil = pcall(require, "oil")
-              if has_oil then
-                local current_dir = get_git_dir()
-                oil.open(current_dir)
-              else
-                vim.print "oil.nvim plugin not present"
-              end
-            end, { desc = "Open oil.nvim (git dir)" })
+        -- mini.files integration
+        map("n", "<LEADER>ofs", function()
+          local current_dir = get_git_dir()
+          local success, error = pcall(require("mini.files").open, current_dir, false)
+          if not success then vim.print(error) end
+        end, { desc = "Open mini.files (git dir)" })
 
-            -- terminal integration
-            map("n", "<LEADER>otl", function()
-              local cur_directory = get_git_dir()
-              vim.cmd.lcd(cur_directory)
-              vim.cmd.terminal()
-              vim.cmd.startinsert()
-            end, { desc = "Open terminal (git dir)" })
+        -- oil.nvim integration
+        map("n", "<LEADER>ofo", function()
+          local has_oil, oil = pcall(require, "oil")
+          if has_oil then
+            local current_dir = get_git_dir()
+            oil.open(current_dir)
+          else
+            vim.print "oil.nvim plugin not present"
+          end
+        end, { desc = "Open oil.nvim (git dir)" })
 
-            astrocore.set_mappings(maps, { buffer = args.buf })
-          end,
-        },
-      },
-    })
+        -- terminal integration
+        map("n", "<LEADER>otl", function()
+          local cur_directory = get_git_dir()
+          vim.cmd.lcd(cur_directory)
+          vim.cmd.terminal()
+          vim.cmd.startinsert()
+        end, { desc = "Open terminal (git dir)" })
+
+        astrocore.set_mappings(maps, { buffer = args.buf })
+      end,
+    }
   end,
 }
 

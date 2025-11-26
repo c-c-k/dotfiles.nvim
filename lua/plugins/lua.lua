@@ -64,6 +64,32 @@ local spec_neogen = {
   end,
 }
 
+local spec_my_core_config = {
+  "AstroNvim/astrocore",
+  opts = function(_)
+    local my = require "my"
+
+    local aug_my_lua_buf_core_config = my.autocmd.get_augroup {
+      name = "aug_my_lua_buf_core_config",
+      clear = true,
+    }
+    my.autocmd.add_autocmd {
+      group = aug_my_lua_buf_core_config,
+      event = "FileType",
+      pattern = "lua",
+      desc = 'Set options, vars and mappings for the "lua" filetype',
+      callback = function(args)
+        if vim.b[args.buf].did_ftplugin_my_lua then return end
+        vim.b[args.buf].did_ftplugin_my_lua = true
+
+        vim.opt_local.textwidth = 0
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.softtabstop = 2
+      end,
+    }
+  end,
+}
+
 ---@type LazyPluginSpec[]
 return {
   spec_astrolsp,
@@ -71,4 +97,5 @@ return {
   spec_mason_tool_installer_nvim,
   spec_neotest,
   spec_neogen,
+  spec_my_core_config,
 }

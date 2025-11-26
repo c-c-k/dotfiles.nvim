@@ -144,6 +144,34 @@ spec_nvim_dap__nvim_dap_go.specs = {
   spec_nvim_dap_go__mason_tool_installer,
 }
 
+local spec_my_core_config = {
+  dir = vim.fn.stdpath "config",
+  opts = function(_)
+    local my = require "my"
+
+    local aug_my_go_buf_core_config = my.autocmd.get_augroup {
+      name = "aug_my_go_buf_core_config",
+      clear = true,
+    }
+    my.autocmd.add_autocmd {
+      group = aug_my_go_buf_core_config,
+      event = "FileType",
+      pattern = "go,gomod,gowork",
+      desc = 'Set options, vars and mappings for the "go,gomod,gowork" filetypes',
+      callback = function(args)
+        if vim.b[args.buf].did_ftplugin_my_go then return end
+        vim.b[args.buf].did_ftplugin_my_go = true
+
+        vim.opt_local.expandtab = false
+        vim.opt_local.textwidth = 0
+        vim.opt_local.shiftwidth = 0
+        vim.opt_local.softtabstop = 0
+        vim.opt_local.tabstop = 2
+      end,
+    }
+  end,
+}
+
 ---@type LazyPluginSpec[]
 return {
   spec_astrolsp,
@@ -153,4 +181,5 @@ return {
   spec_neotest,
   spec_mini_icons,
   spec_gopher_nvim,
+  spec_my_core_config,
 }

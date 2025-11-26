@@ -8,10 +8,10 @@ local spec_vim_illuminate__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
-
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>ur", { copy = { "n", "<Leader>ur", source = astromaps } }) -- desc = "Toggle reference highlighting (buffer)"
     map("n", "<LEADER>uR", { copy = { "n", "<Leader>uR", source = astromaps } }) -- desc = "Toggle reference highlighting (global)"

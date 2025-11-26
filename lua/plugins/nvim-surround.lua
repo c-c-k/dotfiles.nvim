@@ -22,8 +22,9 @@ local spec_nvim_surround = {
 local spec_nvim_surround__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map("i", "<A-s>s", "<Plug>(nvim-surround-insert)", { desc = "Surround (insert)" })
     map("i", "<A-s>l", "<Plug>(nvim-surround-insert-line)", { desc = "Surround (insert-line)" })

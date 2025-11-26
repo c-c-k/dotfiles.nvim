@@ -8,9 +8,8 @@ local spec_astrocore = {
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
     -- mappings into AstroNvim astrocore `maps.n[lhs] = ...` style mappings.
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
     -- Get other utilities required by mappings
-    local util_win = require "my.utils.win"
 
     map({ "n", "x" }, "<LEADER>", { desc = "AstroNvim mappings", uleader = false })
 
@@ -158,7 +157,7 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER>w", { desc = "window actions" })
 
     -- Sync window
-    map({ "n", "x" }, "<LEADER>wy", function() require("my.utils.win").sync_current_win() end, { desc = "Sync window" })
+    map({ "n", "x" }, "<LEADER>wy", function() my.win.sync_current_win() end, { desc = "Sync window" })
 
     -- Navigate windows
     map({ "n", "x" }, "<LEADER>ww", "<C-\\><C-N><CMD>wincmd p<CR>", { desc = "Go to window (alternate)" })
@@ -273,15 +272,15 @@ local spec_astrocore = {
     -- Help and Man pages
     map("n", "<LEADER>oh", { desc = "Open nvim help" })
     map("n", "<LEADER>ohh", {
-      function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":help " } end,
+      function() my.win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":help " } end,
       desc = "Open nvim help (tag)",
     })
     map("n", "<LEADER>ohg", {
-      function() util_win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":helpgrep " } end,
+      function() my.win.open_util_in_current_win { init = ":help", ft = "help", prompt_cmd = ":helpgrep " } end,
       desc = "Open nvim help (grep)",
     })
     map("n", "<LEADER>om", {
-      function() util_win.open_util_in_current_win { init = ":Man man", ft = "man", prompt_cmd = ":Man " } end,
+      function() my.win.open_util_in_current_win { init = ":Man man", ft = "man", prompt_cmd = ":Man " } end,
       desc = "Open manpages",
     })
 

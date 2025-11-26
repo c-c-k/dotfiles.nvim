@@ -8,10 +8,10 @@ local spec_nvim_highlight_colors__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
-
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>uz", { copy = { "n", "<Leader>uz", source = astromaps } }) -- desc = "Toggle color highlight"
 

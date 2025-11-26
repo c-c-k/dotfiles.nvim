@@ -26,14 +26,14 @@ local spec_neomux__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local my = require "my"
+    local maps, map = my.keymap.get_astrocore_mapper()
 
-    local aug_my_neomux_autodel_git_temp_buf = mycore.get_augroup {
+    local aug_my_neomux_autodel_git_temp_buf = my.autocmd.get_augroup {
       name = "aug_my_neomux_autodel_git_temp_buf",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_neomux_autodel_git_temp_buf,
       event = { "filetype" },
       pattern = "gitcommit,gitrebase,gitconfig",

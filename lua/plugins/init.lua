@@ -70,6 +70,7 @@ return {
   require "plugins/bash",
   require "plugins/go",
   require "plugins/godot",
+  require "plugins/help",
   require "plugins/lua",
   require "plugins/markdown",
   require "plugins/python",

@@ -7,9 +7,9 @@ local spec_gitsigns_nvim = {
     opts.on_attach = function(bufnr)
       astro_on_attach(bufnr)
 
+      local my = require "my"
       local astrocore = require "astrocore"
-
-      local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+      local maps, map = my.keymap.get_astrocore_mapper()
 
       map("n", "<LEADER>gl", function() require("gitsigns").blame_line() end, { desc = "View Git blame" })
       map(

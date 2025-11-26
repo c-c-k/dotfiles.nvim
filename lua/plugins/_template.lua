@@ -27,16 +27,16 @@ local spec_plugin_name__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
     local g = {}
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
-    local aug_my_placeholder = mycore.get_augroup {
+    local aug_my_placeholder = my.autocmd.get_augroup {
       name = "aug_my_placeholder",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_placeholder,
       event = { "placeholder_event" },
       pattern = "placeholder_pattern",
@@ -44,7 +44,7 @@ local spec_plugin_name__astrocore = {
       callback = function(args)
         -- selene: allow(shadowing)
         ---@diagnostic disable-next-line: redefined-local
-        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+        local maps, map = my.keymap.get_astrocore_mapper()
 
         map("n", "<LEADER>", "", { desc = "" })
 

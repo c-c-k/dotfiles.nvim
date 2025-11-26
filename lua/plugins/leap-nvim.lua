@@ -20,9 +20,9 @@ local spec_leap_nvim = {
 local spec_leap_nvim__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     -- -- https://github.com/ggandor/leap.nvim/issues/70#issuecomment-1521177534
     -- local aug_my_leap_cursor_fix = mycore.get_augroup {

@@ -43,7 +43,7 @@ local spec_my_core_config = {
         if vim.b[args.buf].did_ftplugin_my_markdown then return end
         vim.b[args.buf].did_ftplugin_my_markdown = true
 
-        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+        local maps, map = my.keymap.get_astrocore_mapper()
 
         map({ "n", "x" }, "<LEADER>gf", "<CMD>MyGoToFile<CR>", { desc = "goto file" })
         map({ "n", "x" }, "<LEADER>gx", "<CMD>MyGoToEx<CR>", { desc = "goto external" })

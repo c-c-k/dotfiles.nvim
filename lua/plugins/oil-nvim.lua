@@ -237,15 +237,15 @@ local spec_oil_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
     local oil = require "oil"
 
-    local aug_my_oil_buf_core_config = mycore.get_augroup {
+    local aug_my_oil_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_oil_buf_core_config",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_oil_buf_core_config,
       event = "FileType",
       pattern = "oil",
@@ -258,7 +258,7 @@ local spec_oil_nvim__astrocore = {
       end,
     }
 
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>ofo", function()
       local current_buf_name = vim.api.nvim_buf_get_name(0)

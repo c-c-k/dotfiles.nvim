@@ -52,7 +52,8 @@ local spec_markdown_nvim = {
       on_attach = function(bufnr)
         -- selene: allow(shadowing)
         ---@diagnostic disable-next-line: redefined-local
-        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+        local my = require "my"
+        local maps, map = my.keymap.get_astrocore_mapper()
 
         -- map({ "n", "i" }, "<M-l><M-o>", "<Cmd>MDListItemBelow<CR>", { desc = "Insert list item below" })
         -- map({ "n", "i" }, "<M-L><M-O>", "<Cmd>MDListItemAbove<CR>", { desc = "Insert list item above" })

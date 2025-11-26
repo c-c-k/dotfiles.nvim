@@ -61,8 +61,8 @@ local spec_mini_files__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
     local minifiles = require "mini.files"
 
     local function minifiles_toggle()
@@ -78,25 +78,25 @@ local spec_mini_files__astrocore = {
       return state and state.branch[state.depth_focus]
     end
 
-    local aug_my_mini_files_lsp_file_actions = mycore.get_augroup {
+    local aug_my_mini_files_lsp_file_actions = my.autocmd.get_augroup {
       name = "aug_my_mini_files_lsp_file_actions",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_mini_files_lsp_file_actions,
       event = "User",
       pattern = { "MiniFilesActionCreate" },
       desc = "trigger `workspace/didCreateFiles` after creating files",
       callback = function(args) require("astrolsp.file_operations").didCreateFiles(args.data.to) end,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_mini_files_lsp_file_actions,
       event = "User",
       pattern = { "MiniFilesActionDelete" },
       desc = "trigger `workspace/didDeleteFiles` after deleting files",
       callback = function(args) require("astrolsp.file_operations").didDeleteFiles(args.data.from) end,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_mini_files_lsp_file_actions,
       event = "User",
       pattern = { "MiniFilesActionRename", "MiniFilesActionMove" },
@@ -104,11 +104,11 @@ local spec_mini_files__astrocore = {
       callback = function(args) require("astrolsp.file_operations").didRenameFiles(args.data) end,
     }
 
-    local aug_my_mini_files_buf_core_config = mycore.get_augroup {
+    local aug_my_mini_files_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_mini_files_buf_core_config",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_mini_files_buf_core_config,
       event = "FileType",
       pattern = "minifiles",
@@ -121,13 +121,13 @@ local spec_mini_files__astrocore = {
         vim.b[args.buf].my_do_toggle_win = minifiles_toggle
       end,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_mini_files_buf_core_config,
       event = "User",
       pattern = "MiniFilesBufferCreate",
       desc = "Set options, vars and mappings for a mini.files popup window",
       callback = function(args)
-        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+        local maps, map = my.keymap.get_astrocore_mapper()
 
         map("n", "H", "h", { desc = "Cursor left" })
         map("n", "L", "l", { desc = "Cursor right" })
@@ -189,7 +189,7 @@ local spec_mini_files__astrocore = {
       -- },
     } --)
 
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>off", function() minifiles_toggle() end, { desc = "Toggle mini.files" })
     map("n", "<LEADER>oF", function()

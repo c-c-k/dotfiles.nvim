@@ -6,52 +6,57 @@ local spec_codecompanion_nvim = {
     "nvim-treesitter/nvim-treesitter",
     "nvim-telescope/telescope.nvim",
   },
-  opts = {
-    adapters = { http = require "my.codecompanion.adapters.init" },
-    strategies = {
-      chat = {
-        adapter = "gemini",
-      },
-      inline = {
-        adapter = "gemini",
-      },
-      agent = {
-        adapter = "gemini",
-      },
-    },
-    display = {
-      chat = {
-        window = {
-          layout = "buffer",
-          opts = {
-            cursorline = true,
-            spell = true,
-          },
+  opts = function(_, opts)
+    local my = require "my"
+    local astrocore = require "astrocore"
+    -- local new_opts = {
+    return astrocore.extend_tbl(opts, {
+      adapters = { http = my.codecompanion.adapters },
+      strategies = {
+        chat = {
+          adapter = "gemini",
+        },
+        inline = {
+          adapter = "gemini",
+        },
+        agent = {
+          adapter = "gemini",
         },
       },
-      inline = {
-        layout = "buffer",
+      display = {
+        chat = {
+          window = {
+            layout = "buffer",
+            opts = {
+              cursorline = true,
+              spell = true,
+            },
+          },
+        },
+        inline = {
+          layout = "buffer",
+        },
       },
-    },
-    opts = {
-      -- ---@param opts table
-      -- ---@return string
-      -- system_prompt = function(opts)
-      --   local system_prompts = require "my.codecompanion.system_prompts"
-      --   if system_prompts[opts.adapter.name] then return system_prompts[opts.adapter.name] end
-      --
-      --   vim.notify(
-      --     ("system prompt not found for '%s' in %s"):format(
-      --       vim.inspect(opts),
-      --       vim.inspect(vim.tbl_keys(system_prompts))
-      --     ),
-      --     vim.log.levels.WARN,
-      --     {}
-      --   )
-      --   return [[You will return the message "Error: System prompt missing, double check nvim codecompanion plugin config file and $NVIM_CODECOMPANION_MODEL_PARAMS !" to all queries]]
-      -- end,
-    },
-  },
+      opts = {
+        -- ---@param opts table
+        -- ---@return string
+        -- system_prompt = function(opts)
+        --   local system_prompts = my.codecompanion.system_prompts
+        --   if system_prompts[opts.adapter.name] then return system_prompts[opts.adapter.name] end
+        --
+        --   vim.notify(
+        --     ("system prompt not found for '%s' in %s"):format(
+        --       vim.inspect(opts),
+        --       vim.inspect(vim.tbl_keys(system_prompts))
+        --     ),
+        --     vim.log.levels.WARN,
+        --     {}
+        --   )
+        --   return [[You will return the message "Error: System prompt missing, double check nvim codecompanion plugin config file and $NVIM_CODECOMPANION_MODEL_PARAMS !" to all queries]]
+        -- end,
+      },
+    })
+  end,
 }
 
 ---@type LazyPluginSpec
@@ -59,8 +64,9 @@ local spec_codecompanion_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+    local maps, map = my.keymap.get_astrocore_mapper()
 
     map({ "n", "v" }, "<LEADER>oan", "<CMD>CodeCompanionChat<CR>", { desc = "Open new AI chat" })
     map({ "n", "v" }, "<LEADER>oaN", ":CodeCompanionChat ", { desc = "Open new AI chat (CMD)" })

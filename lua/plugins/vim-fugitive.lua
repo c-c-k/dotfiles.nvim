@@ -8,16 +8,16 @@ local spec_vim_fugitive__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
+    local my = require "my"
     local astrocore = require "astrocore"
-    local mycore = require "my.core"
 
     local function get_buf_dir_path() return vim.trim(vim.fn.execute "Git rev-parse --show-toplevel") end
 
-    local aug_my_fugitive_buf_core_config = mycore.get_augroup {
+    local aug_my_fugitive_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_fugitive_buf_core_config",
       clear = true,
     }
-    mycore.add_autocmd {
+    my.autocmd.add_autocmd {
       group = aug_my_fugitive_buf_core_config,
       event = { "FileType" },
       pattern = "fugitive,git",
@@ -28,7 +28,7 @@ local spec_vim_fugitive__astrocore = {
 
         vim.b[args.buf].my_get_buf_dir_path = get_buf_dir_path
 
-        local maps, map = require("my.core.keymaps").get_astrocore_mapper()
+        local maps, map = my.keymap.get_astrocore_mapper()
 
         -- mini.files integration
         map("n", "<LEADER>ofs", function()

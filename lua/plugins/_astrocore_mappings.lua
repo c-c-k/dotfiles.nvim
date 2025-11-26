@@ -3,8 +3,7 @@ local spec_astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local schdir_buf_dir = require("my.utils.editor").schdir_buf_dir
-    local schdir_buf_root = require("my.utils.editor").schdir_buf_root
+    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
@@ -211,8 +210,8 @@ local spec_astrocore = {
     map({ "n", "x" }, "<LEADER>ws<S-TAB>", "<CMD>split|wincmd T|-tabmove<CR>", { desc = "Split window (tab-previous)" })
 
     -- Change window PWD
-    map("n", "<LEADER>wp", function() schdir_buf_dir "w" end, { desc = "win cd" })
-    map("n", "<LEADER>wr", function() schdir_buf_root "w" end, { desc = "win cd root" })
+    map("n", "<LEADER>wp", function() my.path.cd("Window", false) end, { desc = "win cd" })
+    map("n", "<LEADER>wr", function() my.path.cd("Window", true) end, { desc = "win cd root" })
 
     -- *** Tab mappings ***
 
@@ -241,8 +240,8 @@ local spec_astrocore = {
     map("n", "<LEADER>x<TAB>", "<CMD>tabclose<CR>", { desc = "Close current tab" })
 
     -- Change tab PWD
-    map("n", "<LEADER><TAB>p", function() schdir_buf_dir "t" end, { desc = "tab cd" })
-    map("n", "<LEADER><TAB>r", function() schdir_buf_root "t" end, { desc = "tab cd root" })
+    map("n", "<LEADER><TAB>p", function() my.path.cd("Tab", false) end, { desc = "tab cd" })
+    map("n", "<LEADER><TAB>r", function() my.path.cd("Tab", true) end, { desc = "tab cd root" })
 
     -- Move current tab
     map({ "n", "x" }, "<LEADER><TAB>m", { desc = "Move tab" })
@@ -439,10 +438,10 @@ local spec_astrocore = {
     map("n", "<LEADER>qs", { desc = "Sessions" })
 
     -- Change active/global PWD
-    map("n", "<LEADER>qp", function() schdir_buf_dir "a" end, { desc = "active cd" })
-    map("n", "<LEADER>qr", function() schdir_buf_root "a" end, { desc = "active cd root" })
-    map("n", "<LEADER>qP", function() schdir_buf_dir "g" end, { desc = "global cd" })
-    map("n", "<LEADER>qR", function() schdir_buf_root "g" end, { desc = "global cd root" })
+    map("n", "<LEADER>qp", function() my.path.cd("Active", false) end, { desc = "active cd" })
+    map("n", "<LEADER>qr", function() my.path.cd("Active", true) end, { desc = "active cd root" })
+    map("n", "<LEADER>qP", function() my.path.cd("Global", false) end, { desc = "global cd" })
+    map("n", "<LEADER>qR", function() my.path.cd("Global", true) end, { desc = "global cd root" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

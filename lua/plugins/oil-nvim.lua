@@ -9,7 +9,6 @@ local spec_oil_nvim = {
     local astrocore = require "astrocore"
     local oil = require "oil"
     local uleader = vim.g.usermapleader
-    local schdir = require("my.utils.editor").schdir
 
     return astrocore.extend_tbl(opts, {
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
@@ -84,27 +83,6 @@ local spec_oil_nvim = {
         -- ["_"] = "actions.open_cwd",
         -- ["`"] = "actions.cd",
         -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
-        [uleader .. "qppp"] = {
-          function() schdir(oil.get_current_dir(), "a") end,
-          desc = "Set PWD to oil dir(active-scope)",
-        },
-        [uleader .. "qppg"] = {
-          function() schdir(oil.get_current_dir(), "g") end,
-          desc = "Set PWD to oil dir(global-scope)",
-        },
-        [uleader .. "qppw"] = {
-          function() schdir(oil.get_current_dir(), "w") end,
-          desc = "Set PWD to oil dir(win-scope)",
-        },
-        [uleader .. "qppt"] = {
-          function() schdir(oil.get_current_dir(), "t") end,
-          desc = "Set PWD to oil dir(tab-scope)",
-        },
-        [uleader .. "qpr"] = { desc = "Disabled in mini.files window" },
-        [uleader .. "qprr"] = { "", desc = "Disabled in mini.files window" },
-        [uleader .. "qprg"] = { "", desc = "Disabled in mini.files window" },
-        [uleader .. "qprw"] = { "", desc = "Disabled in mini.files window" },
-        [uleader .. "qprt"] = { "", desc = "Disabled in mini.files window" },
         ["gs"] = "actions.change_sort",
         ["gx"] = "actions.open_external",
         ["g."] = "actions.toggle_hidden",
@@ -260,7 +238,25 @@ local spec_oil_nvim__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
+    local mycore = require "my.core"
     local oil = require "oil"
+
+    local aug_my_oil_buf_core_config = mycore.get_augroup {
+      name = "aug_my_oil_buf_core_config",
+      clear = true,
+    }
+    mycore.add_autocmd {
+      group = aug_my_oil_buf_core_config,
+      event = "FileType",
+      pattern = "oil",
+      desc = 'Set options, vars and mappings for the "oil" filetype',
+      callback = function(args)
+        if vim.b[args.buf].did_ftplugin_my_oil then return end
+        vim.b[args.buf].did_ftplugin_my_oil = true
+
+        vim.b[args.buf].my_get_buf_dir_path = oil.get_current_dir
+      end,
+    }
 
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 

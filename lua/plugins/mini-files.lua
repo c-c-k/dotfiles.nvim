@@ -63,6 +63,20 @@ local spec_mini_files__astrocore = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local mycore = require "my.core"
+    local minifiles = require "mini.files"
+
+    local function minifiles_toggle()
+      if not minifiles.close() then minifiles.open(minifiles.get_latest_path()) end
+    end
+
+    local function get_buf_dir_path()
+      -- -- Works only if cursor is on the valid file system entry
+      -- local current_entry_path = minifiles.get_fs_entry().path
+      -- return vim.fs.dirname(current_entry_path)
+
+      local state = minifiles.get_explorer_state()
+      return state and state.branch[state.depth_focus]
+    end
 
     local aug_my_mini_files_lsp_file_actions = mycore.get_augroup {
       name = "aug_my_mini_files_lsp_file_actions",
@@ -96,34 +110,27 @@ local spec_mini_files__astrocore = {
     }
     mycore.add_autocmd {
       group = aug_my_mini_files_buf_core_config,
+      event = "FileType",
+      pattern = "minifiles",
+      desc = 'Set options, vars and mappings for the "minifiles" filetype',
+      callback = function(args)
+        if vim.b[args.buf].did_ftplugin_my_minifiles then return end
+        vim.b[args.buf].did_ftplugin_my_minifiles = true
+
+        vim.b[args.buf].my_get_buf_dir_path = get_buf_dir_path
+        vim.b[args.buf].my_do_toggle_win = minifiles_toggle
+      end,
+    }
+    mycore.add_autocmd {
+      group = aug_my_mini_files_buf_core_config,
       event = "User",
       pattern = "MiniFilesBufferCreate",
       desc = "Set options, vars and mappings for a mini.files popup window",
       callback = function(args)
-        local minifiles = require "mini.files"
         local maps, map = require("my.core.keymaps").get_astrocore_mapper()
-
-        local mfscd = function(scope)
-          -- Works only if cursor is on the valid file system entry
-          local current_entry_path = minifiles.get_fs_entry().path
-          local current_dir = vim.fs.dirname(current_entry_path)
-
-          minifiles.close()
-          require("my.utils.path").cd(current_dir, scope)
-          minifiles.open(minifiles.get_latest_path())
-        end
 
         map("n", "H", "h", { desc = "Cursor left" })
         map("n", "L", "l", { desc = "Cursor right" })
-        map("n", "<LEADER>qppp", function() mfscd "a" end, { desc = "Set PWD to mini.files dir(active-scope)" })
-        map("n", "<LEADER>qppg", function() mfscd "g" end, { desc = "Set PWD to mini.files dir(global-scope)" })
-        map("n", "<LEADER>qppt", function() mfscd "t" end, { desc = "Set PWD to mini.files dir(tab-scope)" })
-        map("n", "<LEADER>qppw", function() mfscd "w" end, { desc = "Set PWD to mini.files dir(win-scope)" })
-        map("n", "<LEADER>qpr", { desc = "Disabled in mini.files window" })
-        map("n", "<LEADER>qprr", "", { desc = "Disabled in mini.files window" })
-        map("n", "<LEADER>qprg", "", { desc = "Disabled in mini.files window" })
-        map("n", "<LEADER>qprw", "", { desc = "Disabled in mini.files window" })
-        map("n", "<LEADER>qprt", "", { desc = "Disabled in mini.files window" })
         map("n", "<LEADER>wy", function() minifiles.synchronize() end, { desc = "sync mini.files actions" })
         map("n", "<LEADER>wx", function() minifiles.close() end, { desc = "Close mini.files popup" })
         map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
@@ -182,19 +189,9 @@ local spec_mini_files__astrocore = {
       -- },
     } --)
 
-    local minifiles = require "mini.files"
     local maps, map = require("my.core.keymaps").get_astrocore_mapper()
 
-    local minifiles_toggle = function(...)
-      if not minifiles.close() then minifiles.open(...) end
-    end
-
-    map(
-      "n",
-      "<LEADER>off",
-      function() minifiles_toggle(minifiles.get_latest_path()) end,
-      { desc = "Toggle mini.files" }
-    )
+    map("n", "<LEADER>off", function() minifiles_toggle() end, { desc = "Toggle mini.files" })
     map("n", "<LEADER>oF", function()
       local path = vim.fn.input("Path: ", "", "file")
       minifiles.open(path)

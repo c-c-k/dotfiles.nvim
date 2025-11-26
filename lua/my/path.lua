@@ -1,105 +1,120 @@
 local M = {}
 
---- Set the current directory of the given scope to the given path
----
---- If the given path is a file the current directory will be set to it's parent directory
---- If an invalid string is passed as a path an error message will be printed but an error will not be raised
----@param path string? the path to set the pwd to
----@param scope "a" | "g" | "w" | "t" change the global/window/tab scope, "a" changes the currently active scope as per `vim.fn.chdir()`
----@return
----| false # in case of an invalid path
----| nil # in case path is the same as the current PWD
----| string prev_pwd the previous pwd
-function M.schdir(path, scope)
-  ---@type string | 'false' | nil
-  if not path then
-    local _msg = ("Invalid path: %s"):format(path)
-    vim.api.nvim_echo({ { _msg } }, true, { err = true })
-    return false
-  end
+---@alias my.path.cd_scope
+---| '"Active"' # As per the `chdir()` function.
+---| '"Global"' # Global editor scope.
+---| '"Tab"' # Tab scope.
+---| '"Local"' # Window Local scope.
+---| '"Window"' # Window Local scope.
 
+--- Get root for given path or current buffer.
+---@param path string?
+---@return string?
+local function _get_root(path)
   ---@type string?
-  local prev_pwd = vim.fn.getcwd()
-  local success = true
+  local root
+
+  if path then
+    local detectors = require("astrocore").config.rooter.detector
+    root = vim.fs.root(path or 0, detectors or {})
+  else
+    local roots = require("astrocore.rooter").detect(0, false)
+    root = #roots > 0 and roots[1].paths[1] or nil
+  end
+
+  if not root then
+    local _msg = ("Buffer does not have root dir: %s"):format(vim.api.nvim_buf_get_name(0))
+    vim.api.nvim_echo({ { _msg } }, true, { err = true })
+  end
+
+  return root
+end
+
+--- Change editor PWD for given scope to path.
+---@param scope my.path.cd_scope
+---@param path string
+---@return string?
+local function _do_cd(scope, path)
+  ---@type string
   local scope_name = ""
+  ---@type boolean
+  local success = false
+  ---@type string?
+  local result = ""
 
-  path = vim.trim(path)
+  if vim.fn.has "win32" > 0 then path = path:gsub("\\", "/") end
 
-  if vim.fn.isdirectory(path) ~= 1 then
-    local parent
-    success, parent = pcall(vim.fs.dirname, path)
-    if success then path = parent end
+  local do_toggle_win = vim.wo.winfixbuf and vim.b.my_do_toggle_win
+  if do_toggle_win then do_toggle_win() end
+
+  if scope == "Active" then
+    scope_name = "Active"
+    success, result = pcall(vim.fn.chdir, path)
+  elseif scope == "Global" then
+    scope_name = "Global"
+    success, result = pcall(vim.api.nvim_set_current_dir, path)
+  elseif scope == "Tab" then
+    scope_name = "Tab"
+    success, result = pcall(vim.cmd.tchdir, path)
+  elseif scope == "Window" or scope == "Local" then
+    scope_name = "Window Local"
+    success, result = pcall(vim.cmd.lchdir, path)
+  else
+    success = false
+    result = ("Unable to parse scope: %s"):format(scope)
   end
 
-  if success then
-    if vim.fn.has "win32" > 0 then path = path:gsub("\\", "/") end
-
-    if prev_pwd ~= path then
-      if scope == "a" then
-        scope_name = "Active"
-        success, _ = pcall(vim.fn.chdir, path)
-      elseif scope == "g" then
-        scope_name = "Global"
-        success, _ = pcall(vim.api.nvim_set_current_dir, path)
-      elseif scope == "w" then
-        scope_name = "Window"
-        success, _ = pcall(vim.cmd.lchdir, path)
-      elseif scope == "t" then
-        scope_name = "Tab"
-        success, _ = pcall(vim.cmd.tchdir, path)
-      else
-        local _msg = ("Unable to parse scope: %s"):format(scope)
-        vim.api.nvim_echo({ { _msg } }, true, { err = true })
-      end
-    else
-      prev_pwd = nil
-    end
-  end
+  if do_toggle_win then do_toggle_win() end
 
   if success then
     local _msg = ("Changed %s PWD to: %s"):format(scope_name, path)
     vim.api.nvim_echo({ { _msg } }, false, {})
-    return prev_pwd
+    return path
+  end
+  local _msg = ("Failed to Change %s PWD to: %s"):format(scope_name, path)
+  vim.api.nvim_echo({ { _msg } }, true, { err = true })
+  vim.api.nvim_echo({ { result } }, true, { err = true })
+  return nil
+end
+
+--- Set the current directory of the given scope.
+---
+--- If no path is provided, use current buffer name as path.
+--- If path is a file, set PWD to parent directory.
+--- If `root` is true, set to root directory instead.
+---@param scope my.path.cd_scope Scope to change PWD for.
+---@param cd_root boolean? If `true` set PWD to the root dir.
+---@param path string? The path to set the PWD to/relative to.
+---@return string # the previous PWD.
+function M.cd(scope, cd_root, path)
+  local prev_pwd = vim.fn.getcwd()
+  path = path or (vim.b.my_get_buf_dir_path and vim.b.my_get_buf_dir_path())
+  path = path and vim.trim(path)
+
+  if cd_root then
+    path = _get_root(path)
   else
+    path = path or vim.api.nvim_buf_get_name(0)
+    if vim.fn.isdirectory(path) ~= 1 then
+      local success, parent = pcall(vim.fs.dirname, path)
+      if success then path = parent end
+    end
+  end
+
+  if path and vim.fn.isdirectory(path) ~= 1 then
     local _msg = ("Invalid path: %s"):format(path)
     vim.api.nvim_echo({ { _msg } }, true, { err = true })
-    return false
+    path = nil
   end
-end
 
---- Set the current directory of the given scope to the parent directory of the current buffer
----
---- If the current buffer name is not a valid path an error message will be printed but an error will not be raised
----@param scope "a" | "g" | "w" | "t" change the global/window/tab scope, "a" changes the currently active scope as per `vim.fn.chdir()`
----@return
----| false # in case the current buffer name is not a valid path
----| nil # in case the buffer dir is the same as the current PWD
----| string prev_pwd the previous pwd
-function M.schdir_buf_dir(scope)
-  local path = vim.api.nvim_buf_get_name(0)
-  return M.schdir(path, scope)
-end
+  if path then path = _do_cd(scope, path) end
 
---- Set the current directory of the given scope to the root directory of the current buffer
----
---- The root directory is determined by astrocore.rooter.detect()
---- If the current buffer does not have a root directory an error message will be printed but an error will not be raised
----@param scope "a" | "g" | "w" | "t" change the global/window/tab scope, "a" changes the currently active scope as per `vim.fn.chdir()`
----@return
----| false # in case the current buffer does not have a root directory.
----| nil # in case the buffer root dir is the same as the current PWD
----| string prev_pwd the previous pwd
-function M.schdir_buf_root(scope)
-  local roots = require("astrocore.rooter").detect(0, false)
-  local root = #roots > 0 and roots[1].paths[1]
-
-  if root then
-    return M.schdir(root, scope)
-  else
-    local _msg = ("Buffer does not have root dir: %s"):format(vim.api.nvim_buf_get_name(0))
-    vim.api.nvim_echo({ { _msg } }, true, { err = true })
-    return false
+  if not path or path == prev_pwd or path == "" then
+    local _msg = ("PWD left at %s"):format(prev_pwd)
+    vim.api.nvim_echo({ { _msg } }, false, {})
   end
+
+  return prev_pwd
 end
 
 return M

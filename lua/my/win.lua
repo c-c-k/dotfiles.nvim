@@ -1,5 +1,7 @@
 local M = {}
 
+---@alias my.win.func.win_toggle fun(): nil
+
 --- Opens a buffer in the current window after executing a function.
 -- This function is designed to work with Neovim commands or functions that
 -- typically open a buffer in a new window. It executes the provided function,
@@ -106,6 +108,36 @@ function M.sync_current_win()
   vim.cmd.source(view_file)
   os.remove(view_file)
   vim.opt.viewoptions = prev_viewoptions
+end
+
+--- Get window toggler for buffer changing actions.
+---
+--- The returned function toggles windows that have a buffer with:
+---   * `vim.b.my_do_toggle_win` set.
+---   * `vim.b.my_is_toggle_win_before_buf_change` set.
+--- The returned function uses `vim.b.my_do_toggle_win` to toggle the windows.
+---
+--- This is intended for situations like e.g. using a Mini.Files popup window
+--- to pick a directory and then executing a general purpose keymap to open
+--- A terminal in the current buffer directory.
+---@return my.win.func.win_toggle # Function to toggle stack of buffer fixed windows.
+function M.get_on_buf_change_win_toggler()
+  local did_toggle = false
+  local toggle_funcs = {}
+  return function()
+    if did_toggle then
+      while #toggle_funcs > 0 do
+        table.remove(toggle_funcs)()
+      end
+      did_toggle = false
+    else
+      did_toggle = true
+      while vim.b.my_do_toggle_win and vim.b.my_is_toggle_win_before_buf_change do
+        table.insert(toggle_funcs, vim.b.my_do_toggle_win)
+        toggle_funcs[#toggle_funcs]()
+      end
+    end
+  end
 end
 
 return M

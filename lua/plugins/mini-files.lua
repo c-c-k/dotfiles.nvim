@@ -119,6 +119,7 @@ local spec_mini_files__astrocore = {
 
         vim.b[args.buf].my_get_buf_dir_path = get_buf_dir_path
         vim.b[args.buf].my_do_toggle_win = minifiles_toggle
+        vim.b[args.buf].my_is_toggle_win_before_buf_change = true
       end,
     }
     my.autocmd.add_autocmd {

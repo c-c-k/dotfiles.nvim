@@ -35,6 +35,7 @@ end
 ---@param path string
 ---@return string?
 local function _do_cd(scope, path)
+  local my = require "my"
   ---@type string
   local scope_name = ""
   ---@type boolean
@@ -44,8 +45,9 @@ local function _do_cd(scope, path)
 
   if vim.fn.has "win32" > 0 then path = path:gsub("\\", "/") end
 
-  local do_toggle_win = vim.wo.winfixbuf and vim.b.my_do_toggle_win
-  if do_toggle_win then do_toggle_win() end
+  ---@type my.win.func.win_toggle
+  local toggle_win = my.win.get_on_buf_change_win_toggler()
+  toggle_win()
 
   if scope == "Active" then
     scope_name = "Active"
@@ -64,7 +66,7 @@ local function _do_cd(scope, path)
     result = ("Unable to parse scope: %s"):format(scope)
   end
 
-  if do_toggle_win then do_toggle_win() end
+  toggle_win()
 
   if success then
     local _msg = ("Changed %s PWD to: %s"):format(scope_name, path)

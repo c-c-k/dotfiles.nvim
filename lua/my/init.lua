@@ -13,6 +13,8 @@ local M = setmetatable({}, {
 
 ---@module "my.autocmd"
 M.autocmd = nil
+---@module "my.buf"
+M.buf = nil
 ---@module "my.codecompanion"
 M.codecompanion = nil
 ---@module "my.keymap"

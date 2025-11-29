@@ -76,7 +76,6 @@ local spec_oil_nvim = {
         -- ["<C-p>"] = "actions.preview",
         [uleader .. "ov"] = "actions.preview",
         -- ["<C-c>"] = "actions.close",
-        [uleader .. "xx"] = "actions.close",
         -- ["<C-l>"] = "actions.refresh",
         -- ["-"] = "actions.parent",
         ["<BS>"] = "actions.parent",
@@ -216,7 +215,6 @@ local spec_oil_nvim__astrocore = {
       oil.save({ confirm = true }, function(err)
         if err and err ~= "Canceled" then vim.notify(err, vim.log.levels.ERROR) end
         vim.schedule(vim.cmd.edit)
-        -- vim.cmd.edit()
       end)
     end
 
@@ -238,6 +236,7 @@ local spec_oil_nvim__astrocore = {
         if vim.b[args.buf].did_ftplugin_my_oil then return end
         vim.b[args.buf].did_ftplugin_my_oil = true
 
+        vim.b[args.buf].my_close_buf = oil.close
         vim.b[args.buf].my_sync_buf_win = oil_sync_buf_win
         vim.b[args.buf].my_get_buf_file_path = oil_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = oil.get_current_dir

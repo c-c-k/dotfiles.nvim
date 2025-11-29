@@ -110,47 +110,10 @@ local spec_astrocore = {
 
     map("n", "<LEADER>b", { desc = "buffer actions" })
 
-    -- Navigate buffers
-    map("n", "<LEADER>bb", { copy = { "n", "<Leader>bp", source = astromaps } }) -- desc = "Previous buffer"
-    -- map("n", "<Leader>bss", {... desc = "Select buffer from tabline" }) NOTE: Defined in heirline config
-    map("n", "<LEADER>bh", { copy = { "n", "[b", source = astromaps } }) -- desc = "Previous buffer"
-    map("n", "<LEADER>bj", { copy = { "n", "<LEADER>bh" } })
-    map("n", "<LEADER>bk", { copy = { "n", "]b", source = astromaps } }) -- desc = "Next buffer"
-    map("n", "<LEADER>bl", { copy = { "n", "<LEADER>bk" } })
-    -- map({ "n", "i", "v", "t" }, "<M-J>", { copy = { "n", "<LEADER>bj" } })
-    -- map({ "n", "i", "v", "t" }, "<M-K>", { copy = { "n", "<LEADER>bk" } })
-
     -- Open/Close (enew) buffers
-    map("n", "<LEADER>bx", { desc = "Close buffer(s)" })
-    map("n", "<LEADER>bxx", { copy = { "n", "<Leader>c", source = astromaps } }) -- desc = "Close buffer"
-    map("n", "<LEADER>xbb", { copy = { "n", "<LEADER>bxx" } })
-    map("n", "<LEADER>X", { copy = { "n", "<LEADER>bxx" } })
-    -- map("n", "<Leader>bxs", {... desc = "Close buffer from tabline" }) NOTE: Defined in heirline config
-    map({ "n", "i", "v", "t" }, "<M-X>", { copy = { "n", "<LEADER>bxx" } })
-    map("n", "<LEADER>bX", { copy = { "n", "<Leader>C", source = astromaps } }) -- desc = "Force close buffer"
-    map("n", "<LEADER>bxa", { copy = { "n", "<Leader>bc", source = astromaps } }) -- desc = "Close all buffers except current"
-    map("n", "<LEADER>bxA", { copy = { "n", "<Leader>bC", source = astromaps } }) -- desc = "Close all buffers"
-    map("n", "<LEADER>bxh", { copy = { "n", "<Leader>bl", source = astromaps } }) -- desc = "Close all buffers to the left"
-    map("n", "<LEADER>bxj", { copy = { "n", "<LEADER>bxh" } })
-    map("n", "<LEADER>bxk", { copy = { "n", "<Leader>br", source = astromaps } }) -- desc = "Close all buffers to the right"
-    map("n", "<LEADER>bxl", { copy = { "n", "<LEADER>bxk" } })
-
-    -- Sort buffers
-    map("n", "<LEADER>bs", { desc = "Select/Sort buffer(s)" })
-    map("n", "<LEADER>bse", { copy = { "n", "<Leader>bse", source = astromaps } }) -- desc = "By extension"
-    map("n", "<LEADER>bsr", { copy = { "n", "<Leader>bsr", source = astromaps } }) -- desc = "By relative path"
-    map("n", "<LEADER>bsp", { copy = { "n", "<Leader>bsp", source = astromaps } }) -- desc = "By full path"
-    map("n", "<LEADER>bsi", { copy = { "n", "<Leader>bsi", source = astromaps } }) -- desc = "By buffer number"
-    map("n", "<LEADER>bsm", { copy = { "n", "<Leader>bsm", source = astromaps } }) -- desc = "By modification"
-
-    -- Move buffers
-    map("n", "<LEADER>bm", { desc = "Move buffer" })
-    map("n", "<LEADER>bmh", { copy = { "n", "<b", source = astromaps } }) -- desc = "Move buffer tab right"
-    map("n", "<LEADER>bmj", { copy = { "n", "<LEADER>bmh" } })
-    map("n", "<LEADER>bmk", { copy = { "n", ">b", source = astromaps } }) -- desc = "Move buffer tab right"
-    map("n", "<LEADER>bml", { copy = { "n", "<LEADER>bmk" } })
-    map({ "n", "i", "v", "t" }, "<M-H>", { copy = { "n", "<LEADER>bmh" } })
-    map({ "n", "i", "v", "t" }, "<M-L>", { copy = { "n", "<LEADER>bml" } })
+    map("n", "<LEADER>bx", function() my.buf.close_buf() end, { desc = "Close buffer" })
+    map("n", "<LEADER>xb", { copy = { "n", "<LEADER>bx" } })
+    map("n", "<LEADER>bn", "<CMD>enew<CR>", { desc = "new buffer" })
 
     -- *** Window mappings ***
 

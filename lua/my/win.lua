@@ -96,6 +96,14 @@ function M.open_util_in_current_win(opts)
   end
 end
 
+function M.close_win()
+  if vim.b.my_close_buf_win then
+    vim.b.my_close_buf_win()
+    return
+  end
+  vim.api.nvim_win_close(0, false)
+end
+
 --- Syncs current window (write+read+preserve folds)
 ---
 --- Uses `vim.b.my_sync_buf_win` if exists.

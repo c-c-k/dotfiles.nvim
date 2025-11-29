@@ -69,11 +69,29 @@ local spec_mini_files__astrocore = {
       if not minifiles.close() then minifiles.open(minifiles.get_latest_path()) end
     end
 
-    local function get_buf_dir_path()
-      -- -- Works only if cursor is on the valid file system entry
-      -- local current_entry_path = minifiles.get_fs_entry().path
-      -- return vim.fs.dirname(current_entry_path)
+    local function minifiles_open_from_input()
+      local path = vim.fn.input("Path: ", "", "file")
+      minifiles.open(path)
+    end
 
+    local function minifiles_open_from_buf()
+      if
+        (vim.b.my_get_buf_file_path and pcall(minifiles.open, vim.b.my_get_buf_file_path()))
+        or (vim.b.my_get_buf_dir_path and pcall(minifiles.open, vim.b.my_get_buf_dir_path()))
+        or pcall(minifiles.open, vim.api.nvim_buf_get_name(0))
+      then
+        return
+      end
+
+      local _msg = string.format("Can't open mini.files for: %s", vim.api.nvim_buf_get_name(0))
+      vim.api.nvim_echo({ { _msg } }, true, { err = true })
+    end
+
+    local function minifiles_get_buf_file_path() --
+      return minifiles.get_fs_entry().path
+    end
+
+    local function minifiles_get_buf_dir_path()
       local state = minifiles.get_explorer_state()
       return state and state.branch[state.depth_focus]
     end
@@ -117,7 +135,8 @@ local spec_mini_files__astrocore = {
         if vim.b[args.buf].did_ftplugin_my_minifiles then return end
         vim.b[args.buf].did_ftplugin_my_minifiles = true
 
-        vim.b[args.buf].my_get_buf_dir_path = get_buf_dir_path
+        vim.b[args.buf].my_get_buf_file_path = minifiles_get_buf_file_path
+        vim.b[args.buf].my_get_buf_dir_path = minifiles_get_buf_dir_path
         vim.b[args.buf].my_do_toggle_win = minifiles_toggle
         vim.b[args.buf].my_is_toggle_win_before_buf_change = true
       end,
@@ -178,17 +197,13 @@ local spec_mini_files__astrocore = {
     local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>off", function() minifiles_toggle() end, { desc = "Toggle mini.files" })
-    map("n", "<LEADER>oF", function()
-      local path = vim.fn.input("Path: ", "", "file")
-      minifiles.open(path)
-    end, { desc = "Open mini.files (input)" })
-    map("n", "<LEADER>ofs", function()
-      local success, _ = pcall(minifiles.open, vim.api.nvim_buf_get_name(0))
-      if not success then
-        success, error = pcall(minifiles.open, vim.api.nvim_buf_get_name(0), false)
-        if not success then vim.print(error) end
-      end
-    end, { desc = "Open mini.files (Select current file)" })
+    map("n", "<LEADER>oF", function() minifiles_open_from_input() end, { desc = "Open mini.files (input)" })
+    map(
+      "n",
+      "<LEADER>ofs",
+      function() minifiles_open_from_buf() end,
+      { desc = "Open mini.files (Select current file)" }
+    )
     map("n", "<LEADER>ofc", function() minifiles.open(nil, false) end, { desc = "Open mini.files (CWD)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)

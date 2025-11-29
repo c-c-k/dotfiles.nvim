@@ -30,13 +30,6 @@ local spec_vim_fugitive__astrocore = {
 
         local maps, map = my.keymap.get_astrocore_mapper()
 
-        -- mini.files integration
-        map("n", "<LEADER>ofs", function()
-          local current_dir = get_buf_dir_path()
-          local success, error = pcall(require("mini.files").open, current_dir, false)
-          if not success then vim.print(error) end
-        end, { desc = "Open mini.files (git dir)" })
-
         -- oil.nvim integration
         map("n", "<LEADER>ofo", function()
           local has_oil, oil = pcall(require, "oil")

@@ -111,17 +111,6 @@ local spec_oil_nvim = {
           desc = "Open fugitive git `log --oneline`",
           mode = "n",
         },
-
-        -- mini.files integration
-        [uleader .. "ofs"] = {
-          callback = function()
-            local current_dir = oil.get_current_dir()
-            local success, error = pcall(require("mini.files").open, current_dir, false)
-            if not success then vim.print(error) end
-          end,
-          desc = "Open mini.files (current dir)",
-          mode = "n",
-        },
       },
       -- Set to false to disable all of the above keymaps
       use_default_keymaps = true,

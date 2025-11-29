@@ -1,3 +1,5 @@
+local my = require "my"
+
 local M = {}
 
 ---@alias my.path.cd_scope
@@ -35,7 +37,6 @@ end
 ---@param path string
 ---@return string?
 local function _do_cd(scope, path)
-  local my = require "my"
   ---@type string
   local scope_name = ""
   ---@type boolean

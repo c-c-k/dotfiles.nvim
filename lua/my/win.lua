@@ -97,8 +97,17 @@ function M.open_util_in_current_win(opts)
 end
 
 --- Syncs current window (write+read+preserve folds)
+---
+--- Uses `vim.b.my_sync_buf_win` if exists.
 function M.sync_current_win()
-  if vim.o.buftype ~= "" or vim.fn.win_gettype() ~= "" then return end
+  if vim.b.my_sync_buf_win then
+    vim.b.my_sync_buf_win()
+    return
+  end
+  if vim.o.buftype ~= "" or vim.fn.win_gettype() ~= "" then --
+    return
+  end
+
   local prev_viewoptions = vim.opt.viewoptions
   local view_file = ("/dev/shm/view_%s.vim"):format(os.date "%s")
   vim.opt.viewoptions = { "cursor", "folds" }

@@ -212,6 +212,14 @@ local spec_oil_nvim__astrocore = {
       oil.open(dir_path, nil, cb)
     end
 
+    local function oil_sync_buf_win()
+      oil.save({ confirm = true }, function(err)
+        if err and err ~= "Canceled" then vim.notify(err, vim.log.levels.ERROR) end
+        vim.schedule(vim.cmd.edit)
+        -- vim.cmd.edit()
+      end)
+    end
+
     local function oil_get_buf_file_path()
       local entry = oil.get_cursor_entry()
       if entry and entry.id then return vim.fs.joinpath(oil.get_current_dir(), entry.name) end
@@ -230,6 +238,7 @@ local spec_oil_nvim__astrocore = {
         if vim.b[args.buf].did_ftplugin_my_oil then return end
         vim.b[args.buf].did_ftplugin_my_oil = true
 
+        vim.b[args.buf].my_sync_buf_win = oil_sync_buf_win
         vim.b[args.buf].my_get_buf_file_path = oil_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = oil.get_current_dir
       end,

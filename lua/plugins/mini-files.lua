@@ -137,6 +137,7 @@ local spec_mini_files__astrocore = {
 
         vim.b[args.buf].my_get_buf_file_path = minifiles_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = minifiles_get_buf_dir_path
+        vim.b[args.buf].my_sync_buf_win = minifiles.synchronize
         vim.b[args.buf].my_do_toggle_win = minifiles_toggle
         vim.b[args.buf].my_is_toggle_win_before_buf_change = true
       end,
@@ -151,7 +152,6 @@ local spec_mini_files__astrocore = {
 
         map("n", "H", "h", { desc = "Cursor left" })
         map("n", "L", "l", { desc = "Cursor right" })
-        map("n", "<LEADER>wy", function() minifiles.synchronize() end, { desc = "sync mini.files actions" })
         map("n", "<LEADER>wx", function() minifiles.close() end, { desc = "Close mini.files popup" })
         map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
         map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })

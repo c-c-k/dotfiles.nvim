@@ -30,17 +30,6 @@ local spec_vim_fugitive__astrocore = {
 
         local maps, map = my.keymap.get_astrocore_mapper()
 
-        -- oil.nvim integration
-        map("n", "<LEADER>ofo", function()
-          local has_oil, oil = pcall(require, "oil")
-          if has_oil then
-            local current_dir = get_buf_dir_path()
-            oil.open(current_dir)
-          else
-            vim.print "oil.nvim plugin not present"
-          end
-        end, { desc = "Open oil.nvim (git dir)" })
-
         astrocore.set_mappings(maps, { buffer = args.buf })
       end,
     }

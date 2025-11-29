@@ -176,19 +176,6 @@ local spec_mini_files__astrocore = {
           vim.cmd.bwipeout(temp_path)
         end, { desc = "Open fugitive git `log --oneline`" })
 
-        -- oil.nvim integration
-        map("n", "<LEADER>ofo", function()
-          local has_oil, oil = pcall(require, "oil")
-          if has_oil then
-            local current_entry_path = minifiles.get_fs_entry().path
-            local current_dir = vim.fs.dirname(current_entry_path)
-            minifiles.close()
-            oil.open(current_dir)
-          else
-            vim.print "oil.nvim plugin not present"
-          end
-        end, { desc = "Open oil.nvim (current dir)" })
-
         astrocore.set_mappings(maps, { buffer = args.data.buf_id })
       end,
       -- },

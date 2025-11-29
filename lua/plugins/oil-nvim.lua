@@ -218,6 +218,29 @@ local spec_oil_nvim__astrocore = {
     local astrocore = require "astrocore"
     local oil = require "oil"
 
+    local function oil_open_from_buf()
+      local dir_path = (
+        (vim.b.my_get_buf_file_path and vim.fs.dirname(vim.b.my_get_buf_file_path()))
+        or (vim.b.my_get_buf_dir_path and vim.b.my_get_buf_dir_path())
+        or vim.fs.dirname(vim.api.nvim_buf_get_name(0) or ".")
+      )
+      local base_name = (
+        (vim.b.my_get_buf_file_path and vim.fs.basename(vim.b.my_get_buf_file_path()))
+        or vim.fs.basename(vim.api.nvim_buf_get_name(0))
+      )
+      local cb = base_name and function() --
+        vim.fn.search(string.format("\\<%s$", base_name), "cw")
+      end
+
+      my.win.get_on_buf_change_win_toggler()()
+      oil.open(dir_path, nil, cb)
+    end
+
+    local function oil_get_buf_file_path()
+      local entry = oil.get_cursor_entry()
+      if entry and entry.id then return vim.fs.joinpath(oil.get_current_dir(), entry.name) end
+    end
+
     local aug_my_oil_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_oil_buf_core_config",
       clear = true,
@@ -231,22 +254,15 @@ local spec_oil_nvim__astrocore = {
         if vim.b[args.buf].did_ftplugin_my_oil then return end
         vim.b[args.buf].did_ftplugin_my_oil = true
 
+        vim.b[args.buf].my_get_buf_file_path = oil_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = oil.get_current_dir
       end,
     }
 
     local maps, map = my.keymap.get_astrocore_mapper()
 
-    map("n", "<LEADER>ofo", function()
-      local current_buf_name = vim.api.nvim_buf_get_name(0)
-      local success, current_dir = pcall(vim.fs.dirname, current_buf_name)
-      if success then
-        oil.open(current_dir)
-      else
-        oil.open()
-      end
-    end, { desc = "Open oil.nvim (current file dir)" })
-    map("n", "<LEADER>ofO", ":Oil ./", { desc = "Open oil.nvim (input-PWD)" })
+    map("n", "<LEADER>ofo", function() oil_open_from_buf() end, { desc = "Open oil.nvim (current file dir)" })
+    map("n", "<LEADER>ofO", ":Oil ", { desc = "Open oil.nvim (input)" })
 
     opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
   end,

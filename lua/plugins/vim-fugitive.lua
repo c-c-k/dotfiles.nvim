@@ -48,14 +48,6 @@ local spec_vim_fugitive__astrocore = {
           end
         end, { desc = "Open oil.nvim (git dir)" })
 
-        -- terminal integration
-        map("n", "<LEADER>otl", function()
-          local cur_directory = get_buf_dir_path()
-          vim.cmd.lcd(cur_directory)
-          vim.cmd.terminal()
-          vim.cmd.startinsert()
-        end, { desc = "Open terminal (git dir)" })
-
         astrocore.set_mappings(maps, { buffer = args.buf })
       end,
     }

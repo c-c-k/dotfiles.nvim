@@ -122,18 +122,6 @@ local spec_oil_nvim = {
           desc = "Open mini.files (current dir)",
           mode = "n",
         },
-
-        -- terminal integration
-        [uleader .. "otl"] = {
-          callback = function()
-            local current_dir = oil.get_current_dir()
-            vim.cmd.lcd(current_dir)
-            vim.cmd.terminal()
-            vim.cmd.startinsert()
-          end,
-          desc = "Open terminal (buffer dir)",
-          mode = "n",
-        },
       },
       -- Set to false to disable all of the above keymaps
       use_default_keymaps = true,

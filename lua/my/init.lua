@@ -21,6 +21,8 @@ M.keymap = nil
 M.misc = nil
 ---@module "my.path"
 M.path = nil
+---@module "my.term"
+M.term = nil
 ---@module "my.win"
 M.win = nil
 

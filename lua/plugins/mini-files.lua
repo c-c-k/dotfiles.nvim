@@ -170,21 +170,6 @@ local spec_mini_files__astrocore = {
           end
         end, { desc = "Open oil.nvim (current dir)" })
 
-        -- terminal integration
-        map("n", "<LEADER>otl", function()
-          local cur_entry_path = minifiles.get_fs_entry().path
-          local cur_directory = vim.fs.dirname(cur_entry_path)
-          minifiles.close()
-          vim.cmd.lcd(cur_directory)
-          vim.cmd.terminal()
-          vim.cmd.startinsert()
-        end, { desc = "Open terminal (buffer dir)" })
-        map("n", "<LEADER>ott", function()
-          minifiles.close()
-          vim.cmd.terminal()
-          vim.cmd.startinsert()
-        end, { desc = "Open terminal (PWD)" })
-
         astrocore.set_mappings(maps, { buffer = args.data.buf_id })
       end,
       -- },

@@ -17,6 +17,8 @@ M.autocmd = nil
 M.buf = nil
 ---@module "my.codecompanion"
 M.codecompanion = nil
+---@module "my.goto"
+M.goto = nil
 ---@module "my.keymap"
 M.keymap = nil
 ---@module "my.misc"

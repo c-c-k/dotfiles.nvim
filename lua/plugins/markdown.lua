@@ -23,6 +23,14 @@ local spec_my_core_config = {
     local my = require "my"
     local astrocore = require "astrocore"
 
+    local function markdown_goto_file() --
+      vim.cmd "MyGoToFile"
+    end
+
+    local function markdown_goto_external() --
+      vim.cmd "MyGoToEx"
+    end
+
     local aug_my_markdown_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_markdown_buf_core_config",
       clear = true,
@@ -43,14 +51,8 @@ local spec_my_core_config = {
         if vim.b[args.buf].did_ftplugin_my_markdown then return end
         vim.b[args.buf].did_ftplugin_my_markdown = true
 
-        local maps, map = my.keymap.get_astrocore_mapper()
-
-        map({ "n", "x" }, "<LEADER>gf", "<CMD>MyGoToFile<CR>", { desc = "goto file" })
-        map({ "n", "x" }, "<LEADER>gx", "<CMD>MyGoToEx<CR>", { desc = "goto external" })
-        map({ "n", "x" }, "gf", "<CMD>MyGoToFile<CR>", { desc = "goto file" })
-        map({ "n", "x" }, "gx", "<CMD>MyGoToEx<CR>", { desc = "goto external" })
-
-        astrocore.set_mappings(maps, { buffer = args.buf })
+        vim.b[args.buf].my_goto_file = markdown_goto_file
+        vim.b[args.buf].my_goto_external = markdown_goto_external
       end,
     }
   end,

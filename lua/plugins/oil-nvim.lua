@@ -83,7 +83,7 @@ local spec_oil_nvim = {
         -- ["`"] = "actions.cd",
         -- ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
         ["gs"] = "actions.change_sort",
-        ["gx"] = "actions.open_external",
+        -- ["gx"] = "actions.open_external",
         ["g."] = "actions.toggle_hidden",
         -- ["g\\"] = "actions.toggle_trash",
       },
@@ -192,6 +192,7 @@ local spec_oil_nvim__astrocore = {
     local my = require "my"
     local astrocore = require "astrocore"
     local oil = require "oil"
+    local oil_actions = require "oil.actions"
 
     local function oil_open_from_buf()
       local dir_path = (
@@ -218,6 +219,14 @@ local spec_oil_nvim__astrocore = {
       end)
     end
 
+    local function oil_goto_file() --
+      oil.select { close = true }
+    end
+
+    local function oil_goto_external() --
+      oil_actions.open_external()
+    end
+
     local function oil_get_buf_file_path()
       local entry = oil.get_cursor_entry()
       if entry and entry.id then return vim.fs.joinpath(oil.get_current_dir(), entry.name) end
@@ -238,6 +247,8 @@ local spec_oil_nvim__astrocore = {
 
         vim.b[args.buf].my_close_buf = oil.close
         vim.b[args.buf].my_sync_buf_win = oil_sync_buf_win
+        vim.b[args.buf].my_goto_file = oil_goto_file
+        vim.b[args.buf].my_goto_external = oil_goto_external
         vim.b[args.buf].my_get_buf_file_path = oil_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = oil.get_current_dir
       end,

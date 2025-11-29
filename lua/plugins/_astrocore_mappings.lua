@@ -91,6 +91,13 @@ local spec_astrocore = {
     map({ "n", "x", "i" }, "<A-s>", { desc = "Surround/Leap" })
     map({ "o", "t" }, "<A-s>", { desc = "Leap" })
 
+    -- *** GOTO mappings ***
+
+    map({ "n" }, "gf", function() my.goto.goto_file("n") end, { desc = "goto file" })
+    map({ "x" }, "gf", function() my.goto.goto_file("v") end, { desc = "goto file" })
+    map({ "n" }, "gx", function() my.goto.goto_external("n") end, { desc = "goto external" })
+    map({ "x" }, "gx", function() my.goto.goto_external("v") end, { desc = "goto external" })
+
     -- *** Text Object mappings ***
 
     map({ "x" }, "al", "gg0oG$", { desc = "All buffer" })

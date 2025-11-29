@@ -87,6 +87,14 @@ local spec_mini_files__astrocore = {
       vim.api.nvim_echo({ { _msg } }, true, { err = true })
     end
 
+    local function minifiles_goto_file() --
+      minifiles.go_in( {close_on_file = true})
+    end
+
+    local function minifiles_goto_external() --
+      my.goto.do_external_open(minifiles.get_fs_entry().path)
+    end
+
     local function minifiles_get_buf_file_path() --
       return minifiles.get_fs_entry().path
     end
@@ -135,6 +143,8 @@ local spec_mini_files__astrocore = {
         if vim.b[args.buf].did_ftplugin_my_minifiles then return end
         vim.b[args.buf].did_ftplugin_my_minifiles = true
 
+        vim.b[args.buf].my_goto_file = minifiles_goto_file
+        vim.b[args.buf].my_goto_external = minifiles_goto_external
         vim.b[args.buf].my_get_buf_file_path = minifiles_get_buf_file_path
         vim.b[args.buf].my_get_buf_dir_path = minifiles_get_buf_dir_path
         vim.b[args.buf].my_close_buf = minifiles_toggle

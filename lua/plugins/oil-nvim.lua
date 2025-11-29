@@ -87,30 +87,6 @@ local spec_oil_nvim = {
         ["gx"] = "actions.open_external",
         ["g."] = "actions.toggle_hidden",
         -- ["g\\"] = "actions.toggle_trash",
-
-        -- fugitive integration
-        [uleader .. "ogg"] = {
-          callback = function()
-            local current_dir = oil.get_current_dir()
-            local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-            vim.cmd.edit(temp_path)
-            vim.cmd "Git"
-            vim.cmd.bwipeout(temp_path)
-          end,
-          desc = "Open fugitive git manager",
-          mode = "n",
-        },
-        [uleader .. "ogl"] = {
-          callback = function()
-            local current_dir = oil.get_current_dir()
-            local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-            vim.cmd.edit(temp_path)
-            vim.cmd "Git log --oneline"
-            vim.cmd.bwipeout(temp_path)
-          end,
-          desc = "Open fugitive git `log --oneline`",
-          mode = "n",
-        },
       },
       -- Set to false to disable all of the above keymaps
       use_default_keymaps = true,

@@ -156,26 +156,6 @@ local spec_mini_files__astrocore = {
         map("n", "<LEADER>xw", { copy = { "n", "<LEADER>wx" } })
         map("n", "<LEADER>xx", { copy = { "n", "<LEADER>wx" } })
 
-        -- fugitive integration
-        map("n", "<LEADER>ogg", function()
-          local current_entry_path = minifiles.get_fs_entry().path
-          local current_dir = vim.fs.dirname(current_entry_path)
-          minifiles.close()
-          local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-          vim.cmd.edit(temp_path)
-          vim.cmd "Git"
-          vim.cmd.bwipeout(temp_path)
-        end, { desc = "Open fugitive git manager" })
-        map("n", "<LEADER>ogl", function()
-          local current_entry_path = minifiles.get_fs_entry().path
-          local current_dir = vim.fs.dirname(current_entry_path)
-          minifiles.close()
-          local temp_path = current_dir .. "/~temp" .. vim.fn.rand()
-          vim.cmd.edit(temp_path)
-          vim.cmd "Git log --oneline"
-          vim.cmd.bwipeout(temp_path)
-        end, { desc = "Open fugitive git `log --oneline`" })
-
         astrocore.set_mappings(maps, { buffer = args.data.buf_id })
       end,
       -- },

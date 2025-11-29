@@ -285,15 +285,9 @@ local spec_astrocore = {
     })
 
     -- Git (fugitive)
+    -- NOTE: This is defined in the Fugitive plugin config
+
     map("n", "<LEADER>og", { desc = "Open fugitive git ..." })
-    map("n", "<LEADER>ogg", {
-      function() util_win.open_cmd_in_current_win ":Git" end,
-      desc = "Open fugitive git status",
-    })
-    map("n", "<LEADER>ogl", {
-      function() util_win.open_cmd_in_current_win ":Git log --oneline" end,
-      desc = "Open fugitive git `log --oneline`",
-    })
 
     -- File manager/explorer
     map("n", "<LEADER>of", { desc = "Open file manager/explorer" })

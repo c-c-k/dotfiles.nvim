@@ -132,8 +132,8 @@ M[#M + 1] = {
   -- repo url: <https://github.com/olimorris/codecompanion.nvim>
   -- nvim help: `:help codecompanion.txt`
   "olimorris/codecompanion.nvim",
-  enabled = ACTIVE_PLUGIN,
-  cond = ACTIVE_PLUGIN_COND,
+  enabled = INACTIVE_PLUGIN,
+  cond = INACTIVE_PLUGIN_COND,
   lazy = false,
 }
 
@@ -142,8 +142,8 @@ M[#M + 1] = {
   -- repo url: <https://github.com/github/copilot.vim>
   -- nvim help: `:help copilot`
   "github/copilot.vim",
-  enabled = ACTIVE_PLUGIN,
-  cond = ACTIVE_PLUGIN_COND,
+  enabled = INACTIVE_PLUGIN,
+  cond = INACTIVE_PLUGIN_COND,
   lazy = false,
 }
 

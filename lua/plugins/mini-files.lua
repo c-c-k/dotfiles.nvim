@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_mini_files = {
   "nvim-mini/mini.files",
@@ -61,7 +63,6 @@ local spec_mini_files__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local minifiles = require "mini.files"
 
@@ -182,7 +183,7 @@ local spec_mini_files__astrocore = {
     )
     map("n", "<LEADER>ofc", function() minifiles.open(nil, false) end, { desc = "Open mini.files (CWD)" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

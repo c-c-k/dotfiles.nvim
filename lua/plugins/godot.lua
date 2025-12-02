@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
@@ -9,8 +11,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "gdscript", "glsl", "godot_resource" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "gdscript", "glsl", "godot_resource" })
     end
   end,
 }

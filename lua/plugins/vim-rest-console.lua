@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_vim_rest_console = {
   "diepm/vim-rest-console",

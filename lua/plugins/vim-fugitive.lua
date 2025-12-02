@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_vim_fugitive = {
   "tpope/vim-fugitive",
@@ -8,7 +10,6 @@ local spec_vim_fugitive__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
 
     local function fugitive_open_with_command(cmd) --
@@ -60,7 +61,7 @@ local spec_vim_fugitive__astrocore = {
       desc = "Open fugitive git `log --oneline`",
     })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

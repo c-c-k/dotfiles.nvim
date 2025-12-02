@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_mkdnflow_nvim = {
   "jakewvincent/mkdnflow.nvim",

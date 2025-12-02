@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_vim_repeat = {
   "tpope/vim-repeat",

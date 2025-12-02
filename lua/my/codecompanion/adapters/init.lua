@@ -1,6 +1,7 @@
-local M = vim.tbl_deep_extend(
-  "error",
-  {},
+local my = require "my"
+
+local M = my.tbl.merge( --
+  "dDFn",
   require "my.codecompanion.adapters.gemini",
   require "my.codecompanion.adapters.copilot"
 )

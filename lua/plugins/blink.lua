@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_blink_cmp = {
   "saghen/blink.cmp",
@@ -106,7 +108,6 @@ local spec_blink_cmp__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -114,7 +115,7 @@ local spec_blink_cmp__astrocore = {
     map("n", "<LEADER>uc", { copy = { "n", "<Leader>uc", source = astromaps } }) -- desc = "Toggle autocompletion (buffer)"
     map("n", "<LEADER>uC", { copy = { "n", "<Leader>uC", source = astromaps } }) -- desc = "Toggle autocompletion (global)"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

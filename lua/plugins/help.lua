@@ -1,8 +1,8 @@
+local my = require "my"
+
 local spec_my_core_config = {
   dir = vim.fn.stdpath "config",
   opts = function(_)
-    local my = require "my"
-
     local aug_my_help_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_help_buf_core_config",
       clear = true,

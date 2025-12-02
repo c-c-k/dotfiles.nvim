@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_neogen = {
   "danymat/neogen",
@@ -12,7 +14,6 @@ local spec_neogen = {
 local spec_neogen__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local maps, map = my.keymap.get_astrocore_mapper()
 
@@ -22,7 +23,7 @@ local spec_neogen__astrocore = {
     map("n", "<LEADER>idt", "<CMD>Neogen type<CR>", { desc = "Insert type docs/annotations" })
     map("n", "<LEADER>idF", "<CMD>Neogen file<CR>", { desc = "Insert file docs/annotations" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

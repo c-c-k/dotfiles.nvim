@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_my_core = {
   dir = vim.fn.stdpath "config",

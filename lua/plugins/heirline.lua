@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_heirline_nvim = {
   "rebelot/heirline.nvim",
@@ -8,7 +10,6 @@ local spec_heirline_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -16,7 +17,7 @@ local spec_heirline_nvim__astrocore = {
     map("n", "<Leader>bss", { copy = { "n", "<Leader>bb", source = astromaps } }) -- desc = "Select buffer from tabline"
     map("n", "<Leader>bxs", { copy = { "n", "<Leader>bd", source = astromaps } }) -- desc = "Close buffer from tabline"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

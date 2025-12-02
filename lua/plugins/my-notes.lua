@@ -1,9 +1,10 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local g = {}
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -43,8 +44,8 @@ local spec_astrocore = {
       },
     }
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    opts.options.g = astrocore.extend_tbl(opts.options.g, g)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
+    opts.options.g = my.tbl.merge("dDFn", opts.options.g, g)
   end,
 }
 

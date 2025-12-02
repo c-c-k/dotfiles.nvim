@@ -1,10 +1,12 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_lazydev_nvim = {
   "folke/lazydev.nvim",
   ft = "lua",
   cmd = "LazyDev",
   opts = function(_, opts)
-    opts.library = require("astrocore").extend_tbl(opts.library or {}, {
+    opts.library = my.tbl.merge("dDFn", opts.library, {
       -- Examples:
       -- Library paths can be absolute
       -- "~/projects/my-awesome-lib",

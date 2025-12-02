@@ -1,3 +1,5 @@
+local my = require "my"
+
 local lsp_settings_pylsp = {
   pylsp = {
     plugins = {
@@ -39,7 +41,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "python", "toml" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "python", "toml" })
     end
   end,
 }
@@ -48,7 +50,7 @@ local spec_nvim_treesitter = {
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+    opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, {
       "debugpy",
       "mypy",
       "python-lsp-server",
@@ -105,7 +107,7 @@ local spec_neotest__neotest_python = {
 local spec_neogen = {
   "danymat/neogen",
   opts = function(_, opts)
-    opts.languages = require("astrocore").extend_tbl(opts.languages or {}, {
+    opts.languages = my.tbl.merge("dDFn", opts.languages, {
       -- python = { template = { annotation_convention = "google_docstrings" } },
       -- python = { template = { annotation_convention = "numpydoc" } },
       python = { template = { annotation_convention = "reST" } },

@@ -1,3 +1,5 @@
+local my = require "my"
+
 local lsp_settings_gopls = {
   gopls = {
     analyses = {
@@ -61,8 +63,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed =
-        require("astrocore").list_insert_unique(opts.ensure_installed, { "go", "gomod", "gosum", "gowork" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "go", "gomod", "gosum", "gowork" })
     end
   end,
 }
@@ -71,7 +72,8 @@ local spec_nvim_treesitter = {
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(
+    opts.ensure_installed = my.tbl.merge(
+      "lun",
       opts.ensure_installed,
       { "delve", "gopls", "gomodifytags", "gotests", "iferr", "impl", "goimports" }
     )
@@ -97,9 +99,7 @@ local spec_nvim_dap__nvim_dap_go = {
 ---@type LazyPluginSpec
 local spec_nvim_dap_go__mason_tool_installer = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "delve" })
-  end,
+  opts = function(_, opts) opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "delve" }) end,
 }
 
 ---@type LazyPluginSpec
@@ -147,8 +147,6 @@ spec_nvim_dap__nvim_dap_go.specs = {
 local spec_my_core_config = {
   dir = vim.fn.stdpath "config",
   opts = function(_)
-    local my = require "my"
-
     local aug_my_go_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_go_buf_core_config",
       clear = true,

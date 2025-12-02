@@ -1,3 +1,5 @@
+local my = require "my"
+
 local M = {}
 
 --- Generates a keymapping table and a mapping function for AstroNvim v4.0
@@ -46,7 +48,7 @@ function M.get_astrocore_mapper()
 
     if source_maps[mode] and source_maps[mode][lhs] then
       -- Copy and extend options if the mapping exists in the source table
-      return astrocore.extend_tbl(source_maps[mode][lhs], options)
+      return my.tbl.merge("dDFn", source_maps[mode][lhs], options)
     else
       -- Notify if the mapping to copy is not found
       -- vim.notify('Warning: Mapping to copy not found: "' .. mode .. '","' .. lhs .. '"', vim.log.levels.WARN)

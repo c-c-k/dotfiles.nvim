@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_resession_nvim = {
   "stevearc/resession.nvim",
@@ -9,7 +11,6 @@ local spec_resession_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -26,7 +27,7 @@ local spec_resession_nvim__astrocore = {
     map("n", "<LEADER>fS", { copy = { "n", "<Leader>SF", source = astromaps, desc = "Find a dirsession" } })
     map("n", "<LEADER>qsF", { copy = { "n", "<LEADER>fS" } })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

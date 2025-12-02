@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_nvim_autopairs = {
   "windwp/nvim-autopairs",
@@ -8,14 +10,13 @@ local spec_nvim_autopairs__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
 
     map("n", "<LEADER>ua", { copy = { "n", "<Leader>ua", source = astromaps } }) -- desc = "Toggle autopairs"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

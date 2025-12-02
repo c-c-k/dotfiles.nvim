@@ -1,9 +1,10 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_gitsigns_nvim = {
   "lewis6991/gitsigns.nvim",
   opts = function(_, opts)
     -- local astro_on_attach = opts.on_attach
-    local my = require "my"
     local astrocore = require "astrocore"
     local gitsigns = require "gitsigns"
 

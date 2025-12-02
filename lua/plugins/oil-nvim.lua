@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_oil_nvim = {
   "stevearc/oil.nvim",
@@ -10,7 +12,7 @@ local spec_oil_nvim = {
     local oil = require "oil"
     local uleader = vim.g.usermapleader
 
-    return astrocore.extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
       -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
       default_file_explorer = true,
@@ -189,7 +191,6 @@ local spec_oil_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local oil = require "oil"
     local oil_actions = require "oil.actions"
@@ -259,7 +260,7 @@ local spec_oil_nvim__astrocore = {
     map("n", "<LEADER>ofo", function() oil_open_from_buf() end, { desc = "Open oil.nvim (current file dir)" })
     map("n", "<LEADER>ofO", ":Oil ", { desc = "Open oil.nvim (input)" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

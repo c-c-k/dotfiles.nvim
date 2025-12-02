@@ -1,8 +1,10 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astroui = {
   "AstroNvim/astroui",
   opts = function(_, opts)
-    return require("astrocore").extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       status = {
         -- PLACEHOLDER
       },

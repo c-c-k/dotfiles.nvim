@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_snacks_nvim = {
   "folke/snacks.nvim",
@@ -5,7 +7,7 @@ local spec_snacks_nvim = {
   opts = function(_, opts)
     opts["dashboard"] = nil
     local astrocore = require "astrocore"
-    return astrocore.extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       -- PLACEHOLDER
     })
   end,
@@ -16,7 +18,6 @@ local spec_snacks_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -89,7 +90,7 @@ local spec_snacks_nvim__astrocore = {
     map("n", "<LEADER>fld", { copy = { "n", "<Leader>lD", source = astromaps } }) -- desc = "Search diagnostics"
     map("n", "<LEADER>fls", { copy = { "n", "<Leader>ls", source = astromaps } }) -- desc = "Search symbols"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

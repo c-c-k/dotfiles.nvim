@@ -1,3 +1,5 @@
+local my = require "my"
+
 local is_aarch64 = vim.loop.os_uname().machine == "aarch64"
 
 local lsp_settings_lua_ls = {
@@ -26,7 +28,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "lua", "luap" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "lua", "luap" })
     end
   end,
 }
@@ -35,7 +37,7 @@ local spec_nvim_treesitter = {
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
+    opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, {
       "lua-language-server",
       "stylua",
       (not is_aarch64 and "selene") or nil,
@@ -57,7 +59,7 @@ local spec_neotest = {
 local spec_neogen = {
   "danymat/neogen",
   opts = function(_, opts)
-    opts.languages = require("astrocore").extend_tbl(opts.languages or {}, {
+    opts.languages = my.tbl.merge("dDFn", opts.languages, {
       -- lua = { template = { annotation_convention = "ldoc" } },
       lua = { template = { annotation_convention = "emmylua" } },
     })
@@ -67,8 +69,6 @@ local spec_neogen = {
 local spec_my_core_config = {
   "AstroNvim/astrocore",
   opts = function(_)
-    local my = require "my"
-
     local aug_my_lua_buf_core_config = my.autocmd.get_augroup {
       name = "aug_my_lua_buf_core_config",
       clear = true,

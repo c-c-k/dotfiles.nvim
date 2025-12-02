@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_leap_nvim = {
   "ggandor/leap.nvim",
@@ -20,7 +22,6 @@ local spec_leap_nvim = {
 local spec_leap_nvim__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local maps, map = my.keymap.get_astrocore_mapper()
 
@@ -65,7 +66,7 @@ local spec_leap_nvim__astrocore = {
       require("leap.remote").action()
     end, { desc = "Leap remote action" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_neotest = {
   "nvim-neotest/neotest",
@@ -38,7 +40,6 @@ local spec_neotest = {
 local spec_neotest__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local maps, map = my.keymap.get_astrocore_mapper()
 
@@ -122,14 +123,14 @@ local spec_neotest__astrocore = {
     })
     --
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 
 ---@type LazyPluginSpec
 local spec_neotest__lazydev_nvim = {
   "folke/lazydev.nvim",
-  opts = function(_, opts) opts.library = require("astrocore").extend_tbl(opts.library or {}, { "neotest" }) end,
+  opts = function(_, opts) opts.library = my.tbl.merge("dDFn", opts.library, { "neotest" }) end,
 }
 
 spec_neotest.specs = {

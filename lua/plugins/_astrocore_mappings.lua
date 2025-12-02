@@ -1,9 +1,10 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     -- Get utility function for translating vanilla nvim `map(...)` style
@@ -406,7 +407,7 @@ local spec_astrocore = {
     map("n", "<LEADER>qP", function() my.path.cd("Global", false) end, { desc = "global cd" })
     map("n", "<LEADER>qR", function() my.path.cd("Global", true) end, { desc = "global cd root" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

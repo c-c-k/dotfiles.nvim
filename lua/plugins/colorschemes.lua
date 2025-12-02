@@ -1,3 +1,5 @@
+local my = require "my"
+
 -- SOLARIZED-OSAKA
 -- repo url: <https://github.com/craftzdog/solarized-osaka.nvim>
 -- nvim help: `:help solarized-osaka.nvim.txt`

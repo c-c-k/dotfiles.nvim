@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
@@ -15,7 +17,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "bash" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "bash" })
     end
   end,
 }
@@ -24,7 +26,8 @@ local spec_nvim_treesitter = {
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
   opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(
+    opts.ensure_installed = my.tbl.merge(
+      "lun",
       opts.ensure_installed,
       { "bash-language-server", "shellcheck", "shfmt", "bash-debug-adapter" }
     )

@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_nvim_surround = {
   "kylechui/nvim-surround",
@@ -22,7 +24,6 @@ local spec_nvim_surround = {
 local spec_nvim_surround__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local maps, map = my.keymap.get_astrocore_mapper()
 
@@ -38,7 +39,7 @@ local spec_nvim_surround__astrocore = {
     map({ "n", "x" }, "<A-s>c", "<Plug>(nvim-surround-change)", { desc = "Surround (change)" })
     map({ "n", "x" }, "<A-s>C", "<Plug>(nvim-surround-change-line)", { desc = "Surround (change-line)" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

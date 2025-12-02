@@ -1,3 +1,5 @@
+local my = require "my"
+
 -- == PLUGIN DISABLED ==
 -- MEMO: This is a new plugin config file that needs to be double-checked before enabling.
 if true then return {} end
@@ -10,7 +12,7 @@ local spec_plugin_name = {
   -- },
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    return astrocore.extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       -- yank/paste alignment placeholder
     })
   end,
@@ -27,7 +29,6 @@ local spec_plugin_name__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local g = {}
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -56,8 +57,8 @@ local spec_plugin_name__astrocore = {
 
     g.placeholder = {}
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
-    opts.options.g = astrocore.extend_tbl(opts.options.g, g)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
+    opts.options.g = my.tbl.merge("dDFn", opts.options.g, g)
   end,
 }
 

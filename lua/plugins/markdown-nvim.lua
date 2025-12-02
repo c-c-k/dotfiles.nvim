@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_markdown_nvim = {
   "tadmccorkle/markdown.nvim",
@@ -5,7 +7,7 @@ local spec_markdown_nvim = {
   opts = function(_, opts)
     local astrocore = require "astrocore"
     local uleader = vim.g.usermapleader
-    return astrocore.extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       mappings = {
         inline_surround_toggle = uleader .. "smm",
         inline_surround_toggle_line = uleader .. "sml",
@@ -52,7 +54,6 @@ local spec_markdown_nvim = {
       on_attach = function(bufnr)
         -- selene: allow(shadowing)
         ---@diagnostic disable-next-line: redefined-local
-        local my = require "my"
         local maps, map = my.keymap.get_astrocore_mapper()
 
         -- map({ "n", "i" }, "<M-l><M-o>", "<Cmd>MDListItemBelow<CR>", { desc = "Insert list item below" })

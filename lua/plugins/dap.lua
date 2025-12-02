@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_nvim_dap = {
   "mfussenegger/nvim-dap",
@@ -7,7 +9,6 @@ local spec_nvim_dap = {
 local spec_nvim_dap__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -26,7 +27,7 @@ local spec_nvim_dap__astrocore = {
     map("n", "<LEADER>rR", { copy = { "n", "<Leader>dR", source = astromaps } }) -- desc = "Toggle REPL"
     map("n", "<LEADER>rs", { copy = { "n", "<Leader>ds", source = astromaps } }) -- desc = "Run To Cursor"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 
@@ -40,7 +41,6 @@ local spec_nvim_dap_ui = {
 local spec_nvim_dap_ui__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -50,7 +50,7 @@ local spec_nvim_dap_ui__astrocore = {
     map("n", "<LEADER>ru", { copy = { "n", "<Leader>du", source = astromaps } }) -- desc = "Toggle Debugger UI"
     map("n", "<LEADER>rh", { copy = { "n", "<Leader>dh", source = astromaps } }) -- desc = "Debugger Hover"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 
@@ -63,7 +63,6 @@ local spec_nvim_dap_view = {
 local spec_nvim_dap_view__astrocore = {
   "AstroNvim/astrocore",
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
 
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -71,7 +70,7 @@ local spec_nvim_dap_view__astrocore = {
     map("n", "<LEADER>rE", { function() require("dap-view").add_expr() end, desc = "Add expression" })
     map("n", "<LEADER>ru", { function() require("dap-view").toggle() end, desc = "Toggle Debugger UI" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

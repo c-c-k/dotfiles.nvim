@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_codecompanion_nvim = {
   "olimorris/codecompanion.nvim",
@@ -7,10 +9,9 @@ local spec_codecompanion_nvim = {
     "nvim-telescope/telescope.nvim",
   },
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     -- local new_opts = {
-    return astrocore.extend_tbl(opts, {
+    return my.tbl.merge("dDFn", opts, {
       adapters = { http = my.codecompanion.adapters },
       strategies = {
         chat = {
@@ -64,7 +65,6 @@ local spec_codecompanion_nvim__astrocore = {
   "AstroNvim/astrocore",
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local maps, map = my.keymap.get_astrocore_mapper()
 
@@ -77,7 +77,7 @@ local spec_codecompanion_nvim__astrocore = {
     map("n", "<LEADER>fa", "<CMD>CodeCompanionActions<CR>", { desc = "Find AI actions" })
     map("v", "<LEADER>fa", ":'<,'>CodeCompanionActions<CR>", { desc = "Find AI actions" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 spec_codecompanion_nvim.specs = {

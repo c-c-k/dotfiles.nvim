@@ -1,9 +1,10 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_astrolsp = {
   "AstroNvim/astrolsp",
   ---@param opts AstroLSPOpts
   opts = function(_, opts)
-    local my = require "my"
     local astrocore = require "astrocore"
     local astromaps = opts.mappings
     local maps, map = my.keymap.get_astrocore_mapper()
@@ -35,7 +36,7 @@ local spec_astrolsp = {
 
     map("n", "<LEADER>uY", { copy = { "n", "<Leader>uY", source = astromaps } }) -- desc = "Toggle LSP semantic highlight (buffer)"
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

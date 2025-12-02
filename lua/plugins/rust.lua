@@ -1,3 +1,5 @@
+local my = require "my"
+
 local lsp_settings_rust_analyzer = {
   ["rust-analyzer"] = {
     files = {
@@ -35,7 +37,7 @@ local spec_nvim_treesitter = {
   "nvim-treesitter/nvim-treesitter",
   opts = function(_, opts)
     if opts.ensure_installed ~= "all" then
-      opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "rust" })
+      opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "rust" })
     end
   end,
 }
@@ -43,9 +45,7 @@ local spec_nvim_treesitter = {
 ---@type LazyPluginSpec
 local spec_mason_tool_installer_nvim = {
   "WhoIsSethDaniel/mason-tool-installer.nvim",
-  opts = function(_, opts)
-    opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, { "codelldb" })
-  end,
+  opts = function(_, opts) opts.ensure_installed = my.tbl.merge("lun", opts.ensure_installed, { "codelldb" }) end,
 }
 
 ---@type LazyPluginSpec
@@ -108,7 +108,7 @@ local spec_rustaceanvim = {
       settings = function(project_root, default_settings)
         local astrolsp_settings = astrolsp_opts.settings or {}
 
-        local merge_table = require("astrocore").extend_tbl(default_settings or {}, astrolsp_settings)
+        local merge_table = my.tbl.merge("dDFn", default_settings, astrolsp_settings)
         local ra = require "rustaceanvim.config.server"
         -- load_rust_analyzer_settings merges any found settings with the passed in default settings table and then returns that table
         return ra.load_rust_analyzer_settings(project_root, {
@@ -117,14 +117,14 @@ local spec_rustaceanvim = {
         })
       end,
     }
-    local final_server = require("astrocore").extend_tbl(astrolsp_opts, server)
+    local final_server = my.tbl.merge("dDFn", astrolsp_opts, server)
     return {
       server = final_server,
       dap = { adapter = adapter, load_rust_types = true },
       tools = { enable_clippy = false },
     }
   end,
-  config = function(_, opts) vim.g.rustaceanvim = require("astrocore").extend_tbl(opts, vim.g.rustaceanvim) end,
+  config = function(_, opts) vim.g.rustaceanvim = my.tbl.merge("dDFn", opts, vim.g.rustaceanvim) end,
 }
 
 ---@type LazyPluginSpec

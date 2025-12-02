@@ -1,3 +1,5 @@
+local my = require "my"
+
 ---@type LazyPluginSpec
 local spec_neomux = {
   "nikvdp/neomux",
@@ -26,7 +28,6 @@ local spec_neomux__astrocore = {
   ---@param opts AstroCoreOpts
   opts = function(_, opts)
     local astrocore = require "astrocore"
-    local my = require "my"
     local maps, map = my.keymap.get_astrocore_mapper()
 
     local aug_my_neomux_autodel_git_temp_buf = my.autocmd.get_augroup {
@@ -46,7 +47,7 @@ local spec_neomux__astrocore = {
     map("n", "<LEADER>oth", "<CMD>lcd ~|Neomux<CR>", { desc = "Open terminal (home)" })
     map("n", "<LEADER>oga", "<CMD>lcd %:h|Neomux<CR>lazygit&&exit<CR>", { desc = "Open Lazygit (root dir)" })
 
-    opts.mappings = astrocore.extend_tbl(opts.mappings, maps)
+    opts.mappings = my.tbl.merge("dDFn", opts.mappings, maps)
   end,
 }
 

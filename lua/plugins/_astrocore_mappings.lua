@@ -370,7 +370,8 @@ local spec_astrocore = {
     map("n", "<LEADER>uA", { copy = { "n", "<Leader>uA", source = astromaps } }) -- desc = "Toggle rooter autochdir"
     map("n", "<LEADER>ub", { copy = { "n", "<Leader>ub", source = astromaps } }) -- desc = "Toggle background"
     map("n", "<LEADER>ud", { copy = { "n", "<Leader>ud", source = astromaps } }) -- desc = "Toggle diagnostics"
-    map("n", "<LEADER>ug", { copy = { "n", "<Leader>ug", source = astromaps } }) -- desc = "Toggle signcolumn"
+    map("n", "<LEADER>ug", { desc = "Git toggles" })
+    map("n", "<LEADER>uG", { copy = { "n", "<Leader>ug", source = astromaps } }) -- desc = "Toggle signcolumn"
     map("n", "<LEADER>u>", { copy = { "n", "<Leader>u>", source = astromaps } }) -- desc = "Toggle foldcolumn"
     map("n", "<LEADER>ui", { copy = { "n", "<Leader>ui", source = astromaps } }) -- desc = "Change indent setting"
     map("n", "<LEADER>ul", { copy = { "n", "<Leader>ul", source = astromaps } }) -- desc = "Toggle statusline"

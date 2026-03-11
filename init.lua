@@ -1,51 +1,16 @@
--- This file simply bootstraps the installation of Lazy.nvim and then calls other files for execution
--- This file doesn't necessarily need to be touched, BE CAUTIOUS editing this file and proceed at your own risk.
-local lazypath = vim.env.LAZY or vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local my = require "my"
+_G.My = my
 
-if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
-  -- stylua: ignore
-  local result = vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
-  if vim.v.shell_error ~= 0 then
-    -- stylua: ignore
-    vim.api.nvim_echo({ { ("Error cloning lazy.nvim:\n%s\n"):format(result), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } }, true, {})
-    vim.fn.getchar()
-    vim.cmd.quit()
-  end
-end
+vim.cmd.colorscheme "darkblue"
+my.config.lazy_nvim.bootstrap()
 
-vim.opt.rtp:prepend(lazypath)
+require "my.config._setup_vars"
+require "my.config._setup_nvim_opts"
+require "my.config._init_core"
+my.ft.init_filetypes()
 
--- validate that lazy is available
-if not pcall(require, "lazy") then
-  -- stylua: ignore
-  vim.api.nvim_echo({ { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } }, true, {})
-  vim.fn.getchar()
-  vim.cmd.quit()
-end
+my.config.lazy_nvim.setup()
 
--- Set an extra `vim.g.usermapleader` variable that will be used instead of
--- `vim.g.mapleader` for my own (user) mappings.
--- * This is an ad-hoc solution to not getting paralyzed by trying to adjust
---   all of the default mappings provided by AstroNvim and other plugins to my
---   own workflow.
-vim.g.usermapleader = " "
-
-require("lazy").setup({
-  require "plugins",
-} --[[@as LazySpec]], {
-  -- Configure any other `lazy.nvim` configuration options here
-  install = { colorscheme = { "habamax" } },
-  ui = { backdrop = 100 },
-  performance = {
-    rtp = {
-      -- disable some rtp plugins, add more to your liking
-      disabled_plugins = {
-        "gzip",
-        "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "zipPlugin",
-      },
-    },
-  },
-} --[[@as LazyConfig]])
+require "my.config._setup_keymaps"
+require "my.config._setup_autocommands"
+vim.cmd.colorscheme "solarized-osaka"

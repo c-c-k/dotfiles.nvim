@@ -1,6 +1,11 @@
 local my = require "my"
----@class my.config: my.config._submodules
-local M = {}
+
+---@class my.setup: my.setup._submodules
+---@overload fun(opts: my.setup.setup_opts_spec) # MEMO: If changing the setup signature also update it in `my.setup.setup`
+local M = setmetatable({}, {
+  __call = function(...) return require "my.setup._setup"(...) end,
+  __apply_lazy_module_loader = true,
+})
 
 function M.setup_core_autocmds() --
   local core_setup_autocmds = my.g.core_setup_autocmds

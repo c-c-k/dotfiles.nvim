@@ -1,5 +1,5 @@
 local my = require "my"
----@class my.config.keymaps
+---@class my.setup.keymaps
 local M = {}
 
 -- Helper to get mode_slugs list without going into the meta file.
@@ -488,17 +488,17 @@ M.g_neotest_["n___<L> tww "] = my.testing.neotest.keymaps.watch_toggle
 M.g_core____["n___<_> U "] = my.buf.keymaps.unundo
 M.b_ufo_____["n___<C> U "] = my.win.ufo.keymaps.preview_win_scrollU
 -- M.g_core____["n___<L> u "] = { wk_group = "UI/UX toggles" }
--- M.g_core____["n___<L> u> "] = my.config.toggles.foldcolumn
--- M.g_core____["n___<L> uA "] = my.config.toggles.auto_cd_root
--- M.g_aupairs_["n___<L> ua "] = my.config.toggles.autopairs
--- M.g_blinkcmp["n___<L> uc "] = my.config.toggles.cmp_buf
--- M.g_blinkcmp["n___<L> uC "] = my.config.toggles.cmp_global
+-- M.g_core____["n___<L> u> "] = my.setup.toggles.foldcolumn
+-- M.g_core____["n___<L> uA "] = my.setup.toggles.auto_cd_root
+-- M.g_aupairs_["n___<L> ua "] = my.setup.toggles.autopairs
+-- M.g_blinkcmp["n___<L> uc "] = my.setup.toggles.cmp_buf
+-- M.g_blinkcmp["n___<L> uC "] = my.setup.toggles.cmp_global
 -- M.g_core____["n___<L> ud "] = { wk_group = "Diagnostic toggles" }
--- M.g_core____["n___<L> udd "] = my.config.toggles.diagnostics_buf
--- M.g_core____["n___<L> udg "] = my.config.toggles.diagnostics_global
--- M.g_core____["n___<L> udl "] = my.config.toggles.virtual_lines
--- M.g_core____["n___<L> udv "] = my.config.toggles.virtual_text
--- M.g_core____["n___<L> uG "] = my.config.toggles.signcolumn
+-- M.g_core____["n___<L> udd "] = my.setup.toggles.diagnostics_buf
+-- M.g_core____["n___<L> udg "] = my.setup.toggles.diagnostics_global
+-- M.g_core____["n___<L> udl "] = my.setup.toggles.virtual_lines
+-- M.g_core____["n___<L> udv "] = my.setup.toggles.virtual_text
+-- M.g_core____["n___<L> uG "] = my.setup.toggles.signcolumn
 -- M.g_core____["n___<L> ug "] = { wk_group = "Git toggles" }
 -- M.b_gitsigns["n___<L> ugb "] = my.git.gitsigns.keymaps.toggle_current_line_blame
 -- M.b_gitsigns["n___<L> ugl "] = my.git.gitsigns.keymaps.toggle_linehl
@@ -506,34 +506,34 @@ M.b_ufo_____["n___<C> U "] = my.win.ufo.keymaps.preview_win_scrollU
 -- M.b_gitsigns["n___<L> ugs "] = my.git.gitsigns.keymaps.toggle_signs
 -- M.b_gitsigns["n___<L> ugw "] = my.git.gitsigns.keymaps.toggle_word_diff
 -- M.g_core____["n___<L> uh "] = { wk_group = "hl toggles" }
--- M.g_illumint["n___<L> uhf "] = my.config.toggles.illuminate_buf_freeze
--- M.g_core____["n___<L> uhh "] = my.config.toggles.syntax_hl_full_buf
--- M.g_illumint["n___<L> uhi "] = my.config.toggles.illuminate_buf
--- M.g_illumint["n___<L> uhI "] = my.config.toggles.illuminate_global
--- M.g_core____["n___<L> uhl "] = my.config.toggles.syntax_hl_lsp_buf
--- M.g_core____["n___<L> uhr "] = my.config.toggles.syntax_hl_regex_buf
--- M.g_core____["n___<L> uht "] = my.config.toggles.syntax_hl_ts_buf
--- M.g_illumint["n___<L> uhv "] = my.config.toggles.illuminate_buf_visible
--- M.g_snkindnt["n___<L> ui "] = my.config.toggles.indent_buf
--- M.g_snkindnt["n___<L> uI "] = my.config.toggles.indent_global
+-- M.g_illumint["n___<L> uhf "] = my.setup.toggles.illuminate_buf_freeze
+-- M.g_core____["n___<L> uhh "] = my.setup.toggles.syntax_hl_full_buf
+-- M.g_illumint["n___<L> uhi "] = my.setup.toggles.illuminate_buf
+-- M.g_illumint["n___<L> uhI "] = my.setup.toggles.illuminate_global
+-- M.g_core____["n___<L> uhl "] = my.setup.toggles.syntax_hl_lsp_buf
+-- M.g_core____["n___<L> uhr "] = my.setup.toggles.syntax_hl_regex_buf
+-- M.g_core____["n___<L> uht "] = my.setup.toggles.syntax_hl_ts_buf
+-- M.g_illumint["n___<L> uhv "] = my.setup.toggles.illuminate_buf_visible
+-- M.g_snkindnt["n___<L> ui "] = my.setup.toggles.indent_buf
+-- M.g_snkindnt["n___<L> uI "] = my.setup.toggles.indent_global
 -- M.g_core____["n___<L> ul "] = { wk_group = "LSP" }
--- M.g_core____["n___<L> ulf "] = my.config.toggles.lsp_format_buf
--- M.g_core____["n___<L> ulF "] = my.config.toggles.lsp_format_global
--- M.g_core____["n___<L> ulh "] = my.config.toggles.lsp_inlay_hint_buf
--- M.g_core____["n___<L> ulH "] = my.config.toggles.lsp_inlay_hint_global
--- M.g_core____["n___<L> ull "] = my.config.toggles.lsp_codelens_buf
--- M.g_core____["n___<L> ulL "] = my.config.toggles.lsp_codelens_global
--- M.g_core____["n___<L> uls "] = my.config.toggles.lsp_format_on_save_buf
--- M.g_core____["n___<L> ulS "] = my.config.toggles.lsp_format_on_save_global
--- M.g_core____["n___<L> uL "] = my.config.toggles.laststatus
--- M.g_core____["n___<L> uN "] = my.config.toggles.toggle_notify
+-- M.g_core____["n___<L> ulf "] = my.setup.toggles.lsp_format_buf
+-- M.g_core____["n___<L> ulF "] = my.setup.toggles.lsp_format_global
+-- M.g_core____["n___<L> ulh "] = my.setup.toggles.lsp_inlay_hint_buf
+-- M.g_core____["n___<L> ulH "] = my.setup.toggles.lsp_inlay_hint_global
+-- M.g_core____["n___<L> ull "] = my.setup.toggles.lsp_codelens_buf
+-- M.g_core____["n___<L> ulL "] = my.setup.toggles.lsp_codelens_global
+-- M.g_core____["n___<L> uls "] = my.setup.toggles.lsp_format_on_save_buf
+-- M.g_core____["n___<L> ulS "] = my.setup.toggles.lsp_format_on_save_global
+-- M.g_core____["n___<L> uL "] = my.setup.toggles.laststatus
+-- M.g_core____["n___<L> uN "] = my.setup.toggles.toggle_notify
 -- M.g_core____["n___<L> un "] = { wk_group = "number toggles" }
--- M.g_core____["n___<L> unn "] = my.config.toggles.number
--- M.g_core____["n___<L> unr "] = my.config.toggles.relativenumber
--- M.g_core____["n___<L> uS "] = my.config.toggles.conceallevel
--- M.g_core____["n___<L> us "] = my.config.toggles.spell
--- M.g_core____["n___<L> ut "] = my.config.toggles.showtabline
--- M.g_core____["n___<L> uw "] = my.config.toggles.wrap
+-- M.g_core____["n___<L> unn "] = my.setup.toggles.number
+-- M.g_core____["n___<L> unr "] = my.setup.toggles.relativenumber
+-- M.g_core____["n___<L> uS "] = my.setup.toggles.conceallevel
+-- M.g_core____["n___<L> us "] = my.setup.toggles.spell
+-- M.g_core____["n___<L> ut "] = my.setup.toggles.showtabline
+-- M.g_core____["n___<L> uw "] = my.setup.toggles.wrap
 M.g_core____["all_<A> w "] = my.win.keymaps.switch_to_alternate
 M.g_core____["n___<L> w "] = { wk_group = "window actions" }
 M.b_ufo_____["n___<L> wff "] = my.win.ufo.keymaps.preview_win_switch

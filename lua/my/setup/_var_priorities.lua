@@ -1,4 +1,4 @@
----@class my.config.var_priorities
+---@class my.setup.var_priorities
 local M = {}
 M.GLOBAL_DEFAULT = 50
 M.SCOPE = 250

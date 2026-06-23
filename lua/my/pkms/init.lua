@@ -36,7 +36,7 @@ M.opts.general = function()
     },
   }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_notes___)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_notes___)
 end
 
 M.keymaps = {}

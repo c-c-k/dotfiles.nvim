@@ -43,11 +43,11 @@ M.opts.core_integration = function()
       vim.b[args.buf].my_get_buf_file_path = my.fs.oil.get_buf_file_path
       vim.b[args.buf].my_get_buf_dir_path = my.fs.oil.get_current_dir
 
-      my.keymap.load_km_group(my.config.keymaps.b_oil_____, { buffer = args.buf })
+      my.keymap.load_km_group(my.setup.keymaps.b_oil_____, { buffer = args.buf })
     end,
   }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_oil_____)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_oil_____)
 end
 
 function M.close() --

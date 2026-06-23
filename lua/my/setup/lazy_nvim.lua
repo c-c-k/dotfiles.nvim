@@ -1,5 +1,5 @@
 local my = require "my"
----@class my.config.lazy_nvim
+---@class my.setup.lazy_nvim
 local M = {}
 
 local NULL_PLUGIN_DIR = vim.fn.stdpath "config"
@@ -7,7 +7,7 @@ local NULL_PLUGIN_NAME = "my"
 
 --- Start the Lazy.nvim plugin manager and load the plugins
 function M.setup()
-  local main_specs = require "my.config._plugins_manifest"
+  local main_specs = require "my.setup._plugins_manifest"
   local file_type_specs = my.ft.get_lazy_nvim_filetype_specs()
   require("lazy").setup {
     spec = {

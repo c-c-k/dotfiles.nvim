@@ -23,7 +23,7 @@ M.opts.general = function(_, opts) ---@cast opts MyNoOptsSpec
     },
     attach_to_untracked = true,
     on_attach = function(bufnr) --
-      my.keymap.load_km_group(my.config.keymaps.b_gitsigns, { buffer = bufnr })
+      my.keymap.load_km_group(my.setup.keymaps.b_gitsigns, { buffer = bufnr })
     end,
   } --[[@as MyNoOptsSpec]])
 end

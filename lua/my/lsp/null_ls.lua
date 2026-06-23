@@ -10,7 +10,7 @@ M.opts.core_integration = function() --
     event = "LspAttach",
     desc = "LSP on_attach setup for null_ls/none_ls",
     callback = function(args) --
-      my.keymap.load_km_group(my.config.keymaps.b_null_ls_, { args = args })
+      my.keymap.load_km_group(my.setup.keymaps.b_null_ls_, { args = args })
     end,
   }
 end

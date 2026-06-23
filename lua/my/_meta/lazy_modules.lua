@@ -8,7 +8,6 @@ error "Cannot require a meta file"
 ---@field b my.vars.b
 ---@field bp my.vars.bp
 ---@field buf my.buf
----@field config my.config
 ---@field cmp my.cmp
 ---@field dap my.dap
 ---@field fs my.fs
@@ -23,6 +22,7 @@ error "Cannot require a meta file"
 ---@field motion my.motion
 ---@field notify my.notify
 ---@field pkms my.pkms
+---@field setup my.setup
 ---@field syntax my.syntax
 ---@field t my.vars.t
 ---@field tp my.vars.tp
@@ -32,7 +32,7 @@ error "Cannot require a meta file"
 ---@field testing my.testing
 ---@field ui my.ui
 ---@field vars my.vars
----@field vp my.config.var_priorities
+---@field vp my.setup.var_priorities
 ---@field w my.vars.w
 ---@field wp my.vars.wp
 ---@field win my.win
@@ -46,11 +46,6 @@ error "Cannot require a meta file"
 ---@class my.ai.coco._submodules
 ---@field adapters my.ai.coco.adapters
 ---@field system_prompts my.ai.coco.system_prompts
-
----@class my.config._submodules
----@field lazy_nvim my.config.lazy_nvim
----@field keymaps my.config.keymaps
----@field toggles my.config.toggles
 
 ---@class my.cmp._submodules
 ---@field autopairs my.cmp.autopairs
@@ -92,6 +87,11 @@ error "Cannot require a meta file"
 
 ---@class my.motion._submodules
 ---@field leap my.motion.leap
+
+---@class my.setup._submodules
+---@field lazy_nvim my.setup.lazy_nvim
+---@field keymaps my.setup.keymaps
+---@field toggles my.setup.toggles
 
 ---@class my.syntax._submodules
 ---@field illuminate my.syntax.illuminate

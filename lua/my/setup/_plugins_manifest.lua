@@ -1,5 +1,5 @@
 local my = require "my"
-local null_spec = my.config.lazy_nvim.null_spec
+local null_spec = my.setup.lazy_nvim.null_spec
 ---@type LazyPluginSpec[]
 local M = {}
 
@@ -425,7 +425,7 @@ M[#M + 1] = {
   enabled = ACTIVE_PLUGIN,
   cond = ACTIVE_PLUGIN_COND,
   lazy = true,
-  config = my.config.lazy_nvim.no_setup,
+  config = my.setup.lazy_nvim.no_setup,
   specs = { null_spec { opts = my.dap.opts.core_integration } },
 }
 
@@ -498,7 +498,7 @@ M[#M + 1] = {
   enabled = ACTIVE_PLUGIN,
   cond = ACTIVE_PLUGIN_COND,
   lazy = false,
-  config = my.config.lazy_nvim.no_setup,
+  config = my.setup.lazy_nvim.no_setup,
   specs = { null_spec { opts = my.lsp.lspconfig.opts.core_integration } },
 }
 

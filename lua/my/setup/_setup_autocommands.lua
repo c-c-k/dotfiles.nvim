@@ -2,7 +2,7 @@ local my = require "my"
 
 my.vars.autocmds.setup_handles_delete()
 my.tab.autocmds.my_tab_closed()
-my.config.setup_core_autocmds()
+my.setup.setup_core_autocmds()
 my.lsp.setup_lsp_autocmds()
 my.ft.enable_lsp_clients()
 my.ft.setup_filetype_autocmds()

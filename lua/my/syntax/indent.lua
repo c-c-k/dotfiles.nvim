@@ -9,7 +9,7 @@ M.opts.snacks_indent_general = function(_, opts) ---@cast opts snacks.indent.Con
   } --[[@as snacks.indent.Config]])
 end
 M.opts.snacks_indent_core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkindnt)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkindnt)
 end
 
 function M.is_enabled_buf(bufnr, win_id) --

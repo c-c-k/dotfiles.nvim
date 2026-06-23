@@ -40,7 +40,7 @@ M.opts.core_integration = function() --
   --   end,
   -- }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_leap____)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_leap____)
 end
 
 M.keymaps = {}

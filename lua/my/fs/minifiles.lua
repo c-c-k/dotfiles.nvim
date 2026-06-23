@@ -95,11 +95,11 @@ M.opts.core_integration = function()
       vim.b[args.buf].my_do_toggle_win = M.toggle
       vim.b[args.buf].my_is_toggle_win_before_buf_change = true
 
-      my.keymap.load_km_group(my.config.keymaps.b_minfiles, { buffer = args.buf })
+      my.keymap.load_km_group(my.setup.keymaps.b_minfiles, { buffer = args.buf })
     end,
   }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_minfiles)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_minfiles)
 end
 
 function M.close() --

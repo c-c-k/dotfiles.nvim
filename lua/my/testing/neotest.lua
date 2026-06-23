@@ -23,7 +23,7 @@ M.opts.general = function(_, opts) ---@cast opts MyNoOptsSpec
   } --[[@as MyNoOptsSpec]])
 end
 M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_neotest_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_neotest_)
   vim.diagnostic.config({
     virtual_text = {
       format = function(diagnostic)

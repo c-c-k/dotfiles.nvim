@@ -4,7 +4,7 @@ local M = {}
 
 M.opts = {}
 M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_illumint)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_illumint)
   M.autocmds.setup_vars()
 end
 

@@ -2,7 +2,7 @@ local my = require "my"
 ---@class my.ui.toggle
 local M = {}
 
--- NOTE: Actual toggles are in `my.config.toggles`
+-- NOTE: Actual toggles are in `my.setup.toggles`
 
 M.opts = {}
 M.opts.snacks_toggle_config = function()

@@ -5,12 +5,12 @@ local M = {}
 M.opts = {}
 
 M.opts.snacks_picker_core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkkbuf_)
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkkfs__)
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkkgit_)
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkklsp_)
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkknvim)
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snkkrg__)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkkbuf_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkkfs__)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkkgit_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkklsp_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkknvim)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snkkrg__)
 end
 
 M.keymaps = {}

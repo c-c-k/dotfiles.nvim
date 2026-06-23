@@ -1,5 +1,5 @@
 local my = require "my"
-local null_spec = my.config.lazy_nvim.null_spec
+local null_spec = my.setup.lazy_nvim.null_spec
 ---@class my.ft.python
 local M = {}
 
@@ -125,7 +125,7 @@ M.opts.treesitter_integration = function(_, opts)
   end
 end
 M.opts.venv_selector_core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_venvslct)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_venvslct)
 end
 
 M.keymaps = {}

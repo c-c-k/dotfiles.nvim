@@ -10,7 +10,7 @@ M.opts.core_integration = function()
     event = "LspAttach",
     desc = "LSP on_attach setup for nvim-lspconfig",
     callback = function(args) --
-      my.keymap.load_km_group(my.config.keymaps.b_lspconfg, { args = args })
+      my.keymap.load_km_group(my.setup.keymaps.b_lspconfg, { args = args })
     end,
   }
 end

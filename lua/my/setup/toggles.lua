@@ -1,5 +1,5 @@
 local my = require "my"
----@class my.config.toggles
+---@class my.setup.toggles
 local M = {}
 
 M.auto_cd_root = { ---@type my.keymap.keymap_spec

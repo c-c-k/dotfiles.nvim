@@ -84,7 +84,7 @@ M.opts.markdown_nvim_general = function(_, opts)
       follow_link = nil,
     },
     on_attach = function(bufnr) --
-      my.keymap.load_km_group(my.config.keymaps.b_md_nvim_, { buffer = bufnr })
+      my.keymap.load_km_group(my.setup.keymaps.b_md_nvim_, { buffer = bufnr })
     end,
   })
 end

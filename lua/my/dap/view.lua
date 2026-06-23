@@ -5,7 +5,7 @@ local M = {}
 M.opts = {}
 
 M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_dap_view)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_dap_view)
 end
 
 M.opts.dap_integration = function()

@@ -6,7 +6,7 @@ from my.markdown import add_ref_link as md_add_ref_link
 from my.markdown import generate_ref_targets_map
 from my.create import add_note_ref_link
 from my.create import edit_note
-from my.config import load_config
+from my.setup import load_config
 from my.uri import URI
 
 

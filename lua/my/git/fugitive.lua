@@ -18,7 +18,7 @@ M.opts.core_integration = function()
     end,
   }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_fugitive)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_fugitive)
 end
 
 M.get_buf_dir_path = function() --

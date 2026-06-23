@@ -33,11 +33,11 @@ M.opts.core_integration = function()
       if vim.b[args.buf].did_ftplugin_my_ufo_preview_win then return end
       vim.b[args.buf].did_ftplugin_my_ufo_preview_win = true
 
-      my.keymap.load_km_group(my.config.keymaps.b_ufo_____, { buffer = args.buf })
+      my.keymap.load_km_group(my.setup.keymaps.b_ufo_____, { buffer = args.buf })
     end,
   }
 
-  my.keymap.queue_km_group_load(my.config.keymaps.g_ufo_____)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_ufo_____)
 end
 
 local function _preview_emmit(msg)

@@ -4,7 +4,7 @@ local _l = {}
 
 local my = require "my"
 local Var = require "my.vars._var"
-local var_priorities = require "my.config._var_priorities"
+local var_priorities = require "my.setup._var_priorities"
 
 --TODO: DELETE >>>>>>>>>>>>>>>>>
 

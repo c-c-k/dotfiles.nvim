@@ -5,7 +5,7 @@ local M = {}
 M.opts = {}
 
 M.opts.snacks_notifier_core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_snknotfy)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_snknotfy)
 end
 
 --@param msg string|string[]

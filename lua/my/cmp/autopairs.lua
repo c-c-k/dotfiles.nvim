@@ -5,7 +5,7 @@ local M = {}
 M.opts = {}
 
 M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_aupairs_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_aupairs_)
 end
 
 function M.autopairs_is_enabled_global() --

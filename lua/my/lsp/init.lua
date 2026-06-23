@@ -322,7 +322,7 @@ M.autocmds.lsp_attach_keymaps = function()
     event = "LspAttach",
     callback = function(args) --
       local bufnr = args.buf
-      my.keymap.load_km_group(my.config.keymaps.b_core_lsp, { args = args })
+      my.keymap.load_km_group(my.setup.keymaps.b_core_lsp, { args = args })
       my.autocmd.add_autocmd {
         desc = "remove LSP keymaps",
         group = group,
@@ -332,7 +332,7 @@ M.autocmds.lsp_attach_keymaps = function()
           local clients = vim.lsp.get_clients { bufnr = bufnr }
           if #clients == 1 and clients[1].id == detach_args.data.client_id then
             vim.api.nvim_clear_autocmds { buffer = bufnr, group = group }
-            my.keymap.delete_by_km_group(my.config.keymaps.b_core_lsp, { args = args })
+            my.keymap.delete_by_km_group(my.setup.keymaps.b_core_lsp, { args = args })
           end
         end,
       }

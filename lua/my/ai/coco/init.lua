@@ -52,7 +52,7 @@ M.opts.general = function(_, opts) ---@cast opts MyNoOptsSpec
   } --[[@as MyNoOptsSpec]])
 end
 M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.config.keymaps.g_coco_ai_)
+  my.keymap.queue_km_group_load(my.setup.keymaps.g_coco_ai_)
 end
 
 M.keymaps = {}

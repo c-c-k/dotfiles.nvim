@@ -4,6 +4,13 @@
 lazy-lock.json
 
 # ======
+# Rust
+# ======
+
+/target
+Cargo.lock
+
+# ======
 # Python
 # ======
 
@@ -160,3 +167,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+

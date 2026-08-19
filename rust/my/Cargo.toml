@@ -1,0 +1,12 @@
+[package]
+edition.workspace = true
+name = "my-rs"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow.workspace = true
+nvim.workspace = true
+serde.workspace = true

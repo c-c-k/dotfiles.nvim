@@ -1,7 +1,10 @@
+vim.cmd.colorscheme "darkblue"
+
 local my = require "my"
 _G.My = my
 
-vim.cmd.colorscheme "darkblue"
+require "my.setup._load_my_rs"
+
 my.setup.lazy_nvim.bootstrap()
 
 require "my.setup._setup_vars"

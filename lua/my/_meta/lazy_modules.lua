@@ -22,6 +22,7 @@ error "Cannot require a meta file"
 ---@field motion my.motion
 ---@field notify my.notify
 ---@field pkms my.pkms
+---@field rs table
 ---@field setup my.setup
 ---@field syntax my.syntax
 ---@field t my.vars.t

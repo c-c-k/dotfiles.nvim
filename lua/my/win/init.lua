@@ -1,44 +1,66 @@
-local my = require "my"
----@class my.win: my.win._submodules
+---@class MyWin
+---@field ufo MyWinUfo
 local M = {}
+M.init = { no_init = true, recurse = true } ---@type MyModuleInit
+
+local my = require "my"
 
 M.winbar_expr = function() --
   return vim.api.nvim_buf_get_name(0)
 end
 
 M.close_win = function()
-  if my.b[0].lose_buf_win then
-    my.b[0].lose_buf_win()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local win_id = vim.api.nvim_get_current_win()
+  local custom_close_buf_fix_win_func = my.config.close_buf_fixed_win_buf[buf_id]
+  if custom_close_buf_fix_win_func then
+    custom_close_buf_fix_win_func()
     return
   end
-  vim.api.nvim_win_close(0, false)
+  vim.api.nvim_win_close(win_id, false)
 end
 
 --- Get window toggler for buffer changing actions.
 ---
---- The returned function toggles windows that have a buffer with:
----   * `vim.b.my_do_toggle_win` set.
----   * `vim.b.my_is_toggle_win_before_buf_change` set.
---- The returned function uses `vim.b.my_do_toggle_win` to toggle the windows.
+--- The returned function toggles buffer fixed windows that have the
+--- `my.config.toggle_buf_fixed_win_on_cd_buf` flag set to true.
+--- The returned function uses `my.config.toggle_buf_fixed_win_func_buf` to
+--- toggle the windows.
+--- An error is raised if one of the buffer fixed windows has the flag set
+--- but doesn't have the corresponding function.
 ---
 --- This is intended for situations like e.g. using a Mini.Files popup window
---- to pick a directory and then executing a general purpose keymap to open
---- A terminal in the current buffer directory.
----@return my.win.get_on_buf_change_win_toggler.ret # Function to toggle stack of buffer fixed windows.
-M.get_on_buf_change_win_toggler = function()
+--- to pick a directory and then executing e.g. a `:lcd` equivalent mapping
+--- that will then change the `pwd` for the window from which Mini.Files
+--- was opened instead of for the Mini.Files window itself.
+---@param close_only? boolean # Set returned function to only close the buffer fixed windows
+---@return fun() # Function to toggle stack of buffer fixed windows.
+M.get_buf_fixed_win_toggler = function(close_only)
   local did_toggle = false
   local toggle_funcs = {}
   return function()
     if did_toggle then
-      while #toggle_funcs > 0 do
-        table.remove(toggle_funcs)()
-      end
+      if close_only then return end
       did_toggle = false
+      while #toggle_funcs > 0 do
+        local toggle_func = table.remove(toggle_funcs)
+        toggle_func()
+      end
     else
       did_toggle = true
-      while vim.b.my_do_toggle_win and vim.b.my_is_toggle_win_before_buf_change do
-        table.insert(toggle_funcs, vim.b.my_do_toggle_win)
-        toggle_funcs[#toggle_funcs]()
+      while true do
+        local buf_id = vim.api.nvim_get_current_buf()
+        if my.config.toggle_buf_fixed_win_on_cd_buf[buf_id] then
+          local toggle_func = my.config.toggle_buf_fixed_win_func_buf[buf_id]
+          if toggle_func == nil then
+            local msg = "no toggle func defined for buf fixed win"
+            error(msg)
+          end
+          if not close_only then table.insert(toggle_funcs, toggle_func) end
+          toggle_func()
+        else
+          break
+        end
       end
     end
   end
@@ -140,10 +162,12 @@ end
 
 --- Syncs current window (write+read+preserve folds)
 ---
---- Uses `vim.b.my_sync_buf_win` if exists.
+--- Uses `my.config.sync_buf` if exists.
 M.sync_current_win = function()
-  if vim.b.my_sync_buf_win then
-    vim.b.my_sync_buf_win()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local sync_func = my.config.sync_buf[buf_id]
+  if sync_func then
+    sync_func()
     return
   end
   if vim.o.buftype ~= "" or vim.fn.win_gettype() ~= "" then --
@@ -163,179 +187,179 @@ end
 
 M.keymaps = {}
 
-M.keymaps.close_current = { ---@type my.keymap.keymap_spec
+M.keymaps.close_current = { ---@type MyKeymapKeymapSpec
   desc = "Close current window",
   rhs = "<CMD>close<CR>",
 }
-M.keymaps.close_location_list = { ---@type my.keymap.keymap_spec
+M.keymaps.close_location_list = { ---@type MyKeymapKeymapSpec
   desc = "Close location list",
   rhs = "<CMD>lclose<CR>",
 }
-M.keymaps.close_quickfix_list = { ---@type my.keymap.keymap_spec
+M.keymaps.close_quickfix_list = { ---@type MyKeymapKeymapSpec
   desc = "Close quickfix list",
   rhs = "<CMD>cclose<CR>",
 }
-M.keymaps.grow_win_x = { ---@type my.keymap.keymap_spec
+M.keymaps.grow_win_x = { ---@type MyKeymapKeymapSpec
   desc = "resize win X+",
   rhs = "<CMD>vertical resize +<CR>",
 }
-M.keymaps.grow_win_y = { ---@type my.keymap.keymap_spec
+M.keymaps.grow_win_y = { ---@type MyKeymapKeymapSpec
   desc = "resize win Y+",
   rhs = "<CMD>resize -<CR>",
 }
-M.keymaps.move_down = { ---@type my.keymap.keymap_spec
+M.keymaps.move_down = { ---@type MyKeymapKeymapSpec
   desc = "Move window (down)",
   rhs = "<CMD>wincmd J<CR>",
 }
-M.keymaps.move_left = { ---@type my.keymap.keymap_spec
+M.keymaps.move_left = { ---@type MyKeymapKeymapSpec
   desc = "Move window (left)",
   rhs = "<CMD>wincmd H<CR>",
 }
-M.keymaps.move_right = { ---@type my.keymap.keymap_spec
+M.keymaps.move_right = { ---@type MyKeymapKeymapSpec
   desc = "Move window (right)",
   rhs = "<CMD>wincmd L<CR>",
 }
-M.keymaps.move_to_tab_next = { ---@type my.keymap.keymap_spec
+M.keymaps.move_to_tab_next = { ---@type MyKeymapKeymapSpec
   desc = "Move window (tab-next)",
   rhs = "<CMD>wincmd T<CR>",
 }
-M.keymaps.move_to_tab_previous = { ---@type my.keymap.keymap_spec
+M.keymaps.move_to_tab_previous = { ---@type MyKeymapKeymapSpec
   desc = "Move window (tab-previous)",
   rhs = "<CMD>wincmd T|-tabmove<CR>",
 }
-M.keymaps.move_up = { ---@type my.keymap.keymap_spec
+M.keymaps.move_up = { ---@type MyKeymapKeymapSpec
   desc = "Move window (up)",
   rhs = "<CMD>wincmd K<CR>",
 }
-M.keymaps.navigate_down = { ---@type my.keymap.keymap_spec
+M.keymaps.navigate_down = { ---@type MyKeymapKeymapSpec
   desc = "Go to window (down)",
   rhs = my.keymap.ESC .. "<CMD>wincmd j<CR>",
 }
-M.keymaps.navigate_left = { ---@type my.keymap.keymap_spec
+M.keymaps.navigate_left = { ---@type MyKeymapKeymapSpec
   desc = "Go to window (left)",
   rhs = my.keymap.ESC .. "<CMD>wincmd h<CR>",
 }
-M.keymaps.navigate_right = { ---@type my.keymap.keymap_spec
+M.keymaps.navigate_right = { ---@type MyKeymapKeymapSpec
   desc = "Go to window (right)",
   rhs = my.keymap.ESC .. "<CMD>wincmd l<CR>",
 }
-M.keymaps.navigate_up = { ---@type my.keymap.keymap_spec
+M.keymaps.navigate_up = { ---@type MyKeymapKeymapSpec
   desc = "Go to window (up)",
   rhs = my.keymap.ESC .. "<CMD>wincmd k<CR>",
 }
-M.keymaps.open_cmd_win = { ---@type my.keymap.keymap_spec
+M.keymaps.open_cmd_win = { ---@type MyKeymapKeymapSpec
   desc = "win open (cmd)",
   rhs = "q:",
 }
-M.keymaps.open_location_list = { ---@type my.keymap.keymap_spec
+M.keymaps.open_location_list = { ---@type MyKeymapKeymapSpec
   desc = "Open location list",
   rhs = "<CMD>lopen<CR>",
 }
-M.keymaps.open_new_down_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_down_inner = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (down-inner)",
   rhs = "<CMD>rightbelow new<CR>",
 }
-M.keymaps.open_new_down_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_down_outer = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (down-outer)",
   rhs = "<CMD>botright new<CR>",
 }
-M.keymaps.open_new_left_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_left_inner = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (left-inner)",
   rhs = "<CMD>leftabove vertical new<CR>",
 }
-M.keymaps.open_new_left_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_left_outer = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (left-outer)",
   rhs = "<CMD>topleft vertical new<CR>",
 }
-M.keymaps.open_new_right_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_right_inner = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (right-inner)",
   rhs = "<CMD>rightbelow vertical new<CR>",
 }
-M.keymaps.open_new_right_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_right_outer = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (right-outer)",
   rhs = "<CMD>botright vertical new<CR>",
 }
-M.keymaps.open_new_up_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_up_inner = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (up-inner)",
   rhs = "<CMD>leftabove new<CR>",
 }
-M.keymaps.open_new_up_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.open_new_up_outer = { ---@type MyKeymapKeymapSpec
   desc = "Open new window (up-outer)",
   rhs = "<CMD>topleft new<CR>",
 }
-M.keymaps.open_quickfix_list = { ---@type my.keymap.keymap_spec
+M.keymaps.open_quickfix_list = { ---@type MyKeymapKeymapSpec
   desc = "Open quickfix list",
   rhs = "<CMD>copen<CR>",
 }
-M.keymaps.open_search_backword = { ---@type my.keymap.keymap_spec
+M.keymaps.open_search_backword = { ---@type MyKeymapKeymapSpec
   desc = "win open (search backword)",
   rhs = "q?",
 }
-M.keymaps.open_search_forward = { ---@type my.keymap.keymap_spec
+M.keymaps.open_search_forward = { ---@type MyKeymapKeymapSpec
   desc = "win open (search forward)",
   rhs = "q/",
 }
-M.keymaps.shrink_win_x = { ---@type my.keymap.keymap_spec
+M.keymaps.shrink_win_x = { ---@type MyKeymapKeymapSpec
   desc = "resize win X-",
   rhs = "<CMD>vertical resize -<CR>",
 }
-M.keymaps.shrink_win_y = { ---@type my.keymap.keymap_spec
+M.keymaps.shrink_win_y = { ---@type MyKeymapKeymapSpec
   desc = "resize win Y-",
   rhs = "<CMD>resize -<CR>",
 }
-M.keymaps.split_down_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.split_down_inner = { ---@type MyKeymapKeymapSpec
   desc = "Split window (down-inner)",
   rhs = "<CMD>rightbelow split<CR>",
 }
-M.keymaps.split_down_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.split_down_outer = { ---@type MyKeymapKeymapSpec
   desc = "Split window (down-outer)",
   rhs = "<CMD>botright split<CR>",
 }
-M.keymaps.split_left_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.split_left_inner = { ---@type MyKeymapKeymapSpec
   desc = "Split window (left-inner)",
   rhs = "<CMD>leftabove vertical split<CR>",
 }
-M.keymaps.split_left_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.split_left_outer = { ---@type MyKeymapKeymapSpec
   desc = "Split window (left-outer)",
   rhs = "<CMD>topleft vertical split<CR>",
 }
-M.keymaps.split_right_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.split_right_inner = { ---@type MyKeymapKeymapSpec
   desc = "Split window (right-inner)",
   rhs = "<CMD>rightbelow vertical split<CR>",
 }
-M.keymaps.split_right_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.split_right_outer = { ---@type MyKeymapKeymapSpec
   desc = "Split window (right-outer)",
   rhs = "<CMD>botright vertical split<CR>",
 }
-M.keymaps.split_to_tab_first = { ---@type my.keymap.keymap_spec
+M.keymaps.split_to_tab_first = { ---@type MyKeymapKeymapSpec
   desc = "Split to tab (first)",
   rhs = "<CMD>split|wincmd T|0tabmove<CR>",
 }
-M.keymaps.split_to_tab_last = { ---@type my.keymap.keymap_spec
+M.keymaps.split_to_tab_last = { ---@type MyKeymapKeymapSpec
   desc = "Split to tab (last)",
   rhs = "<CMD>split|wincmd T|$tabmove<CR>",
 }
-M.keymaps.split_to_tab_left = { ---@type my.keymap.keymap_spec
+M.keymaps.split_to_tab_left = { ---@type MyKeymapKeymapSpec
   desc = "Split to tab (left)",
   rhs = "<CMD>split|wincmd T|-tabmove<CR>",
 }
-M.keymaps.split_to_tab_right = { ---@type my.keymap.keymap_spec
+M.keymaps.split_to_tab_right = { ---@type MyKeymapKeymapSpec
   desc = "Split to tab (right)",
   rhs = "<CMD>split|wincmd T<CR>",
 }
-M.keymaps.split_up_inner = { ---@type my.keymap.keymap_spec
+M.keymaps.split_up_inner = { ---@type MyKeymapKeymapSpec
   desc = "Split window (up-inner)",
   rhs = "<CMD>leftabove split<CR>",
 }
-M.keymaps.split_up_outer = { ---@type my.keymap.keymap_spec
+M.keymaps.split_up_outer = { ---@type MyKeymapKeymapSpec
   desc = "Split window (up-outer)",
   rhs = "<CMD>topleft split<CR>",
 }
-M.keymaps.switch_to_alternate = { ---@type my.keymap.keymap_spec
+M.keymaps.switch_to_alternate = { ---@type MyKeymapKeymapSpec
   desc = "Go to window (alternate)",
   rhs = my.keymap.ESC .. "<CMD>wincmd p<CR>",
 }
-M.keymaps.sync_current_win = { ---@type my.keymap.keymap_spec
+M.keymaps.sync_current_win = { ---@type MyKeymapKeymapSpec
   desc = "Sync window",
   rhs = M.sync_current_win,
 }

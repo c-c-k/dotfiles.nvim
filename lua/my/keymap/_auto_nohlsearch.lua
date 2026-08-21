@@ -1,10 +1,10 @@
 local my = require "my"
 
-local hls_keep_keys = vim.iter(my.g.hlsearch_keep_keys):fold({}, function(acc, key)
+local hls_keep_keys = vim.iter(my.config.hlsearch_keep_keys):fold({}, function(acc, key)
   acc[key] = true
   return acc
 end)
-local hls_auto_off_modes = vim.iter(my.g.hlsearch_auto_off_modes):fold({}, function(acc, key)
+local hls_auto_off_modes = vim.iter(my.config.hlsearch_auto_off_modes):fold({}, function(acc, key)
   acc[key] = true
   return acc
 end)

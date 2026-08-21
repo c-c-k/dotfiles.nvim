@@ -1,2 +1,0 @@
-class NotebookError(Exception):
-    pass

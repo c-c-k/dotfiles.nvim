@@ -3,17 +3,42 @@ vim.cmd.colorscheme "darkblue"
 local my = require "my"
 _G.My = my
 
-require "my.setup._load_my_rs"
+my.setup.load_my_rs()
 
-my.setup.lazy_nvim.bootstrap()
+my.setup.init_my_config()
 
-require "my.setup._setup_vars"
-require "my.setup._setup_nvim_opts"
-require "my.setup._init_core"
-my.ft.init_filetypes()
+my.setup.set_my_config_opts()
 
-my.setup.lazy_nvim.setup()
+my.setup.set_nvim_opts_and_vars()
 
-require "my.setup._setup_keymaps"
-require "my.setup._setup_autocommands"
+my.setup.init_lzplugin_manifest()
+
+my.setup.collect_my_inits()
+
+my.setup.init_keymap_groups()
+
+my.setup.load_keymaps_table()
+
+my.setup.lazy_nvim_bootstrap()
+
+my.setup.init_plugins()
+
+my.setup.init_filetypes()
+
+my.setup.init_workspaces()
+
+my.setup.lazy_nvim_load_plugins()
+
+my.setup.after_add_keymaps()
+
+my.setup.after_apply_lsp_configs()
+
+my.setup.after_add_autodmds_core()
+
+my.setup.after_add_autocmds_filetypes()
+
+my.setup.after_add_autocmds_projects()
+
+my.setup.after_add_autodmds_autostart()
+
 vim.cmd.colorscheme "solarized-osaka"

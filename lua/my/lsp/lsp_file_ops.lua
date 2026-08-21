@@ -1,27 +1,53 @@
-local my = require "my"
----@class my.lsp.lsp_file_ops
+---@class MyLspLspFileOps
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.opts = {}
-M.opts.config = function()
-  require("lsp-file-operations").setup {
-    -- used to see debug logs in file `vim.fn.stdpath("cache") .. lsp-file-operations.log`
-    debug = false,
-    timeout_ms = my.g.lsp_file_ops_timeout_ms,
-  }
+local my = require "my"
+
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_lsp_file_ops
 end
-M.opts.lspconfig_extend_default_capabilities = function()
-  local lspconfig = require "lspconfig"
-  local lsp_file_ops = require "lsp-file-operations"
 
-  -- Set global defaults for all servers
-  -- NOTE: Possibly outdated due to lspconfig partial deprecation.
-  lspconfig.util.default_config = my.tbl.merge_dicts_into_first(lspconfig.util.default_config, {
-    capabilities = my.tbl.merge_dicts_into_first(
-      vim.lsp.protocol.make_client_capabilities(),
-      lsp_file_ops.default_capabilities()
-    ),
-  })
+M._spec_lsp_file_ops = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["nvim-lsp-file-operations"],
+    lazy = false,
+    opts = {
+      debug = false,
+      timeout_ms = my.config.lsp_file_ops_timeout_ms,
+    },
+    config = function(_, opts)
+      require("lsp-file-operations").setup(opts)
+
+      local lsp_configs = my.config.setup_lsp_configs
+
+      lsp_configs[#lsp_configs + 1] = { M._lspconfig_lsp_file_ops, true }
+    end,
+    dependencies = {
+      make_lzspec { source = plugins["plenary.nvim"], optional = false },
+      -- make_lzspec { source = plugins["nvim-tree.lua"] },
+      -- make_lzspec { source = plugins["neo-tree.nvim"] },
+      -- make_lzspec { source = plugins["triptych.nvim"] },
+    },
+  }
+  return spec
+end
+
+M._lspconfig_lsp_file_ops = function(enable)
+  if not enable then return end
+
+  local capabilities = vim.lsp.config["*"].capabilities
+  if type(capabilities) ~= "table" then
+    local _msg = "missing base capabilities during LSP file ops lsp config"
+    error(_msg)
+  end
+
+  vim.lsp.config["*"].capabilities =
+    my.tbl.merge("dDfF", capabilities, require("lsp-file-operations").default_capabilities())
 end
 
 function M.files_did_create(fname)

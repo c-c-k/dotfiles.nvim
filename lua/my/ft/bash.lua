@@ -1,48 +1,49 @@
-local my = require "my"
----@class my.ft.bash
+---@class MyFtBash
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.a0_init = function()
-  local specks = my.g.lazy_filetype_specs
-  specks[#specks + 1] = {
-    "neovim/nvim-lspconfig",
-    optional = true,
-    opts = M.opts.bashls_setup,
-  }
-  specks[#specks + 1] = {
-    "nvim-treesitter/nvim-treesitter",
-    optional = true,
-    opts = M.opts.treesitter_integration,
-  }
-  specks[#specks + 1] = {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    optional = true,
-    opts = M.opts.mason_tool_installer_integration,
-  }
+local my = require "my"
+
+M.init.filetypes = function()
+  -- local autocmds = my.config.setup_filetype_autocmds
+  local lsp = my.config.setup_lsp_configs
+  local mason_ensure_installed = my.config.mason_ensure_installed
+  local null_ls = my.config.null_ls_sources
+  -- local specks = my.config.lzsetup_plugin_specs
+  local ts_ensure_installed = my.config.ts_ensure_installed
+
+  ts_ensure_installed["bash"] = true
+
+  mason_ensure_installed["bash-language-server"] = true
+  mason_ensure_installed["shellcheck"] = true
+  lsp[#lsp + 1] = { M._lspconfig_bashls, true }
+
+  mason_ensure_installed["shfmt"] = true
+  null_ls["shfmt"] = M._null_ls_shfmt
+
+  mason_ensure_installed["bash-debug-adapter"] = true
 end
 
-M.opts = {}
-M.opts.bashls_setup = function()
-  local bashls_server_settings = {
+M._lspconfig_bashls = function(enable)
+  local config_name = "bashls"
+  local server_name = "bashls"
+
+  local server_settings = {
     -- bashls settings placeholder
   }
-  my.g.lsp_enable["bashls"] = true
-  local config = vim.lsp.config["bashls"] ---@type vim.lsp.Config
-  vim.lsp.config["bashls"] = my.tbl.merge_dicts_into_first(config, {
+
+  -- local old_config = vim.lsp.config[config_name]
+  local new_config = { ---@type vim.lsp.Config
+    name = config_name,
     filetypes = { "sh", "bash", "zsh" },
-    settings = { bashls = bashls_server_settings },
-  } --[[@as vim.lsp.Config]])
+    settings = { [server_name] = server_settings },
+  }
+
+  my.lsp.lspconfig.apply_lsp_config(new_config, enable)
 end
-M.opts.mason_tool_installer_integration = function(_, opts)
-  opts.ensure_installed = my.tbl.merge_lists_into_first(
-    opts.ensure_installed,
-    { "bash-language-server", "shellcheck", "shfmt", "bash-debug-adapter" }
-  )
-end
-M.opts.treesitter_integration = function(_, opts)
-  if opts.ensure_installed ~= "all" then
-    opts.ensure_installed = my.tbl.merge_lists_into_first(opts.ensure_installed, { "bash" })
-  end
+
+M._null_ls_shfmt = function(null_ls) --
+  return null_ls.builtins.formatting.shfmt
 end
 
 return M

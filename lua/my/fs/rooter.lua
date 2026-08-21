@@ -1,6 +1,8 @@
-local my = require "my"
----@class my.fs.rooter
+---@class MyFsRooter
 local M = {}
+M.init = { no_init = true, recurse = false } ---@type MyModuleInit
+
+local my = require "my"
 
 ---@param path string
 ---@param bufnr integer
@@ -37,7 +39,7 @@ function M.get_root(path, bufnr)
 
   -- if buf has LSP clients try them for path else try all LSP clients for path.
   -- if no LSP root found try global markers for root.
-  root = _get_lsp_root(path, bufnr) or vim.fs.root(path, my.g.root_markers)
+  root = _get_lsp_root(path, bufnr) or vim.fs.root(path, my.config.root_markers)
 
   if not root then
     local _msg = ("Buffer does not have root dir: %s"):format(vim.api.nvim_buf_get_name(0))

@@ -8,7 +8,7 @@ publish = false
 
 [workspace.dependencies]
 anyhow = { version = "1.0.102", features = ["backtrace"] }
-nvim = { package = "nvim-oximlua", git = "https://github.com/c-c-k/nvim-oximlua", features = [
+nvimo = { git = "https://github.com/c-c-k/nvimo", features = [
   "neovim-0-12",
   "mlua-extras",
   "anyhow",

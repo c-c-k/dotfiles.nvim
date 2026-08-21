@@ -1,27 +1,43 @@
-local my = require "my"
----@class my.dap.view
+---@class MyDapView
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.opts = {}
+local my = require "my"
 
-M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.setup.keymaps.g_dap_view)
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_dap_view
 end
 
-M.opts.dap_integration = function()
-  local dap, dap_view = require "dap", require "dap-view"
-  dap.listeners.after.event_initialized.dapview_config = function() dap_view.open() end
-  -- dap.listeners.before.event_terminated.dapview_config = function() dap_view.close() end
-  -- dap.listeners.before.event_exited.dapview_config = function() dap_view.close() end
+M._spec_dap_view = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["nvim-dap-view"],
+    config = function(_, opts)
+      local dap, dap_view = require "dap", require "dap-view"
+
+      require("dap-view").setup(opts)
+
+      dap.listeners.after.event_initialized.dapview_config = function() dap_view.open() end
+      -- dap.listeners.before.event_terminated.dapview_config = function() dap_view.close() end
+      -- dap.listeners.before.event_exited.dapview_config = function() dap_view.close() end
+
+      my.keymap.queue_km_group_load(my.config.keymaps.g_dap_view)
+    end,
+    dependencies = { make_lzspec { source = plugins["nvim-dap"], optional = false } },
+  }
+  return spec
 end
 
 M.keymaps = {}
 
-M.keymaps.add_expression = { ---@type my.keymap.keymap_spec
+M.keymaps.add_expression = { ---@type MyKeymapKeymapSpec
   desc = "Add expression",
   rhs = function() require("dap-view").add_expr() end,
 }
-M.keymaps.toggle_debugger_view = { ---@type my.keymap.keymap_spec
+M.keymaps.toggle_debugger_view = { ---@type MyKeymapKeymapSpec
   desc = "Toggle Debugger view",
   rhs = function() require("dap-view").toggle() end,
 }

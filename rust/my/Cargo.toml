@@ -8,5 +8,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 anyhow.workspace = true
-nvim.workspace = true
+nvimo.workspace = true
 serde.workspace = true

@@ -1,15 +1,79 @@
-local my = require "my"
----@class my.cmp.blink
+---@class MyCmpBlink
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
+
+local my = require "my"
+
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_blink_cmp
+end
+
+M._spec_blink_cmp = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["blink.cmp"],
+    lazy = false,
+    opts = {
+      enabled = M.cmp_is_enabled_buf,
+      keymap = {
+        preset = "none",
+      },
+      completion = {
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = true,
+          },
+        },
+        ghost_text = {
+          enabled = false,
+          show_with_selection = false,
+          show_without_selection = true,
+          show_with_menu = true,
+          show_without_menu = true,
+        },
+      },
+      signature = {
+        enabled = true,
+        trigger = {
+          enabled = true,
+          show_on_trigger_character = false,
+          show_on_insert = false,
+          show_on_insert_on_trigger_character = false,
+        },
+      },
+      snippets = { preset = "luasnip" },
+      sources = {
+        providers = {
+          path = {
+            opts = {
+              trailing_slash = false,
+              label_trailing_slash = true,
+              -- get_cwd = function(context) return vim.fn.expand(('#%d:p:h'):format(context.bufnr)) end,
+              show_hidden_files_by_default = true,
+              ignore_root_slash = false,
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      require("blink-cmp").setup(opts)
+
+      my.keymap.queue_km_group_load(my.config.keymaps.g_blinkcmp)
+    end,
+  }
+  return spec
+end
 
 M.config = {}
 M.config.min_providers_help_win_width = 20
 M.config.original_buf_providers_char_id = "O"
 M.config.sources = {
   default = { "lsp", "buffer", "snippets", "path" },
-  per_filetype = {
-    lua = { inherit_defaults = true, "lazydev" },
-  },
 }
 ---@type table<string, string | string[] | {desc: string?, providers?: string | string[]}>
 M.config.providers_by_char_id = {
@@ -22,68 +86,18 @@ M.config.providers_by_char_id = {
   O = { desc = "Original buffer providers:\n  %s" },
   p = "path",
   s = "snippets",
-  z = "lazydev",
 }
-
-M.opts = {}
-M.opts.general = function(_, opts) ---@cast opts MyNoOptsSpec
-  return my.tbl.merge_dicts_into_last(opts, {
-    enabled = M.cmp_is_enabled_buf,
-    keymap = {
-      preset = "none",
-    },
-    completion = {
-      list = {
-        selection = {
-          preselect = false,
-          auto_insert = true,
-        },
-      },
-      ghost_text = {
-        enabled = false,
-        show_with_selection = false,
-        show_without_selection = true,
-        show_with_menu = true,
-        show_without_menu = true,
-      },
-    },
-    signature = {
-      enabled = true,
-      trigger = {
-        enabled = true,
-        show_on_trigger_character = false,
-        show_on_insert = false,
-        show_on_insert_on_trigger_character = false,
-      },
-    },
-    sources = {
-      providers = {
-        path = {
-          opts = {
-            trailing_slash = false,
-            label_trailing_slash = true,
-            -- get_cwd = function(context) return vim.fn.expand(('#%d:p:h'):format(context.bufnr)) end,
-            show_hidden_files_by_default = true,
-            ignore_root_slash = false,
-          },
-        },
-      },
-    },
-  } --[[@as MyNoOptsSpec]])
-end
-M.opts.core_integration = function() --
-  my.keymap.queue_km_group_load(my.setup.keymaps.g_blinkcmp)
-end
 
 --- Get the next/previous cmp provider.
 ---@param reverse boolean? Get previous provider instead of next one.
 ---@return string[]? cmp_provider or nil if cmp providers list boundary reached.
 local function _get_next_provider(reverse)
-  local blink = require "blink"
+  local buf_id = vim.api.nvim_get_current_buf()
+  local blink = require "blink-cmp"
   ---@type string[]?
-  local providers = vim.b.my_cmp_providers
+  local providers = my.config.cmp_providers_buf[buf_id]
   ---@type integer?
-  local provider_index = vim.b.my_cmp_provider_index
+  local provider_index = my.config.cmp_provider_index_buf[buf_id]
   ---@type string|string[]?
   local provider = nil
   ---@type string
@@ -91,7 +105,7 @@ local function _get_next_provider(reverse)
 
   if provider_index == nil or providers == nil then
     providers = blink.get_context().providers
-    vim.b.my_cmp_providers = providers
+    my.config.cmp_providers_buf[buf_id] = providers
     provider_index = reverse and #providers or 1
   else
     provider_index = provider_index + (reverse and -1 or 1)
@@ -103,10 +117,10 @@ local function _get_next_provider(reverse)
   else
     provider = providers
     provider_index = nil
-    vim.b.my_cmp_providers = nil
+    my.config.cmp_providers_buf[buf_id] = nil
   end
 
-  vim.b.my_cmp_provider_index = provider_index
+  my.config.cmp_provider_index_buf[buf_id] = provider_index
   msg = string.format("set cmp provider to: %s", vim.inspect(provider))
   vim.api.nvim_echo({ { msg } }, false, {})
   return provider
@@ -121,15 +135,18 @@ local prev_provider = function() --
 end
 
 local function _get_provider_by_char_key()
-  local blink = require "blink"
-  if vim.b.my_cmp_orig_providers == nil then vim.b.my_cmp_orig_providers = blink.get_context().providers end
+  local blink = require "blink-cmp"
+  local buf_id = vim.api.nvim_get_current_buf()
+  if my.config.cmp_providers_orig_buf[buf_id] == nil then
+    my.config.cmp_providers_orig_buf[buf_id] = blink.get_context().providers
+  end
 
   local providers_by_char_id = M.config.providers_by_char_id
   local orig_cid = M.config.original_buf_providers_char_id
   if not providers_by_char_id[orig_cid] or type(providers_by_char_id[orig_cid]) ~= "table" then
     providers_by_char_id[orig_cid] = {}
   end
-  providers_by_char_id[orig_cid].providers = vim.b.my_cmp_orig_providers
+  providers_by_char_id[orig_cid].providers = my.config.cmp_providers_orig_buf[buf_id]
   local char_ids = vim.fn.sort(vim.tbl_keys(providers_by_char_id), "i")
 
   local provider_char_ids_str = table.concat(char_ids)
@@ -215,111 +232,127 @@ local function _get_provider_by_char_key()
 end
 
 function M.cancel_and_clear_buf_vars() --
-  return require("blink").cancel() and M.clear_buf_vars()
+  return require("blink-cmp").cancel() and M.clear_buf_vars()
 end
 
 function M.clear_buf_vars()
-  if vim.b.my_cmp_scroll_doc ~= nil then vim.b.my_cmp_scroll_doc = nil end
-  if vim.b.my_cmp_provider_index ~= nil then vim.b.my_cmp_provider_index = nil end
-  if vim.b.my_cmp_orig_providers ~= nil then vim.b.my_cmp_orig_providers = nil end
+  local buf_id = vim.api.nvim_get_current_buf()
+  if my.config.cmp_scroll_doc_buf[buf_id] ~= nil then my.config.cmp_scroll_doc_buf[buf_id] = nil end
+  if my.config.cmp_provider_index_buf[buf_id] ~= nil then my.config.cmp_provider_index_buf[buf_id] = nil end
+  if my.config.cmp_providers_orig_buf[buf_id] ~= nil then my.config.cmp_providers_orig_buf[buf_id] = nil end
   return true
+end
+
+---@return boolean
+function M.cmp_is_enabled() --
+  return my.config.cmp_enabled
 end
 
 ---@param bufnr? integer
 ---@return boolean
 function M.cmp_is_enabled_buf(bufnr) --
-  return my.bp[bufnr or 0].cmp_enabled:get_top()
+  return my.ui.toggle.is_enabled_buf_override_glob(my.config.cmp_enabled_buf[bufnr or 0], my.config.cmp_enabled)
+end
+
+---@param enable boolean
+function M.cmp_toggle(enable) --
+  my.config.cmp_enabled = enable
 end
 
 ---@param enable boolean
 function M.cmp_toggle_buf(enable) --
-  my.ui.toggle.toggle_priority_var(my.bp[0].cmp_enabled, enable)
+  my.config.cmp_enabled_buf[0] = enable
 end
 
 M.keymaps = {}
 
-M.keymaps.cancel_and_clear_buf_vars = { ---@type my.keymap.keymap_spec
+M.keymaps.cancel_and_clear_buf_vars = { ---@type MyKeymapKeymapSpec
   desc = "cmp cancel",
   rhs = M.cancel_and_clear_buf_vars,
 }
-M.keymaps.cancel_or_escape = { ---@type my.keymap.keymap_spec
+M.keymaps.cancel_or_escape = { ---@type MyKeymapKeymapSpec
   desc = "cmp cancel or ESC",
   expr = true,
   rhs = function() return M.cancel_and_clear_buf_vars() and "" or "<ESC>" end,
 }
-M.keymaps.cyctle_to_next_provider = { ---@type my.keymap.keymap_spec
+M.keymaps.cyctle_to_next_provider = { ---@type MyKeymapKeymapSpec
   desc = "cmp next provider",
   rhs = function()
-    local blink = require "blink"
-    return blink.is_menu_visible() and blink.show { providers = next_provider() } or blink.show()
+    local blink = require "blink-cmp"
+    local _ = blink.is_menu_visible() and blink.show { providers = next_provider() } or blink.show()
   end,
 }
-M.keymaps.cyctle_to_prev_provider = { ---@type my.keymap.keymap_spec
+M.keymaps.cyctle_to_prev_provider = { ---@type MyKeymapKeymapSpec
   desc = "cmp prev provider",
   rhs = function()
-    local blink = require "blink"
-    return blink.is_menu_visible() and blink.show { providers = prev_provider() } or blink.show()
+    local blink = require "blink-cmp"
+    local _ = blink.is_menu_visible() and blink.show { providers = prev_provider() } or blink.show()
   end,
 }
-M.keymaps.next_or_scroll_doc_down = { ---@type my.keymap.keymap_spec
+M.keymaps.next_or_scroll_doc_down = { ---@type MyKeymapKeymapSpec
   desc = "cmp next or docs down",
   rhs = function()
-    local blink = require "blink"
+    local blink = require "blink-cmp"
     if blink.is_menu_visible() then
-      if vim.b.my_cmp_scroll_doc then
-        return blink.scroll_documentation_down(4)
+      local buf_id = vim.api.nvim_get_current_buf()
+      if my.config.cmp_scroll_doc_buf[buf_id] then
+        local _ = blink.scroll_documentation_down(4)
       else
-        return blink.select_next()
+        local _ = blink.select_next()
       end
     end
   end,
 }
-M.keymaps.prev_or_scroll_doc_up = { ---@type my.keymap.keymap_spec
+M.keymaps.prev_or_scroll_doc_up = { ---@type MyKeymapKeymapSpec
   desc = "cmp next or docs up",
   rhs = function()
-    local blink = require "blink"
+    local blink = require "blink-cmp"
     if blink.is_menu_visible() then
-      if vim.b.my_cmp_scroll_doc then
-        return blink.scroll_documentation_up(4)
+      local buf_id = vim.api.nvim_get_current_buf()
+      if my.config.cmp_scroll_doc_buf[buf_id] then
+        local _ = blink.scroll_documentation_up(4)
       else
-        return blink.select_prev()
+        local _ = blink.select_prev()
       end
     end
   end,
 }
-M.keymaps.select_and_accept = { ---@type my.keymap.keymap_spec
+M.keymaps.select_and_accept = { ---@type MyKeymapKeymapSpec
   desc = "cmp select and accept",
-  rhs = function() return require("blink").select_and_accept() end,
+  rhs = function() local _ = require("blink-cmp").select_and_accept() end,
 }
-M.keymaps.select_provider = { ---@type my.keymap.keymap_spec
+M.keymaps.select_provider = { ---@type MyKeymapKeymapSpec
   desc = "cmp select provider",
-  rhs = function() return require("blink").show { providers = _get_provider_by_char_key() } end,
+  rhs = function() local _ = require("blink-cmp").show { providers = _get_provider_by_char_key() } end,
 }
-M.keymaps.show = { ---@type my.keymap.keymap_spec
+M.keymaps.show = { ---@type MyKeymapKeymapSpec
   desc = "cmp show list",
-  rhs = function() return require("blink").show() end,
+  rhs = function() local _ = require("blink-cmp").show() end,
 }
-M.keymaps.snippet_backward = { ---@type my.keymap.keymap_spec
+M.keymaps.snippet_backward = { ---@type MyKeymapKeymapSpec
   desc = "snippet backward",
-  rhs = function() return require("blink").snippet_backward() end,
+  rhs = function() local _ = require("blink-cmp").snippet_backward() end,
 }
-M.keymaps.snippet_forward = { ---@type my.keymap.keymap_spec
+M.keymaps.snippet_forward = { ---@type MyKeymapKeymapSpec
   desc = "snippet forward",
-  rhs = function() return require("blink").snippet_forward() end,
+  rhs = function() local _ = require("blink-cmp").snippet_forward() end,
 }
-M.keymaps.toggle_documentation_or_signature = { ---@type my.keymap.keymap_spec
+M.keymaps.toggle_documentation_or_signature = { ---@type MyKeymapKeymapSpec
   desc = "cmp toggle docs",
   rhs = function()
-    local blink = require "blink"
-    return blink.hide_documentation() or blink.show_documentation() or blink.hide_signature() or blink.show_signature()
+    local blink = require "blink-cmp"
+    local _ = blink.hide_documentation()
+      or blink.show_documentation()
+      or blink.hide_signature()
+      or blink.show_signature()
   end,
 }
-M.keymaps.toggle_scroll_doc = { ---@type my.keymap.keymap_spec
+M.keymaps.toggle_scroll_doc = { ---@type MyKeymapKeymapSpec
   desc = "cmp toggle list/docs",
   rhs = function()
-    if require("blink").is_menu_visible() then
-      vim.b.my_cmp_scroll_doc = not vim.b.my_cmp_scroll_doc
-      return true
+    if require("blink-cmp").is_menu_visible() then
+      local buf_id = vim.api.nvim_get_current_buf()
+      my.config.cmp_scroll_doc_buf[buf_id] = not my.config.cmp_scroll_doc_buf[buf_id]
     end
   end,
 }

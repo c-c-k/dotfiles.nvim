@@ -1,89 +1,39 @@
-local my = require "my"
-local null_spec = my.setup.lazy_nvim.null_spec
----@class my.ft.python
+---@class MyFtPython
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.a0_init = function()
-  local specks = my.g.lazy_filetype_specs
-  specks[#specks + 1] = {
-    "neovim/nvim-lspconfig",
-    optional = true,
-    opts = M.opts.pylsp_setup,
-  }
-  specks[#specks + 1] = {
-    "neovim/nvim-lspconfig",
-    optional = true,
-    opts = M.opts.ruff_setup,
-  }
-  specks[#specks + 1] = {
-    "nvim-treesitter/nvim-treesitter",
-    optional = true,
-    opts = M.opts.treesitter_integration,
-  }
-  specks[#specks + 1] = {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    optional = true,
-    opts = M.opts.mason_tool_installer_integration,
-  }
-  specks[#specks + 1] = {
-    "mfussenegger/nvim-dap-python",
-    optional = true,
-    config = M.opts.dap_python_setup,
-  }
-  specks[#specks + 1] = {
-    "linux-cultist/venv-selector.nvim",
-    optional = true,
-    dependencies = { "neovim/nvim-lspconfig" },
-    config = true,
-    specs = { null_spec { opts = M.opts.venv_selector_core_integration } },
-  }
-  specks[#specks + 1] = {
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = { "nvim-neotest/neotest-python", optional = true },
-    opts = M.opts.neotest_python_neotest_integration,
-  }
-  specks[#specks + 1] = {
-    "danymat/neogen",
-    optional = true,
-    opts = M.opts.neogen_integration,
-  }
+local my = require "my"
+
+M.init.filetypes = function()
+  -- local autocmds = my.config.setup_filetype_autocmds
+  local lsp = my.config.setup_lsp_configs
+  local mason_ensure_installed = my.config.mason_ensure_installed
+  local null_ls = my.config.null_ls_sources
+  local specks = my.config.lzsetup_plugin_specs
+  local ts_ensure_installed = my.config.ts_ensure_installed
+
+  ts_ensure_installed["python"] = true
+
+  mason_ensure_installed["python-lsp-server"] = true
+  lsp[#lsp + 1] = { M._lspconfig_pylsp, false }
+
+  mason_ensure_installed["ruff"] = true
+  lsp[#lsp + 1] = { M._lspconfig_ruff, true }
+
+  mason_ensure_installed["mypy"] = true
+  null_ls["mypy"] = M._null_ls_mypy
+
+  mason_ensure_installed["debugpy"] = true
+  specks[#specks + 1] = M._spec_dap_python_integration
+
+  specks[#specks + 1] = M._spec_venv_selector
 end
 
-M.opts = {}
-M.opts.dap_python_setup = function(_, opts)
-  local debugpy = require("mason-registry").get_package "debugpy"
-  if debugpy:is_installed() then
-    local path = vim.fn.expand "$MASON/packages/debugpy/venv/bin/python"
-    require("dap-python").setup(path, opts)
-  else
-    local msg = "`debugpy` missing, Python DAP integration disabled"
-    my.notify.warn(msg, { title = "LSP setup" })
-  end
-end
-M.opts.mason_tool_installer_integration = function(_, opts) --
-  opts.ensure_installed = my.tbl.merge_lists_into_first(opts.ensure_installed, {
-    "debugpy",
-    "mypy",
-    "python-lsp-server",
-    "ruff",
-  })
-end
-M.opts.neogen_integration = function(_, opts)
-  opts.languages = my.tbl.merge_dicts_into_last(opts.languages, {
-    -- python = { template = { annotation_convention = "google_docstrings" } },
-    -- python = { template = { annotation_convention = "numpydoc" } },
-    python = { template = { annotation_convention = "reST" } },
-  })
-end
-M.opts.neotest_python_neotest_integration = function(_, opts) --
-  local adapter = require "neotest-python" {
-    -- adapter opts placeholder
-  }
-  table.insert(opts.adapters, adapter)
-end
-M.opts.pylsp_setup = function()
-  local pylsp_server_settings = {
+M._lspconfig_pylsp = function(enable)
+  local config_name = "pylsp"
+  local server_name = "pylsp"
+
+  local server_settings = {
     plugins = {
       autopep8 = { enabled = false },
       flake8 = { enabled = false },
@@ -99,38 +49,86 @@ M.opts.pylsp_setup = function()
     },
     signature = { formatter = "ruff" },
   }
-  my.g.lsp_enable["pylsp"] = true
-  local config = vim.lsp.config["pylsp"] ---@type vim.lsp.Config
-  vim.lsp.config["pylsp"] = my.tbl.merge_dicts_into_first(config, {
-    settings = { pylsp = pylsp_server_settings },
-  } --[[@as vim.lsp.Config]])
+
+  -- local old_config = vim.lsp.config[config_name]
+  local new_config = { ---@type vim.lsp.Config
+    name = config_name,
+    settings = { [server_name] = server_settings },
+  }
+
+  my.lsp.lspconfig.apply_lsp_config(new_config, enable)
 end
-M.opts.ruff_setup = function()
-  local ruff_server_settings = {
+
+M._lspconfig_ruff = function(enable)
+  local config_name = "ruff"
+  local server_name = "ruff"
+
+  local server_settings = {
     -- ruff server settings placeholder
   }
-  my.g.lsp_enable["ruff"] = true
-  local config = vim.lsp.config["ruff"] ---@type vim.lsp.Config
-  vim.lsp.config["ruff"] = my.tbl.merge_dicts_into_first(config, {
-    on_attach = function(client, bufnr) --
-      if config.on_attach then config.on_attach(client, bufnr) end
+
+  local old_config = vim.lsp.config[config_name]
+  local new_config = { ---@type vim.lsp.Config
+    name = config_name,
+    on_attach = function(client, buf_id) --
+      if old_config.on_attach then old_config.on_attach(client, buf_id) end
       client.server_capabilities.hoverProvider = false
     end,
-    settings = { ruff = ruff_server_settings },
-  } --[[@as vim.lsp.Config]])
+    settings = { [server_name] = server_settings },
+  }
+
+  my.lsp.lspconfig.apply_lsp_config(new_config, enable)
 end
-M.opts.treesitter_integration = function(_, opts)
-  if opts.ensure_installed ~= "all" then
-    opts.ensure_installed = my.tbl.merge_lists_into_first(opts.ensure_installed, { "python" })
-  end
+
+M._null_ls_mypy = function(null_ls) --
+  return null_ls.builtins.diagnostics.mypy
 end
-M.opts.venv_selector_core_integration = function() --
-  my.keymap.queue_km_group_load(my.setup.keymaps.g_venvslct)
+
+M._spec_dap_python_integration = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["nvim-dap-python"],
+    lazy = true,
+    ft = "python",
+    config = function(_, opts)
+      -- local debugpy = require("mason-registry").get_package "debugpy"
+      -- if debugpy:is_installed() then
+
+      if not require("mason-registry").is_installed "debugpy" then
+        local _msg = "`debugpy` missing, Python DAP integration disabled"
+        my.notify.warn(_msg, { title = "LSP setup" })
+        return
+      end
+
+      local path = vim.fn.expand "$MASON/packages/debugpy/venv/bin/python"
+      require("dap-python").setup(path, opts)
+    end,
+    dependencies = { make_lzspec { source = plugins["nvim-dap"], optional = false } },
+  }
+  return spec
+end
+
+M._spec_venv_selector = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["venv-selector.nvim"],
+    lazy = true,
+    cmd = "VenvSelect",
+    config = function(_, opts)
+      local venv_selector = require "venv-selector"
+      venv_selector.setup(opts)
+      my.keymap.queue_km_group_load(my.config.keymaps.g_venvslct)
+    end,
+    dependencies = { make_lzspec(plugins["nvim-lspconfig"]) },
+  }
+  return spec
 end
 
 M.keymaps = {}
 
-M.keymaps.select_virtualenv = { ---@type my.keymap.keymap_spec
+M.keymaps.select_virtualenv = { ---@type MyKeymapKeymapSpec
   desc = "Select VirtualEnv",
   rhs = "<CMD>VenvSelect<CR>",
 }

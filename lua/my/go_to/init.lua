@@ -1,6 +1,7 @@
 local my = require "my"
----@class my.go_to
+---@class MyGoTo
 local M = {}
+M.init = { no_init = true, recurse = false } ---@type MyModuleInit
 
 --- Edit a URI in current window.
 ---
@@ -32,12 +33,14 @@ end
 
 --- Open filepath/URI under cursor with system handler.
 ---
---- Can be overridden with `vim.b.my_goto_external`.
+--- Can be overridden with `my.config.goto_external_buf`.
 --- Copied from `nvim/share/nvim/runtime/lua/vim/_defaults.lua`.
 ---@param mode "v"|"n"
 M.goto_external = function(mode)
-  if vim.b.my_goto_external then
-    vim.b.my_goto_external()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local custom_goto_func = my.config.goto_external_buf[buf_id]
+  if custom_goto_func then
+    custom_goto_func()
     return
   end
 
@@ -61,11 +64,13 @@ end
 
 --- Edit filepath/URI under cursor in the current window.
 ---
---- Can be overridden with `vim.b.my_goto_file`.
+--- Can be overridden with `my.config.goto_file_buf`.
 ---@param mode "v"|"n"
 M.goto_file = function(mode)
-  if vim.b.my_goto_file then
-    vim.b.my_goto_file()
+  local buf_id = vim.api.nvim_get_current_buf()
+  local custom_goto_func = my.config.goto_file_buf[buf_id]
+  if custom_goto_func then
+    custom_goto_func()
     return
   end
 
@@ -89,19 +94,19 @@ end
 
 M.keymaps = {}
 
-M.keymaps.n_goto_external = { ---@type my.keymap.keymap_spec
+M.keymaps.n_goto_external = { ---@type MyKeymapKeymapSpec
   desc = "goto external",
   rhs = function() return M.goto_external "n" end,
 }
-M.keymaps.n_goto_file = { ---@type my.keymap.keymap_spec
+M.keymaps.n_goto_file = { ---@type MyKeymapKeymapSpec
   desc = "goto file",
   rhs = function() return M.goto_file "n" end,
 }
-M.keymaps.v_goto_external = { ---@type my.keymap.keymap_spec
+M.keymaps.v_goto_external = { ---@type MyKeymapKeymapSpec
   desc = "goto external",
   rhs = function() return M.goto_external "v" end,
 }
-M.keymaps.v_goto_file = { ---@type my.keymap.keymap_spec
+M.keymaps.v_goto_file = { ---@type MyKeymapKeymapSpec
   desc = "goto file",
   rhs = function() return M.goto_file "v" end,
 }

@@ -1,53 +1,80 @@
-local my = require "my"
----@class my.fs.oil
+---@class MyFsOil
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.opts = {}
-M.opts.general = function(_, opts) ---@cast opts MyNoOptsSpec
-  return my.tbl.merge_dicts_into_last(opts, {
-    columns = {
-      "icon",
-      "type",
-      "permissions",
-      "size",
-      "mtime",
-    },
-    win_options = {
-      winbar = "%!v:lua.require'my.fs.oil'.winbar_expr()",
-    },
-    lsp_file_methods = {
-      timeout_ms = my.g.lsp_file_ops_timeout_ms,
-    },
-    watch_for_changes = true,
-    use_default_keymaps = false,
-    view_options = {
-      show_hidden = true,
-      case_insensitive = true,
-    },
-  } --[[@as MyNoOptsSpec]])
+local my = require "my"
+
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_oil
 end
-M.opts.core_integration = function()
+
+M._spec_oil = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["oil.nvim"],
+    lazy = false,
+    opts = {
+      default_file_explorer = true,
+      columns = {
+        "icon",
+        "type",
+        "permissions",
+        "size",
+        "mtime",
+      },
+      buf_options = {
+        buflisted = false,
+        bufhidden = "hide",
+      },
+      win_options = {
+        winbar = "%!v:lua.require'my.fs.oil'.winbar_expr()",
+      },
+      lsp_file_methods = {
+        timeout_ms = my.config.lsp_file_ops_timeout_ms,
+      },
+      watch_for_changes = true,
+      use_default_keymaps = false,
+      view_options = {
+        show_hidden = true,
+      },
+    },
+    config = function(_, opts)
+      require("oil").setup(opts)
+
+      M._autocmd_filetype()
+
+      my.keymap.queue_km_group_load(my.config.keymaps.g_oil_____)
+    end,
+    dependencies = make_lzspec(plugins["mini.icons"]),
+  }
+  return spec
+end
+
+M._autocmd_filetype = function()
   my.autocmd.add_autocmd {
     group = "my.fs.oil.oil_buf_setup",
     event = "FileType",
     pattern = "oil",
     desc = 'Set options, vars and mappings for the "oil" filetype',
     callback = function(args)
-      if vim.b[args.buf].did_ftplugin_my_oil then return end
-      vim.b[args.buf].did_ftplugin_my_oil = true
+      local buf_id = args.buf
+      -- local did_ftplugin = my.config.did_ftplugin_buf[buf_id]
+      -- if did_ftplugin == "oil" then return end
+      -- my.config.did_ftplugin_buf[buf_id] = "oil"
 
-      vim.b[args.buf].my_close_buf = my.fs.oil.close
-      vim.b[args.buf].my_sync_buf_win = my.fs.oil.sync_buf_win
-      vim.b[args.buf].my_goto_file = my.fs.oil.goto_file
-      vim.b[args.buf].my_goto_external = my.fs.oil.goto_external
-      vim.b[args.buf].my_get_buf_file_path = my.fs.oil.get_buf_file_path
-      vim.b[args.buf].my_get_buf_dir_path = my.fs.oil.get_current_dir
+      my.config.close_buf[buf_id] = M.close
+      my.config.sync_buf[buf_id] = M.sync_buf_win
+      my.config.goto_file_buf[buf_id] = M.goto_file
+      my.config.goto_external_buf[buf_id] = M.goto_external
+      my.config.get_file_path_func_buf[buf_id] = M.get_buf_file_path
+      my.config.get_dir_path_func_buf[buf_id] = M.get_current_dir
 
-      my.keymap.load_km_group(my.setup.keymaps.b_oil_____, { buffer = args.buf })
+      my.keymap.load_km_group(my.config.keymaps.b_oil_____, { buffer = buf_id })
     end,
   }
-
-  my.keymap.queue_km_group_load(my.setup.keymaps.g_oil_____)
 end
 
 function M.close() --
@@ -65,7 +92,7 @@ function M.get_current_dir() --
 end
 
 function M.goto_external() --
-  require("oil.actions").open_external()
+  require("oil.actions").open_external.callback()
 end
 
 function M.goto_file() --
@@ -80,7 +107,8 @@ function M.sync_buf_win() --
 end
 
 function M.winbar_expr() --
-  local bufnr = vim.api.nvim_win_get_buf(vim.g.statusline_winid)
+  local statusline_winid = vim.api.nvim_get_var "statusline_winid"
+  local bufnr = vim.api.nvim_win_get_buf(statusline_winid)
   local dir = require("oil").get_current_dir(bufnr)
   if dir then
     return vim.fn.fnamemodify(dir, ":~")
@@ -90,56 +118,51 @@ function M.winbar_expr() --
 end
 
 local function open_from_buf()
-  local dir_path = (
-    (vim.b.my_get_buf_file_path and vim.fs.dirname(vim.b.my_get_buf_file_path()))
-    or (vim.b.my_get_buf_dir_path and vim.b.my_get_buf_dir_path())
-    or vim.fs.dirname(vim.api.nvim_buf_get_name(0) or ".")
-  )
-  local base_name = (
-    (vim.b.my_get_buf_file_path and vim.fs.basename(vim.b.my_get_buf_file_path()))
-    or vim.fs.basename(vim.api.nvim_buf_get_name(0))
-  )
-  local cb = base_name and function() --
+  local buf_id = vim.api.nvim_get_current_buf()
+  local get_dir_path_func = my.config.get_dir_path_func_buf[buf_id]
+  local get_file_path_func = my.config.get_file_path_func_buf[buf_id]
+  local file_path = get_file_path_func and get_file_path_func() or vim.api.nvim_buf_get_name(buf_id)
+  local base_name = vim.fs.basename(file_path)
+  local dir_path = get_dir_path_func and get_dir_path_func() or vim.fs.dirname(file_path or ".")
+  local callback = base_name and function() --
     vim.fn.search(string.format("\\<%s$", base_name), "cw")
   end
 
-  my.win.get_on_buf_change_win_toggler()()
-  require("oil").open(dir_path, nil, cb)
+  local close_buf_fixed_win = my.win.get_buf_fixed_win_toggler(true)
+  close_buf_fixed_win()
+
+  require("oil").open(dir_path, nil, callback)
 end
 
 M.keymaps = {}
 
-M.keymaps.change_sort = { ---@type my.keymap.keymap_spec
+M.keymaps.change_sort = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").change_sort() end,
+  rhs = function() require("oil.actions").change_sort.callback() end,
 }
-M.keymaps.open_from_buf = { ---@type my.keymap.keymap_spec
+M.keymaps.open_from_buf = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
   rhs = open_from_buf,
 }
-M.keymaps.open_from_input = { ---@type my.keymap.keymap_spec
+M.keymaps.open_from_input = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (input)",
   rhs = ":Oil ",
 }
-M.keymaps.parent = { ---@type my.keymap.keymap_spec
+M.keymaps.parent = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").parent() end,
+  rhs = function() require("oil").open() end,
 }
-M.keymaps.preview = { ---@type my.keymap.keymap_spec
+M.keymaps.preview = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").preview() end,
+  rhs = function() require("oil.actions").preview.callback { vertical = true, split = "belowright" } end,
 }
-M.keymaps.select = { ---@type my.keymap.keymap_spec
+M.keymaps.select = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").select() end,
+  rhs = function() require("oil").select() end,
 }
-M.keymaps.show_help = { ---@type my.keymap.keymap_spec
+M.keymaps.toggle_hidden = { ---@type MyKeymapKeymapSpec
   desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").show_help() end,
-}
-M.keymaps.toggle_hidden = { ---@type my.keymap.keymap_spec
-  desc = "Open oil.nvim (current file dir)",
-  rhs = function() require("oil.actions").toggle_hidden() end,
+  rhs = function() require("oil").toggle_hidden() end,
 }
 
 return M

@@ -1,5 +1,10 @@
----@class my.autocmd
+---@class MyAutocmd
 local M = {}
+M.init = { no_init = true, recurse = false } ---@type MyModuleInit
+
+---@class MyAutocmdAddAutocmdOpts: vim.api.keyset.create_autocmd
+---@field event string | string[]
+---@field group integer | string | [string, boolean?]
 
 --- Wrapper around `nvim_create_autocmd`.
 ---
@@ -7,17 +12,19 @@ local M = {}
 --- Inlines group creation:
 ---   If `opts.group` is a string a group with that name is created and cleared.
 ---   If `opts.group` is a table it's first element is treated as the group name and it's second as the group clear flag.
----@param opts my.autocmd.add_autocmd.opts
+---@param opts MyAutocmdAddAutocmdOpts
 ---@return integer
 function M.add_autocmd(opts) --
   local event = opts.event
   opts.event = nil
+
   local group = opts.group
   if type(group) == "string" then
     opts.group = vim.api.nvim_create_augroup(group, {})
   elseif type(group) == "table" then
     opts.group = vim.api.nvim_create_augroup(group[1], { clear = group[2] })
   end
+
   return vim.api.nvim_create_autocmd(event, opts)
 end
 

@@ -1,17 +1,39 @@
----@class my.cmp.luasnip
+---@class MyCmpLuasnip
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.opts = {}
-M.opts.general = function(_, opts) --
-  opts.link_children = true
-  opts.link_roots = true
-  opts.keep_roots = true
-  opts.delete_check_events = "TextChanged"
-  opts.region_check_events = "CursorMoved"
+local my = require "my"
+
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_luasnip
 end
-M.opts.config = function(_, opts) --
-  require("luasnip").config.setup(opts or {})
-  require("luasnip.loaders.from_vscode").lazy_load()
+
+M._spec_luasnip = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["LuaSnip"],
+    lazy = false,
+    build = "make install_jsregexp",
+    opts = {
+      link_children = true,
+      link_roots = true,
+      keep_roots = true,
+      delete_check_events = "TextChanged",
+      region_check_events = "CursorMoved",
+    },
+    config = function(_, opts)
+      require("luasnip").config.setup(opts)
+
+      local luasnip_loaders = my.config.luasnip_loaders
+      for _, loader in ipairs(luasnip_loaders) do
+        loader()
+      end
+    end,
+  }
+  return spec
 end
 
 return M

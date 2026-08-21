@@ -1,8 +1,8 @@
 local my = require "my"
----@class my.tab._tabline_expr
+---@class MyTab._tabline_expr
 local M = {}
 
-local jump_labels = my.g.tab_labels
+local jump_labels = my.config.tab_labels
 
 ---@type (fun(name: string, bufnr: integer): (boolean, string))[]
 local buf_name_filters = {}
@@ -61,7 +61,7 @@ local function get_tabpage_label(tab_num, tab_width)
   local buflist = vim.fn.tabpagebuflist(tab_num)
   local cur_tab = tab_num == vim.fn.tabpagenr()
   local alt_tab = tab_num == vim.fn.tabpagenr "#"
-  local tab_name = my.t[tab_id].name ---@type string
+  local tab_name = my.config.name_tab[tab_id] ---@type string
   local jump_label_hl = (cur_tab or alt_tab) and "TabLineSel" or "Title"
   local modified_hl = cur_tab and "TabLineSel" or "TabLine"
   local name_hl = (cur_tab and "TabLineSel") or (tab_name and "Underlined") or "TabLine"

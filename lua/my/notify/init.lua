@@ -1,23 +1,41 @@
-local my = require "my"
----@class my.notify
+---@class MyNotify
 local M = {}
+M.init = { no_init = false, recurse = false } ---@type MyModuleInit
 
-M.opts = {}
+local my = require "my"
 
-M.opts.snacks_notifier_core_integration = function() --
-  my.keymap.queue_km_group_load(my.setup.keymaps.g_snknotfy)
+M.init.plugins = function()
+  local specks = my.config.lzsetup_plugin_specs
+
+  specks[#specks + 1] = M._spec_snacks_notifier
+end
+
+M._spec_snacks_notifier = function()
+  local make_lzspec = my.setup.lazy_nvim.resolve_spec
+  local plugins = my.config.lzplugins_manifest
+  local spec = make_lzspec {
+    source = plugins["snacks-nvim"],
+    opts = { ---@type snacks.Config
+      notifier = {
+        config = function() --
+          my.keymap.queue_km_group_load(my.config.keymaps.g_snknotfy)
+        end,
+      },
+    },
+  }
+  return spec
 end
 
 --@param msg string|string[]
 ---@param opts? snacks.notify.Opts
 function M.error(msg, opts) --
-  return M.notify(msg, my.tbl.merge_dicts_into_last(opts, { level = vim.log.levels.ERROR }))
+  return M.notify(msg, my.tbl.merge("dDfL", opts, { level = vim.log.levels.ERROR }))
 end
 
 ---@param msg string|string[]
 ---@param opts? snacks.notify.Opts
 function M.debug(msg, opts) --
-  return M.notify(msg, my.tbl.merge_dicts_into_last(opts, { level = vim.log.levels.DEBUG }))
+  return M.notify(msg, my.tbl.merge("dDfL", opts, { level = vim.log.levels.DEBUG }))
 end
 
 function M.dismiss_all() --
@@ -27,7 +45,7 @@ end
 ---@param msg string|string[]
 ---@param opts? snacks.notify.Opts
 function M.info(msg, opts) --
-  return M.notify(msg, my.tbl.merge_dicts_into_last(opts, { level = vim.log.levels.INFO }))
+  return M.notify(msg, my.tbl.merge("dDfL", opts, { level = vim.log.levels.INFO }))
 end
 
 ---@param msg string|string[]
@@ -42,12 +60,17 @@ function M.notify(msg, opts) --
   return vim.notify(msg, level)
 end
 
----@param msg any
+---@param items any
 ---@param opts? snacks.notify.Opts
-function M.trace(msg, opts) --
-  if not type(msg) == "table" then msg = { msg } end
-  for index, item in ipairs(msg) do
-    if type(item) ~= "string" then msg[index] = vim.inspect(item) end
+function M.trace(items, opts) --
+  ---@type string[]
+  local msg = {}
+
+  if not type(items) == "table" then items = { items } end
+  for key, value in pairs(items) do
+    -- if type(value) ~= "string" then value = vim.inspect(value) end
+    -- if type(key) ~= "string" then key = vim.inspect(key) end
+    msg[#msg + 1] = string.format("%s: %s", vim.inspect(key), vim.inspect(value))
   end
   ---@cast msg string[]
   msg[#msg + 1] = "TRACEBACK:"
@@ -59,18 +82,18 @@ function M.trace(msg, opts) --
     msg[#msg + 1] = ("  %s: %s"):format(trace_info.source:gsub("^@", ""), trace_info.currentline)
   end
 
-  return M.notify(msg, my.tbl.merge_dicts_into_last(opts, { level = vim.log.levels.TRACE }))
+  return M.notify(msg, my.tbl.merge("dDfL", opts, { level = vim.log.levels.TRACE }))
 end
 
 ---@param msg string|string[]
 ---@param opts? snacks.notify.Opts
 function M.warn(msg, opts) --
-  return M.notify(msg, my.tbl.merge_dicts_into_last(opts, { level = vim.log.levels.WARN }))
+  return M.notify(msg, my.tbl.merge("dDfL", opts, { level = vim.log.levels.WARN }))
 end
 
 M.keymaps = {}
 
-M.keymaps.dismiss_all = { ---@type my.keymap.keymap_spec
+M.keymaps.dismiss_all = { ---@type MyKeymapKeymapSpec
   desc = "dismiss all notifications",
   rhs = M.dismiss_all,
 }

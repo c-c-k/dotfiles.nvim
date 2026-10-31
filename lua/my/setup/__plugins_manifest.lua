@@ -158,6 +158,13 @@ local plugins_manifest = {
     cond = ACTIVE_PLUGIN_COND,
   },
 
+  ["nvim-orgmode"] = {
+    -- nvim help: `:help orgmode.txt`
+    url = "https://github.com/nvim-orgmode/orgmode",
+    enabled = ACTIVE_PLUGIN,
+    cond = ACTIVE_PLUGIN_COND,
+  },
+
   ["nvim-surround"] = {
     -- nvim help: `:help nvim-surround.txt`
     url = "https://github.com/kylechui/nvim-surround",

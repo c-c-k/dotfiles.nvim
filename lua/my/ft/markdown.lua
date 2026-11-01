@@ -7,7 +7,7 @@ local my = require "my"
 M.init.filetypes = function()
   local autocmds = my.config.setup_filetype_autocmds
   local lsp = my.config.setup_lsp_configs
-  local mason_ensure_installed = my.config.mason_ensure_installed
+  -- local mason_ensure_installed = my.config.mason_ensure_installed
   local null_ls = my.config.null_ls_sources
   -- local specks = my.config.lzsetup_plugin_specs
   local ts_ensure_installed = my.config.ts_ensure_installed
@@ -17,10 +17,10 @@ M.init.filetypes = function()
   ts_ensure_installed["markdown"] = true
   ts_ensure_installed["markdown_inline"] = true
 
-  mason_ensure_installed["marksman"] = true
+  -- mason_ensure_installed["marksman"] = true
   lsp[#lsp + 1] = { M._lspconfig_marksman, true }
 
-  mason_ensure_installed["mdformat"] = true
+  -- mason_ensure_installed["mdformat"] = true
   null_ls["mdformat"] = M._null_ls_mdformat
 end
 

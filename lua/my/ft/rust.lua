@@ -14,12 +14,10 @@ M.init.filetypes = function()
 
   ts_ensure_installed["rust"] = true
 
-  -- MEMO: Disabled in favor of:
-  --       1. System installed Rust-analyzer.
-  --       2. Rustaceanvim internal Rust-analyzer.
   -- mason_ensure_installed["rust-analyzer"] = true
+  -- NOTE(MEMO): Installing codelldb via Mise requires adding an extra Mise plugin.
   mason_ensure_installed["codelldb"] = true
-  -- MEMO: Disabled but not commented out in favor of `rustaceanvim`
+  -- NOTE(MEMO): Disabled but not commented out in favor of `rustaceanvim`
   --       which has it's own internal `rust-analyzer` server but honors
   --       the configuration in `vim.lsp.cofig.rust_analyzer`.
   lsp[#lsp + 1] = { M._lspconfig_rust_analyzer, false }

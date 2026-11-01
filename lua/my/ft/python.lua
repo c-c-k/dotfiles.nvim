@@ -7,23 +7,23 @@ local my = require "my"
 M.init.filetypes = function()
   -- local autocmds = my.config.setup_filetype_autocmds
   local lsp = my.config.setup_lsp_configs
-  local mason_ensure_installed = my.config.mason_ensure_installed
+  -- local mason_ensure_installed = my.config.mason_ensure_installed
   local null_ls = my.config.null_ls_sources
   local specks = my.config.lzsetup_plugin_specs
   local ts_ensure_installed = my.config.ts_ensure_installed
 
   ts_ensure_installed["python"] = true
 
-  mason_ensure_installed["python-lsp-server"] = true
+  -- mason_ensure_installed["python-lsp-server"] = true
   lsp[#lsp + 1] = { M._lspconfig_pylsp, false }
 
-  mason_ensure_installed["ruff"] = true
+  -- mason_ensure_installed["ruff"] = true
   lsp[#lsp + 1] = { M._lspconfig_ruff, true }
 
-  mason_ensure_installed["mypy"] = true
+  -- mason_ensure_installed["mypy"] = true
   null_ls["mypy"] = M._null_ls_mypy
 
-  mason_ensure_installed["debugpy"] = true
+  -- mason_ensure_installed["debugpy"] = true
   specks[#specks + 1] = M._spec_dap_python_integration
 
   specks[#specks + 1] = M._spec_venv_selector

@@ -7,7 +7,7 @@ local my = require "my"
 M.init.filetypes = function()
   local autocmds = my.config.setup_filetype_autocmds
   local lsp = my.config.setup_lsp_configs
-  local mason_ensure_installed = my.config.mason_ensure_installed
+  -- local mason_ensure_installed = my.config.mason_ensure_installed
   local null_ls = my.config.null_ls_sources
   local specks = my.config.lzsetup_plugin_specs
   local ts_ensure_installed = my.config.ts_ensure_installed
@@ -20,7 +20,7 @@ M.init.filetypes = function()
 
   lsp[#lsp + 1] = { M._lspconfig_gdscript, true }
 
-  mason_ensure_installed["gdtoolkit"] = true
+  -- mason_ensure_installed["gdtoolkit"] = true
   null_ls["gdformat"] = M._null_ls_gdformat
   null_ls["gdlint"] = M._null_ls_gdlint
 

@@ -1,0 +1,36 @@
+[tools]
+cargo-binstall = "latest"
+"cargo:selene" = "latest"
+go = "latest"
+"go:github.com/cweill/gotests/gotests" = "latest"
+"go:github.com/fatih/gomodifytags" = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+"go:github.com/josharian/impl" = "latest"
+"go:github.com/koron/iferr" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+lua-language-server = "latest"
+marksman = "latest"
+neovim = "0.12"
+node = "latest"
+"npm:bash-language-server" = "latest"
+"pypi:debugpy" = "latest"
+"pypi:gdtoolkit" = "4"
+"pypi:mdformat" = { version = "latest", with = [
+  "mdformat_frontmatter",
+  "mdformat-gfm",
+  "mdformat-simple-breaks",
+] }
+"pypi:mypy" = "latest"
+"pypi:python-lsp-server" = "latest"
+python = "latest"
+ruff = "latest"
+rust = "nightly"
+rust-analyzer = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+stylua = "latest"
+taplo = "latest"
+tree-sitter = "latest"
+ty = "latest"
+uv = "latest"

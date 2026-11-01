@@ -7,7 +7,7 @@ local my = require "my"
 M.init.filetypes = function()
   local autocmds = my.config.setup_filetype_autocmds
   local lsp = my.config.setup_lsp_configs
-  local mason_ensure_installed = my.config.mason_ensure_installed
+  -- local mason_ensure_installed = my.config.mason_ensure_installed
   local null_ls = my.config.null_ls_sources
   -- local specs = my.config.lzsetup_plugin_specs
   local ts_ensure_installed = my.config.ts_ensure_installed
@@ -18,13 +18,13 @@ M.init.filetypes = function()
   ts_ensure_installed["luadoc"] = true -- Lua annotations
   ts_ensure_installed["luap"] = true -- Lua patterns (i.e. Lua regex)
 
-  mason_ensure_installed["lua-language-server"] = true
+  -- mason_ensure_installed["lua-language-server"] = true
   lsp[#lsp + 1] = { M._lspconfig_lua_ls, true }
 
-  mason_ensure_installed["selene"] = true
+  -- mason_ensure_installed["selene"] = true
   null_ls["selene"] = M._null_ls_selene
 
-  mason_ensure_installed["stylua"] = true
+  -- mason_ensure_installed["stylua"] = true
   null_ls["stylua"] = M._null_ls_stylua
 end
 

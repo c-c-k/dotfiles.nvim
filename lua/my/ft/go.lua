@@ -7,7 +7,7 @@ local my = require "my"
 M.init.filetypes = function()
   local autocmds = my.config.setup_filetype_autocmds
   local lsp = my.config.setup_lsp_configs
-  local mason_ensure_installed = my.config.mason_ensure_installed
+  -- local mason_ensure_installed = my.config.mason_ensure_installed
   local specks = my.config.lzsetup_plugin_specs
   local ts_ensure_installed = my.config.ts_ensure_installed
 
@@ -18,17 +18,17 @@ M.init.filetypes = function()
   ts_ensure_installed["gosum"] = true
   ts_ensure_installed["gowork"] = true
 
-  mason_ensure_installed["gopls"] = true
+  -- mason_ensure_installed["gopls"] = true
   lsp[#lsp + 1] = { M._lspconfig_gopls, true }
 
-  mason_ensure_installed["delve"] = true
+  -- mason_ensure_installed["delve"] = true
   specks[#specks + 1] = M._spec_dap_go
 
-  mason_ensure_installed["gomodifytags"] = true
-  mason_ensure_installed["gotests"] = true
-  mason_ensure_installed["iferr"] = true
-  mason_ensure_installed["impl"] = true
-  mason_ensure_installed["goimports"] = true
+  -- mason_ensure_installed["gomodifytags"] = true
+  -- mason_ensure_installed["gotests"] = true
+  -- mason_ensure_installed["iferr"] = true
+  -- mason_ensure_installed["impl"] = true
+  -- mason_ensure_installed["goimports"] = true
   specks[#specks + 1] = M._spec_gopher
 
   specks[#specks + 1] = M._spec_mini_icons_integration

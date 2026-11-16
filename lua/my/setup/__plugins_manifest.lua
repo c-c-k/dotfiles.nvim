@@ -165,6 +165,20 @@ local plugins_manifest = {
     cond = ACTIVE_PLUGIN_COND,
   },
 
+  ["nvim-orgmode-picker"] = {
+    -- nvim help: `:help telescope-orgmode.txt`
+    url = "https://github.com/nvim-orgmode/telescope-orgmode.nvim",
+    enabled = ACTIVE_PLUGIN,
+    cond = ACTIVE_PLUGIN_COND,
+  },
+
+  ["nvim-orgroam"] = {
+    -- nvim help: `:help org-roam.txt`
+    url = "https://github.com/chipsenkbeil/org-roam.nvim",
+    enabled = ACTIVE_PLUGIN,
+    cond = ACTIVE_PLUGIN_COND,
+  },
+
   ["nvim-surround"] = {
     -- nvim help: `:help nvim-surround.txt`
     url = "https://github.com/kylechui/nvim-surround",
